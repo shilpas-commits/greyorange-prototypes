@@ -1,4 +1,5 @@
 import { useState, useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
 
 // ── time helpers
 const B = Date.now();
@@ -205,7 +206,12 @@ function InventoryListingPage({ onTpidClick, onTabChange, now, setToast }) {
           <span style={{ fontSize:13, fontWeight:600, color:"#4fc3f7" }}>EssilorLuxottica</span>
           <span style={{ fontSize:9, background:"rgba(255,255,255,0.1)", color:"rgba(255,255,255,0.6)", padding:"1px 5px", borderRadius:3, border:"1px solid rgba(255,255,255,0.15)" }}>ATL</span>
         </div>
-        <div style={{ marginLeft:"auto", fontSize:12, color:"rgba(255,255,255,0.55)" }}>US/Eastern</div>
+        <div style={{ marginLeft:"auto", display:"flex", alignItems:"center", gap:16 }}>
+          <button onClick={() => navigate("/")} style={{ background:"rgba(255,255,255,0.08)", border:"1px solid rgba(255,255,255,0.18)", borderRadius:5, color:"rgba(255,255,255,0.8)", fontSize:12, fontWeight:600, padding:"5px 12px", cursor:"pointer", fontFamily:"inherit", display:"flex", alignItems:"center", gap:5 }}>
+            ← All Prototypes
+          </button>
+          <span style={{ fontSize:12, color:"rgba(255,255,255,0.55)" }}>US/Eastern</span>
+        </div>
       </div>
       <div style={{ background:C.navy, borderTop:"1px solid rgba(255,255,255,0.07)", display:"flex", padding:"0 20px" }}>
         {["Analytics","Outbound","Inbound","Audit","Process Exceptions","Inventory","System","Users","Reports","Notification"].map(n=>(
@@ -417,7 +423,12 @@ function TpidDetailPage({ row, onBack, onNavReservation, now, setToast }) {
           <span style={{ fontSize:13, fontWeight:600, color:"#4fc3f7" }}>EssilorLuxottica</span>
           <span style={{ fontSize:9, background:"rgba(255,255,255,0.1)", color:"rgba(255,255,255,0.6)", padding:"1px 5px", borderRadius:3, border:"1px solid rgba(255,255,255,0.15)" }}>ATL</span>
         </div>
-        <div style={{ marginLeft:"auto", fontSize:12, color:"rgba(255,255,255,0.55)" }}>US/Eastern</div>
+        <div style={{ marginLeft:"auto", display:"flex", alignItems:"center", gap:16 }}>
+          <button onClick={() => navigate("/")} style={{ background:"rgba(255,255,255,0.08)", border:"1px solid rgba(255,255,255,0.18)", borderRadius:5, color:"rgba(255,255,255,0.8)", fontSize:12, fontWeight:600, padding:"5px 12px", cursor:"pointer", fontFamily:"inherit", display:"flex", alignItems:"center", gap:5 }}>
+            ← All Prototypes
+          </button>
+          <span style={{ fontSize:12, color:"rgba(255,255,255,0.55)" }}>US/Eastern</span>
+        </div>
       </div>
 
       {/* ── secondary nav */}
@@ -908,7 +919,12 @@ function ReservationPage({ onTpidClick, onTabChange, lastRefreshed, setLastRefre
           <span style={{ fontSize:13, fontWeight:600, color:"#4fc3f7" }}>EssilorLuxottica</span>
           <span style={{ fontSize:9, background:"rgba(255,255,255,0.1)", color:"rgba(255,255,255,0.6)", padding:"1px 5px", borderRadius:3, border:"1px solid rgba(255,255,255,0.15)" }}>ATL</span>
         </div>
-        <div style={{ marginLeft:"auto", fontSize:12, color:"rgba(255,255,255,0.55)" }}>US/Eastern</div>
+        <div style={{ marginLeft:"auto", display:"flex", alignItems:"center", gap:16 }}>
+          <button onClick={() => navigate("/")} style={{ background:"rgba(255,255,255,0.08)", border:"1px solid rgba(255,255,255,0.18)", borderRadius:5, color:"rgba(255,255,255,0.8)", fontSize:12, fontWeight:600, padding:"5px 12px", cursor:"pointer", fontFamily:"inherit", display:"flex", alignItems:"center", gap:5 }}>
+            ← All Prototypes
+          </button>
+          <span style={{ fontSize:12, color:"rgba(255,255,255,0.55)" }}>US/Eastern</span>
+        </div>
       </div>
       <div style={{ background:C.navy, borderTop:"1px solid rgba(255,255,255,0.07)", display:"flex", padding:"0 20px" }}>
         {["Analytics","Outbound","Inbound","Audit","Process Exceptions","Inventory","System","Users","Reports","Notification"].map(n=>(
@@ -1150,6 +1166,7 @@ function ReservationPage({ onTpidClick, onTabChange, lastRefreshed, setLastRefre
 
 // ── MAIN
 export default function InventoryReservationApp() {
+  const navigate = useNavigate();
   const [now, setNow] = useState(Date.now());
   const [expanded, setExpanded] = useState({});
   const [checked, setChecked] = useState({});
