@@ -164,6 +164,7 @@ function Btn({ children, onClick, disabled, variant="secondary", style: sx }) {
 
 // ── INVENTORY LISTING PAGE  (unified inventory — Jasmine / GM-276447 design)
 function InventoryListingPage({ onTpidClick, onTabChange, now, setToast }) {
+  const navigate = useNavigate();
   const [srch, setSrch] = useState("");
   const [areaF, setAreaF] = useState("");
   const [sysF, setSysF]   = useState("");
@@ -339,6 +340,7 @@ function InventoryListingPage({ onTpidClick, onTabChange, now, setToast }) {
 
 // ── TPID DETAIL PAGE
 function TpidDetailPage({ row, onBack, onNavReservation, now, setToast }) {
+  const navigate = useNavigate();
   const [tab, setTab]             = useState("overview");
   const [tags, setTags]           = useState(JSON.parse(JSON.stringify(row.tags)));
   const [blocked, setBlocked]     = useState(false);
@@ -825,6 +827,7 @@ function TpidDetailPage({ row, onBack, onNavReservation, now, setToast }) {
 
 // ── RESERVATION PAGE  (order-centric — one row per reservation order)
 function ReservationPage({ onTpidClick, onTabChange, lastRefreshed, setLastRefreshed, now, setToast }) {
+  const navigate = useNavigate();
   const [skuF,    setSkuF]    = useState("");
   const [ordF,    setOrdF]    = useState("");
   const [inqF,    setInqF]    = useState("");
