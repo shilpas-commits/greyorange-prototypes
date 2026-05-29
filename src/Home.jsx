@@ -1,0 +1,102 @@
+import { useNavigate } from 'react-router-dom';
+
+const C = {
+  navy:   "#1a2340",
+  orange: "#e65c00",
+  border: "#e0e3ea",
+  muted:  "#6b7280",
+  bg:     "#f4f5f7",
+};
+
+const STATUS_COLORS = {
+  "WIP":       { bg:"#fff3e0", color:"#e65c00", border:"#ffe0b2" },
+  "Complete":  { bg:"#e8f5e9", color:"#2e7d32", border:"#c8e6c9" },
+  "Draft":     { bg:"#f1f3f4", color:"#5a6270", border:"#d0d5df" },
+};
+
+const PROTOTYPES = [
+  {
+    category: "Inventory Management",
+    icon: "📦",
+    items: [
+      {
+        title: "Inventory Reservation & TPID Management",
+        description: "Three-screen flow: Inventory Listing (unified inventory view) → TPID Detail (manage tags, audits, adjustments) → Inventory Reservation (order-centric reservation management). Covers GM-292020 + GM-276447.",
+        status: "WIP",
+        epic: "GM-292020",
+        epicUrl: "https://greyorange-work.atlassian.net/browse/GM-292020",
+        prdUrl: "https://greyorange-work.atlassian.net/wiki/spaces/GRYMTTR/pages/155156881",
+        customer: "EL ATL",
+        path: "/inventory/reservation",
+        screens: ["Inventory Listing", "TPID Detail", "Inventory Reservation"],
+      },
+    ],
+  },
+];
+
+export default function Home() {
+  const navigate = useNavigate();
+  return (
+    <div style={{ fontFamily:"'Segoe UI',Arial,sans-serif", background:C.bg, minHeight:"100vh" }}>
+      <div style={{ background:C.navy, padding:"0 32px", height:56, display:"flex", alignItems:"center", gap:14 }}>
+        <div style={{ background:"#fff", borderRadius:6, padding:"4px 10px", display:"flex", alignItems:"center", gap:6 }}>
+          <div style={{ width:20, height:20, borderRadius:"50%", background:C.orange, display:"flex", alignItems:"center", justifyContent:"center" }}>
+            <span style={{ color:"#fff", fontSize:10, fontWeight:700 }}>GO</span>
+          </div>
+          <span style={{ fontSize:14, fontWeight:700, color:C.orange }}>GreyOrange</span>
+        </div>
+        <span style={{ color:"rgba(255,255,255,0.3)", fontSize:18 }}>|</span>
+        <span style={{ color:"#fff", fontSize:14, fontWeight:600 }}>GreyMatter Prototypes</span>
+        <a href="https://github.com/shilpas-commits/greyorange-prototypes" target="_blank" rel="noreferrer"
+           style={{ marginLeft:"auto", color:"rgba(255,255,255,0.55)", fontSize:12, textDecoration:"none", display:"flex", alignItems:"center", gap:6 }}>
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M12 0C5.37 0 0 5.37 0 12c0 5.31 3.435 9.795 8.205 11.385.6.105.825-.255.825-.57 0-.285-.015-1.23-.015-2.235-3.015.555-3.795-.735-4.035-1.41-.135-.345-.72-1.41-1.23-1.695-.42-.225-1.02-.78-.015-.795.945-.015 1.62.87 1.845 1.23 1.08 1.815 2.805 1.305 3.495.99.105-.78.42-1.305.765-1.605-2.67-.3-5.46-1.335-5.46-5.925 0-1.305.465-2.385 1.23-3.225-.12-.3-.54-1.53.12-3.18 0 0 1.005-.315 3.3 1.23.96-.27 1.98-.405 3-.405s2.04.135 3 .405c2.295-1.56 3.3-1.23 3.3-1.23.66 1.65.24 2.88.12 3.18.765.84 1.23 1.905 1.23 3.225 0 4.605-2.805 5.625-5.475 5.925.435.375.81 1.095.81 2.22 0 1.605-.015 2.895-.015 3.3 0 .315.225.69.825.57A12.02 12.02 0 0024 12c0-6.63-5.37-12-12-12z"/></svg>
+          GitHub
+        </a>
+      </div>
+      <div style={{ padding:"40px 32px 24px", maxWidth:900 }}>
+        <h1 style={{ margin:"0 0 8px", fontSize:26, fontWeight:700, color:C.navy }}>UX Prototypes</h1>
+        <p style={{ margin:0, fontSize:14, color:C.muted, lineHeight:1.6 }}>
+          Interactive prototypes built alongside System PRDs — each maps to a Jira Epic and is ready for engineering handoff.
+        </p>
+      </div>
+      <div style={{ padding:"0 32px 48px" }}>
+        {PROTOTYPES.map(cat => (
+          <div key={cat.category} style={{ marginBottom:40 }}>
+            <div style={{ display:"flex", alignItems:"center", gap:10, marginBottom:16 }}>
+              <span style={{ fontSize:20 }}>{cat.icon}</span>
+              <h2 style={{ margin:0, fontSize:16, fontWeight:700, color:C.navy }}>{cat.category}</h2>
+              <div style={{ flex:1, height:1, background:C.border }} />
+            </div>
+            <div style={{ display:"grid", gridTemplateColumns:"repeat(auto-fill, minmax(360px, 1fr))", gap:16 }}>
+              {cat.items.map(p => {
+                const sc = STATUS_COLORS[p.status] || STATUS_COLORS["Draft"];
+                return (
+                  <div key={p.path} style={{ background:"#fff", border:`1px solid ${C.border}`, borderRadius:8, padding:"20px 24px", display:"flex", flexDirection:"column", gap:12, boxShadow:"0 1px 4px rgba(0,0,0,0.06)" }}>
+                    <div style={{ display:"flex", alignItems:"flex-start", justifyContent:"space-between", gap:8 }}>
+                      <h3 style={{ margin:0, fontSize:15, fontWeight:700, color:C.navy, lineHeight:1.4 }}>{p.title}</h3>
+                      <span style={{ fontSize:11, fontWeight:700, padding:"2px 8px", borderRadius:12, whiteSpace:"nowrap", background:sc.bg, color:sc.color, border:`1px solid ${sc.border}` }}>{p.status}</span>
+                    </div>
+                    <p style={{ margin:0, fontSize:13, color:C.muted, lineHeight:1.6 }}>{p.description}</p>
+                    <div style={{ display:"flex", flexWrap:"wrap", gap:6 }}>
+                      {p.screens.map(s => (
+                        <span key={s} style={{ fontSize:11, padding:"1px 8px", borderRadius:3, background:"#f4f5f7", color:C.muted, border:`1px solid ${C.border}` }}>{s}</span>
+                      ))}
+                    </div>
+                    <div style={{ display:"flex", gap:8, alignItems:"center", marginTop:4 }}>
+                      <a href={p.epicUrl} target="_blank" rel="noreferrer" style={{ fontSize:11, color:C.orange, textDecoration:"none", fontWeight:600 }}>{p.epic} ↗</a>
+                      <a href={p.prdUrl} target="_blank" rel="noreferrer" style={{ fontSize:11, color:C.muted, textDecoration:"none" }}>System PRD ↗</a>
+                      <span style={{ fontSize:11, padding:"1px 8px", borderRadius:3, background:"#e3f2fd", color:"#1565c0", border:"1px solid #bbdefb", marginLeft:"auto" }}>{p.customer}</span>
+                      <button onClick={() => navigate(p.path)} style={{ padding:"6px 18px", borderRadius:5, border:"none", background:C.orange, color:"#fff", fontSize:12, fontWeight:700, cursor:"pointer", fontFamily:"inherit" }}>
+                        Open →
+                      </button>
+                    </div>
+                  </div>
+                );
+              })}
+            </div>
+          </div>
+        ))}
+      </div>
+    </div>
+  );
+}
