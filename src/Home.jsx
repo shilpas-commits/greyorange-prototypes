@@ -17,11 +17,11 @@ const STATUS_COLORS = {
 const PROTOTYPES = [
   {
     category: "Inventory Management",
-    icon: "📦",
+    icon: "\ud83d\udce6",
     items: [
       {
         title: "Inventory Reservation & TPID Management",
-        description: "Three-screen flow: Inventory Listing (unified inventory view) → TPID Detail (manage tags, audits, adjustments) → Inventory Reservation (order-centric reservation management). Covers GM-292020 + GM-276447.",
+        description: "Three-screen flow: Inventory Listing (unified inventory view) \u2192 TPID Detail (manage tags, audits, adjustments) \u2192 Inventory Reservation (order-centric reservation management). Covers GM-292020 + GM-276447.",
         status: "WIP",
         epic: "GM-292020",
         epicUrl: "https://greyorange-work.atlassian.net/browse/GM-292020",
@@ -29,6 +29,45 @@ const PROTOTYPES = [
         customer: "EL ATL",
         path: "/inventory/reservation",
         screens: ["Inventory Listing", "TPID Detail", "Inventory Reservation"],
+      },
+    ],
+  },
+  {
+    category: "Bulk Order Picking \u2014 System-Guided Rollcage Orchestration",
+    icon: "\ud83d\uded2",
+    items: [
+      {
+        title: "Runner HHD App \u2014 Dock Assignment",
+        description: "Four-screen flow on a handheld device: Build queue (PBT-prioritised tasks) \u2192 Build instruction (rollcage type, dock point, checklist) \u2192 Dock scan (barcode validation) \u2192 Mismatch error / success. Covers Epic 4 (req 4.1, 4.2).",
+        status: "WIP",
+        epic: "Epic 4",
+        epicUrl: "https://greyorange-work.atlassian.net/wiki/x/8YBACQ",
+        prdUrl: "https://greyorange-work.atlassian.net/wiki/x/8YBACQ",
+        customer: "EL ATL",
+        path: "/bulk-order/hhd-runner",
+        screens: ["Task Queue", "Build Instruction", "Dock Scan", "Mismatch / Success"],
+      },
+      {
+        title: "Pick-Back Operator UI \u2014 Carrying Unit Association",
+        description: "AIO tablet flow: Rollcage docked \u2192 guided association activates automatically \u2192 one position at a time with required carrying unit type shown \u2192 scan confirmation \u2192 progressive bin activation \u2192 wrong-type error handling. Covers Epic 5 (req 5.1\u20135.4).",
+        status: "WIP",
+        epic: "Epic 5",
+        epicUrl: "https://greyorange-work.atlassian.net/wiki/x/8YBACQ",
+        prdUrl: "https://greyorange-work.atlassian.net/wiki/x/8YBACQ",
+        customer: "EL ATL",
+        path: "/bulk-order/pick-back",
+        screens: ["Flow Activating", "Guided Association", "All Confirmed", "Wrong Type Error"],
+      },
+      {
+        title: "Manager Dashboard \u2014 Bulk Order Outbound View",
+        description: "Accordion table: parent order \u2192 rollcage rows \u2192 bin fill progress. Surfaces Rollcage ID and Carrying Unit ID per bin position. Label scan status, dock point assignment, real-time fill progress. Filter by flow type, PBT, status. Covers Epic 6 req 6.5 + Epic 7 req 7.1.",
+        status: "WIP",
+        epic: "Epic 6 + 7",
+        epicUrl: "https://greyorange-work.atlassian.net/wiki/x/8YBACQ",
+        prdUrl: "https://greyorange-work.atlassian.net/wiki/x/8YBACQ",
+        customer: "EL ATL",
+        path: "/bulk-order/md-outbound",
+        screens: ["Order Accordion", "Rollcage Breakdown", "Carrying Unit IDs", "Bin Fill Progress"],
       },
     ],
   },
@@ -55,9 +94,7 @@ export default function Home() {
       </div>
       <div style={{ padding:"40px 32px 24px", maxWidth:900 }}>
         <h1 style={{ margin:"0 0 8px", fontSize:26, fontWeight:700, color:C.navy }}>UX Prototypes</h1>
-        <p style={{ margin:0, fontSize:14, color:C.muted, lineHeight:1.6 }}>
-          Interactive prototypes built alongside System PRDs — each maps to a Jira Epic and is ready for engineering handoff.
-        </p>
+        <p style={{ margin:0, fontSize:14, color:C.muted, lineHeight:1.6 }}>Interactive prototypes built alongside System PRDs \u2014 each maps to a Jira Epic and is ready for engineering handoff.</p>
       </div>
       <div style={{ padding:"0 32px 48px" }}>
         {PROTOTYPES.map(cat => (
@@ -78,17 +115,13 @@ export default function Home() {
                     </div>
                     <p style={{ margin:0, fontSize:13, color:C.muted, lineHeight:1.6 }}>{p.description}</p>
                     <div style={{ display:"flex", flexWrap:"wrap", gap:6 }}>
-                      {p.screens.map(s => (
-                        <span key={s} style={{ fontSize:11, padding:"1px 8px", borderRadius:3, background:"#f4f5f7", color:C.muted, border:`1px solid ${C.border}` }}>{s}</span>
-                      ))}
+                      {p.screens.map(s => (<span key={s} style={{ fontSize:11, padding:"1px 8px", borderRadius:3, background:"#f4f5f7", color:C.muted, border:`1px solid ${C.border}` }}>{s}</span>))}
                     </div>
                     <div style={{ display:"flex", gap:8, alignItems:"center", marginTop:4 }}>
-                      <a href={p.epicUrl} target="_blank" rel="noreferrer" style={{ fontSize:11, color:C.orange, textDecoration:"none", fontWeight:600 }}>{p.epic} ↗</a>
-                      <a href={p.prdUrl} target="_blank" rel="noreferrer" style={{ fontSize:11, color:C.muted, textDecoration:"none" }}>System PRD ↗</a>
+                      <a href={p.epicUrl} target="_blank" rel="noreferrer" style={{ fontSize:11, color:C.orange, textDecoration:"none", fontWeight:600 }}>{p.epic} \u2197</a>
+                      <a href={p.prdUrl} target="_blank" rel="noreferrer" style={{ fontSize:11, color:C.muted, textDecoration:"none" }}>System PRD \u2197</a>
                       <span style={{ fontSize:11, padding:"1px 8px", borderRadius:3, background:"#e3f2fd", color:"#1565c0", border:"1px solid #bbdefb", marginLeft:"auto" }}>{p.customer}</span>
-                      <button onClick={() => navigate(p.path)} style={{ padding:"6px 18px", borderRadius:5, border:"none", background:C.orange, color:"#fff", fontSize:12, fontWeight:700, cursor:"pointer", fontFamily:"inherit" }}>
-                        Open →
-                      </button>
+                      <button onClick={() => navigate(p.path)} style={{ padding:"6px 18px", borderRadius:5, border:"none", background:C.orange, color:"#fff", fontSize:12, fontWeight:700, cursor:"pointer", fontFamily:"inherit" }}>Open \u2192</button>
                     </div>
                   </div>
                 );
