@@ -65,7 +65,8 @@ const PRIORITY_STYLE = {
   NORMAL: { bg: "#f1f3f4", color: "#5a6270", border: "#d0d5df", label: "NORMAL" },
 };
 
-function HHDShell({ children, title, subtitle, onBack }) {
+// Shell: NO back button
+function HHDShell({ children, title, subtitle }) {
   return (
     <div style={{
       width: 375, height: 667, background: C.bg, borderRadius: 16,
@@ -86,13 +87,6 @@ function HHDShell({ children, title, subtitle, onBack }) {
         background: C.navy, padding: "10px 16px 14px",
         display: "flex", alignItems: "center", gap: 10,
       }}>
-        {onBack && (
-          <button onClick={onBack} style={{
-            background: "rgba(255,255,255,0.12)", border: "none", borderRadius: 6,
-            color: "#fff", fontSize: 13, cursor: "pointer", padding: "4px 10px",
-            fontFamily: "inherit",
-          }}>← Back</button>
-        )}
         <div style={{ flex: 1 }}>
           <div style={{ color: "#fff", fontSize: 14, fontWeight: 700, letterSpacing: 0.3 }}>{title}</div>
           {subtitle && <div style={{ color: "rgba(255,255,255,0.55)", fontSize: 10, marginTop: 2 }}>{subtitle}</div>}
@@ -168,9 +162,9 @@ function ScreenTaskQueue({ onSelect }) {
   );
 }
 
-function ScreenBuildDetail({ task, onNext, onBack }) {
+function ScreenBuildDetail({ task, onNext }) {
   return (
-    <HHDShell title="Build Rollcage" subtitle={task.id} onBack={onBack}>
+    <HHDShell title="Build Rollcage" subtitle={task.id}>
       <div style={{ padding: "14px 14px" }}>
         <div style={{ background: C.navy, borderRadius: 10, padding: "18px 16px", marginBottom: 14, textAlign: "center" }}>
           <div style={{ color: "rgba(255,255,255,0.5)", fontSize: 10, marginBottom: 4, letterSpacing: 1 }}>FETCH THIS ROLLCAGE TYPE</div>
@@ -210,9 +204,9 @@ function ScreenBuildDetail({ task, onNext, onBack }) {
   );
 }
 
-function ScreenDockScan({ task, onSuccess, onFail, onBack }) {
+function ScreenDockScan({ task, onSuccess, onFail }) {
   return (
-    <HHDShell title="Dock Scan" subtitle={`${task.station} · ${task.dockPoint}`} onBack={onBack}>
+    <HHDShell title="Dock Scan" subtitle={`${task.station} · ${task.dockPoint}`}>
       <div style={{ padding: "14px 14px", textAlign: "center" }}>
         <div style={{ background: C.navy, borderRadius: 12, padding: "30px 20px", marginBottom: 16 }}>
           <div style={{ color: "rgba(255,255,255,0.45)", fontSize: 10, letterSpacing: 2, marginBottom: 12 }}>SCAN DOCK POINT BARCODE</div>
@@ -234,9 +228,9 @@ function ScreenDockScan({ task, onSuccess, onFail, onBack }) {
   );
 }
 
-function ScreenMismatch({ task, onBack, onRetry }) {
+function ScreenMismatch({ task, onRetry }) {
   return (
-    <HHDShell title="Docking Rejected" subtitle="Validation failed" onBack={onBack}>
+    <HHDShell title="Docking Rejected" subtitle="Validation failed">
       <div style={{ padding: "14px 14px" }}>
         <div style={{ background: C.redBg, border: `2px solid ${C.red}`, borderRadius: 10, padding: "16px 14px", marginBottom: 14, textAlign: "center" }}>
           <div style={{ fontSize: 32, marginBottom: 8 }}>✗</div>
@@ -281,7 +275,7 @@ function ScreenDockSuccess({ task, onDone }) {
           <div style={{ fontSize: 11, color: "#1565c0", fontWeight: 700, marginBottom: 3 }}>NEXT TASK READY</div>
           <div style={{ fontSize: 11, color: "#1565c0" }}>RC-ATL-00413 · {task.station} · D4-03 · Rollcage-B</div>
         </div>
-        <button onClick={onDone} style={{ width: "100%", padding: "13px", borderRadius: 8, border: "none", background: C.navy, color: "#fff", fontSize: 13, fontWeight: 700, cursor: "pointer", fontFamily: "inherit" }}>← BACK TO QUEUE</button>
+        <button onClick={onDone} style={{ width: "100%", padding: "13px", borderRadius: 8, border: "none", background: C.navy, color: "#fff", fontSize: 13, fontWeight: 700, cursor: "pointer", fontFamily: "inherit" }}>RETURN TO QUEUE</button>
       </div>
     </HHDShell>
   );
@@ -353,7 +347,6 @@ export default function HHDRunnerApp() {
   const [screen, setScreen] = useState("queue");
   const [selectedTask, setSelectedTask] = useState(null);
   const handleSelect = (task) => { setSelectedTask(task); setScreen("detail"); };
-  const handleBack = () => setScreen(screen === "detail" ? "queue" : screen === "scan" ? "detail" : screen === "mismatch" ? "scan" : "queue");
   return (
     <div style={{ minHeight: "100vh", background: "#e8eaf0", display: "flex", flexDirection: "column", alignItems: "center", fontFamily: "'DM Mono', monospace" }}>
       <div style={{ width: "100%", background: C.navy, padding: "16px 32px", display: "flex", alignItems: "center", gap: 16, marginBottom: 32 }}>
@@ -369,9 +362,9 @@ export default function HHDRunnerApp() {
       </div>
       <div style={{ display: "flex", gap: 32, padding: "0 32px 48px", flexWrap: "wrap", justifyContent: "center" }}>
         <ScreenContainer label="Screen 1 — Task Queue" active={screen === "queue"}><ScreenTaskQueue onSelect={handleSelect} /></ScreenContainer>
-        <ScreenContainer label="Screen 2 — Build Instruction" active={screen === "detail"} dim={!selectedTask}>{selectedTask ? <ScreenBuildDetail task={selectedTask} onNext={() => setScreen("scan")} onBack={handleBack} /> : <EmptyState label="Select a task from Screen 1 to continue" />}</ScreenContainer>
-        <ScreenContainer label="Screen 3 — Dock Scan" active={screen === "scan"} dim={screen !== "scan"}>{screen === "scan" && selectedTask ? <ScreenDockScan task={selectedTask} onSuccess={() => setScreen("success")} onFail={() => setScreen("mismatch")} onBack={handleBack} /> : <EmptyState label="Navigate to Scan screen via Screen 2" />}</ScreenContainer>
-        <ScreenContainer label="Screen 4 — Mismatch / Success" active={screen === "mismatch" || screen === "success"} dim={screen !== "mismatch" && screen !== "success"}>{screen === "mismatch" && selectedTask ? <ScreenMismatch task={selectedTask} onBack={handleBack} onRetry={() => setScreen("scan")} /> : screen === "success" && selectedTask ? <ScreenDockSuccess task={selectedTask} onDone={() => { setSelectedTask(null); setScreen("queue"); }} /> : <EmptyState label="Outcome shown after dock scan" />}</ScreenContainer>
+        <ScreenContainer label="Screen 2 — Build Instruction" active={screen === "detail"} dim={!selectedTask}>{selectedTask ? <ScreenBuildDetail task={selectedTask} onNext={() => setScreen("scan")} /> : <EmptyState label="Select a task from Screen 1 to continue" />}</ScreenContainer>
+        <ScreenContainer label="Screen 3 — Dock Scan" active={screen === "scan"} dim={screen !== "scan"}>{screen === "scan" && selectedTask ? <ScreenDockScan task={selectedTask} onSuccess={() => setScreen("success")} onFail={() => setScreen("mismatch")} /> : <EmptyState label="Navigate to Scan screen via Screen 2" />}</ScreenContainer>
+        <ScreenContainer label="Screen 4 — Mismatch / Success" active={screen === "mismatch" || screen === "success"} dim={screen !== "mismatch" && screen !== "success"}>{screen === "mismatch" && selectedTask ? <ScreenMismatch task={selectedTask} onRetry={() => setScreen("scan")} /> : screen === "success" && selectedTask ? <ScreenDockSuccess task={selectedTask} onDone={() => { setSelectedTask(null); setScreen("queue"); }} /> : <EmptyState label="Outcome shown after dock scan" />}</ScreenContainer>
       </div>
       <div style={{ padding: "0 32px 48px", maxWidth: 900, width: "100%" }}><FlowLegend /></div>
     </div>
