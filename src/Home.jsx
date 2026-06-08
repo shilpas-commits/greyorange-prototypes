@@ -26,9 +26,21 @@ const PROTOTYPES = [
         epic: "GM-292020",
         epicUrl: "https://greyorange-work.atlassian.net/browse/GM-292020",
         prdUrl: "https://greyorange-work.atlassian.net/wiki/spaces/GRYMTTR/pages/155156881",
-        customer: "EL ATL",
+        customer: "Essilor Luxottica",
         path: "/inventory/reservation",
         screens: ["Inventory Listing", "TPID Detail", "Inventory Reservation"],
+      },
+      {
+        title: "Inventory Reservation — MD View (V8)",
+        description: "Reservation-first manager dashboard: reservation rows with expandable order sub-rows, ATP per SKU with low-stock warnings, clickable Total/Needs Attention filter tiles, and full filter bar (Status, Res. ID, Order ID, SKU, Res. Age, ATP, Reserved Qty range). Covers Epic 4 (GM-286559).",
+        status: "WIP",
+        epic: "GM-286559",
+        epicUrl: "https://greyorange-work.atlassian.net/browse/GM-286559",
+        prdUrl: "https://greyorange-work.atlassian.net/wiki/spaces/GRYMTTR/pages/155156881",
+        customer: "Essilor Luxottica",
+        path: "/inventory/reservation-md",
+        screens: ["Reservation Table", "Order Sub-rows", "ATP Column", "Needs Attention Filter"],
+        external: true,
       },
     ],
   },
@@ -43,7 +55,7 @@ const PROTOTYPES = [
         epic: "Epic 4",
         epicUrl: "https://greyorange-work.atlassian.net/wiki/x/8YBACQ",
         prdUrl: "https://greyorange-work.atlassian.net/wiki/x/8YBACQ",
-        customer: "EL ATL",
+        customer: "Essilor Luxottica",
         path: "/bulk-order/hhd-runner",
         screens: ["Task Queue", "Build Instruction", "Dock Scan", "Mismatch / Success"],
       },
@@ -54,7 +66,7 @@ const PROTOTYPES = [
         epic: "Epic 5",
         epicUrl: "https://greyorange-work.atlassian.net/wiki/x/8YBACQ",
         prdUrl: "https://greyorange-work.atlassian.net/wiki/x/8YBACQ",
-        customer: "EL ATL",
+        customer: "Essilor Luxottica",
         path: "/bulk-order/pick-back",
         screens: ["Flow Activating", "Guided Association", "All Confirmed", "Wrong Type Error"],
       },
@@ -65,7 +77,7 @@ const PROTOTYPES = [
         epic: "Epic 6 + 7",
         epicUrl: "https://greyorange-work.atlassian.net/wiki/x/8YBACQ",
         prdUrl: "https://greyorange-work.atlassian.net/wiki/x/8YBACQ",
-        customer: "EL ATL",
+        customer: "Essilor Luxottica",
         path: "/bulk-order/md-outbound",
         screens: ["Order Accordion", "Rollcage Breakdown", "Carrying Unit IDs", "Bin Fill Progress"],
       },
@@ -121,7 +133,10 @@ export default function Home() {
                       <a href={p.epicUrl} target="_blank" rel="noreferrer" style={{ fontSize:11, color:C.orange, textDecoration:"none", fontWeight:600 }}>{p.epic} \u2197</a>
                       <a href={p.prdUrl} target="_blank" rel="noreferrer" style={{ fontSize:11, color:C.muted, textDecoration:"none" }}>System PRD \u2197</a>
                       <span style={{ fontSize:11, padding:"1px 8px", borderRadius:3, background:"#e3f2fd", color:"#1565c0", border:"1px solid #bbdefb", marginLeft:"auto" }}>{p.customer}</span>
-                      <button onClick={() => navigate(p.path)} style={{ padding:"6px 18px", borderRadius:5, border:"none", background:C.orange, color:"#fff", fontSize:12, fontWeight:700, cursor:"pointer", fontFamily:"inherit" }}>Open \u2192</button>
+                      {p.external
+                        ? <a href={p.path} target="_blank" rel="noreferrer" style={{ padding:"6px 18px", borderRadius:5, border:"none", background:C.orange, color:"#fff", fontSize:12, fontWeight:700, cursor:"pointer", fontFamily:"inherit", textDecoration:"none" }}>Open \u2192</a>
+                        : <button onClick={() => navigate(p.path)} style={{ padding:"6px 18px", borderRadius:5, border:"none", background:C.orange, color:"#fff", fontSize:12, fontWeight:700, cursor:"pointer", fontFamily:"inherit" }}>Open \u2192</button>
+                      }
                     </div>
                   </div>
                 );
