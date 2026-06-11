@@ -42,9 +42,11 @@ body { font-family: 'Segoe UI', Arial, sans-serif; font-size: 13px; background: 
 .stats-primary { display: flex; align-items: center; padding: 9px 16px; gap: 4px; flex-wrap: wrap; }
 .stats-title { font-size: 13px; font-weight: 700; color: #1a2340; white-space: nowrap; }
 .stats-sep { color: #d0d5df; margin: 0 8px; }
+/* plain tile (Total — not interactive) */
 .stats-tile { display: flex; align-items: baseline; gap: 5px; padding: 4px 10px; }
 .stats-tile .tile-label { font-size: 12px; color: #5a6270; }
 .stats-tile .tile-val   { font-size: 20px; font-weight: 700; color: #1a2340; line-height: 1; }
+/* clickable filter tiles */
 .stats-tile-btn { display: flex; align-items: baseline; gap: 5px; background: none; border: 1px solid transparent; border-radius: 5px; padding: 4px 10px; cursor: pointer; font-family: inherit; transition: all 0.15s; }
 .stats-tile-btn:hover { background: #f4f5f7; border-color: #e0e3ea; }
 .stats-tile-btn .tile-label { font-size: 12px; color: #5a6270; pointer-events: none; }
@@ -92,22 +94,31 @@ table { width: 100%; border-collapse: collapse; min-width: 1100px; }
 thead th { background: #f8f9fb; padding: 9px 12px; font-size: 11px; font-weight: 700; color: #5a6270; text-transform: uppercase; letter-spacing: .06em; text-align: left; border-bottom: 1px solid #e0e3ea; white-space: nowrap; }
 thead th.right { text-align: right; }
 thead th.center { text-align: center; }
+
+/* Primary reservation rows */
 tr.res-row { border-bottom: 1px solid #e8eaf0; cursor: pointer; transition: background 0.1s; }
 tr.res-row:hover { background: #f8f9fb; }
 tr.res-row.expanded { background: #f8f9fb; border-bottom: none; }
 tr.res-row td { padding: 10px 12px; font-size: 12px; color: #1a2340; vertical-align: middle; }
+
+/* Child order rows */
 tr.order-hdr-row { background: #eef0f5; border-bottom: 1px solid #e0e3ea; }
 tr.order-hdr-row td { padding: 5px 12px; }
-tr.order-row { background: #f4f5f8; border-bottom: 1px solid #eceef3; }
 tr.order-row:last-of-type { border-bottom: 1px solid #e0e3ea; }
 tr.order-row td { padding: 8px 12px; font-size: 12px; color: #1a2340; vertical-align: middle; }
+.order-indent { padding-left: 0 !important; }
+
+/* Expand chevron */
 .expand-btn { background: none; border: none; cursor: pointer; width: 20px; height: 20px; border-radius: 3px; display: flex; align-items: center; justify-content: center; color: #9ca3af; transition: all 0.15s; flex-shrink: 0; }
 .expand-btn:hover { background: #e0e3ea; color: #1a2340; }
 .expand-btn svg { width: 12px; height: 12px; transition: transform 0.18s; }
 .expand-btn.open svg { transform: rotate(90deg); }
+
+/* Cells */
 input[type=checkbox] { width: 14px; height: 14px; accent-color: #e65c00; cursor: pointer; }
 .res-id { font-family: 'Courier New', monospace; font-size: 12px; font-weight: 700; color: #1a2340; }
 .ord-id { font-family: 'Courier New', monospace; font-size: 12px; font-weight: 600; color: #1565c0; text-decoration: underline; cursor: pointer; }
+.sku-val { font-size: 12px; font-weight: 600; color: #1a2340; }
 .tag-wrap { display: flex; flex-wrap: wrap; gap: 3px; }
 .tag { font-size: 11px; font-weight: 500; padding: 1px 6px; border-radius: 3px; white-space: nowrap; display: inline-block; }
 .tag-channel { background: #e3f2fd; color: #1565c0; border: 1px solid #bbdefb; }
@@ -117,6 +128,7 @@ input[type=checkbox] { width: 14px; height: 14px; accent-color: #e65c00; cursor:
 .area-badge { font-size: 11px; font-weight: 600; padding: 2px 8px; border-radius: 3px; text-transform: uppercase; letter-spacing: 0.04em; display: inline-block; }
 .area-forward { background: #e8f5e9; color: #2e7d32; border: 1px solid #c8e6c9; }
 .area-reserve { background: #ede7f6; color: #4527a0; border: 1px solid #d1c4e9; }
+.qty-val { font-size: 13px; font-weight: 700; color: #e65c00; }
 .age-cell { font-size: 12px; }
 .age-ok   { color: #5a6270; }
 .age-warn { color: #e65c00; font-weight: 600; }
@@ -131,17 +143,25 @@ input[type=checkbox] { width: 14px; height: 14px; accent-color: #e65c00; cursor:
 .pbt-ok     { color: #2e7d32; }
 .updated-main { font-size: 12px; color: #1a2340; }
 .updated-reason { font-size: 11px; color: #8a93a8; margin-top: 2px; font-style: italic; }
+
+/* Inventory status badges */
 .inv-badge { display: inline-flex; align-items: center; gap: 5px; font-size: 11px; font-weight: 600; padding: 3px 10px; border-radius: 20px; white-space: nowrap; }
 .inv-rfp      { background: #e3f2fd; color: #1565c0; border: 1px solid #bbdefb; }
 .inv-picking  { background: #fff3e0; color: #e65c00; border: 1px solid #ffe0b2; }
 .inv-audit    { background: #fffde7; color: #f57f17; border: 1px solid #fff176; }
+.inv-shortpick{ background: #fbe9e7; color: #bf360c; border: 1px solid #ffccbc; }
 .inv-released { background: #f1f3f4; color: #5a6270; border: 1px solid #d8dbe3; }
+.inv-expired  { background: #f3e5f5; color: #6a1b9a; border: 1px solid #e1bee7; }
 .inv-completed{ background: #e8f5e9; color: #2e7d32; border: 1px solid #c8e6c9; }
+
+/* Order status */
 .ord-status { font-size: 11px; font-weight: 600; padding: 2px 8px; border-radius: 3px; display: inline-block; }
 .ord-open       { background: #e3f2fd; color: #1565c0; border: 1px solid #bbdefb; }
 .ord-picking    { background: #fff3e0; color: #e65c00; border: 1px solid #ffe0b2; }
 .ord-completed  { background: #e8f5e9; color: #2e7d32; border: 1px solid #c8e6c9; }
 .ord-cancelled  { background: #f1f3f4; color: #9ca3af; border: 1px solid #e0e3ea; }
+
+/* Action buttons */
 .act-group { display: flex; align-items: center; gap: 4px; flex-wrap: nowrap; }
 .btn-release { display: inline-flex; align-items: center; gap: 4px; font-size: 11px; font-weight: 600; padding: 3px 9px; border-radius: 3px; border: 1px solid #ef9a9a; background: #ffebee; color: #c62828; cursor: pointer; font-family: inherit; white-space: nowrap; }
 .btn-release:hover { background: #ffcdd2; }
@@ -153,11 +173,18 @@ input[type=checkbox] { width: 14px; height: 14px; accent-color: #e65c00; cursor:
 .btn-pbt { display: inline-flex; align-items: center; gap: 3px; font-size: 11px; font-weight: 600; padding: 3px 9px; border-radius: 3px; border: 1px solid #bbdefb; background: #e3f2fd; color: #1565c0; cursor: pointer; font-family: inherit; white-space: nowrap; }
 .btn-pbt:hover { background: #bbdefb; }
 .btn-release svg, .btn-view svg, .btn-cancel-ord svg, .btn-pbt svg { width: 11px; height: 11px; flex-shrink: 0; }
+
+/* Order child row label */
+.child-label { font-size: 10px; font-weight: 700; color: #9ca3af; text-transform: uppercase; letter-spacing: 0.06em; padding: 0 6px 0 0; }
+
+/* Pagination */
 .pagination-bar { display: flex; align-items: center; justify-content: space-between; padding: 10px 16px; border-top: 1px solid #e0e3ea; font-size: 12px; color: #5a6270; }
 .page-nav { display: flex; gap: 4px; }
 .page-btn { min-width: 28px; height: 28px; padding: 0 6px; border: 1px solid #e0e3ea; border-radius: 4px; background: #fff; font-size: 12px; font-family: inherit; color: #5a6270; cursor: pointer; display: flex; align-items: center; justify-content: center; }
 .page-btn.active { background: #e65c00; color: #fff; border-color: #e65c00; font-weight: 700; }
 .page-btn:disabled { opacity: 0.4; cursor: not-allowed; }
+
+/* Modal */
 .modal-overlay { position: fixed; inset: 0; background: rgba(0,0,0,0.4); display: flex; align-items: center; justify-content: center; z-index: 200; opacity: 0; pointer-events: none; transition: opacity 0.18s; }
 .modal-overlay.open { opacity: 1; pointer-events: all; }
 .modal { background: #fff; border-radius: 8px; width: 460px; max-width: 94vw; box-shadow: 0 8px 32px rgba(0,0,0,0.18); transform: translateY(6px); transition: transform 0.18s; }
@@ -189,6 +216,8 @@ input[type=checkbox] { width: 14px; height: 14px; accent-color: #e65c00; cursor:
 .btn-danger:hover { background: #ffcdd2; }
 .btn-primary { border: 1px solid #e65c00; background: #e65c00; color: #fff; }
 .btn-primary:hover { background: #cf5200; }
+
+/* History drawer */
 .drawer-overlay { position: fixed; inset: 0; background: rgba(0,0,0,0.35); z-index: 200; opacity: 0; pointer-events: none; transition: opacity 0.2s; }
 .drawer-overlay.open { opacity: 1; pointer-events: all; }
 .drawer { position: fixed; right: 0; top: 0; bottom: 0; width: 400px; background: #fff; box-shadow: -4px 0 24px rgba(0,0,0,0.12); transform: translateX(100%); transition: transform 0.22s; overflow-y: auto; display: flex; flex-direction: column; }
@@ -216,11 +245,16 @@ input[type=checkbox] { width: 14px; height: 14px; accent-color: #e65c00; cursor:
 .ev-title { font-size: 12px; font-weight: 600; color: #1a2340; }
 .ev-detail { font-size: 11px; color: #8a93a8; margin-top: 2px; }
 .ev-time { font-size: 11px; color: #b0b7c3; margin-top: 3px; }
+
+/* Toast */
 .toast { position: fixed; top: 16px; right: 20px; z-index: 300; background: #fff; border: 1px solid #e0e3ea; border-radius: 6px; padding: 11px 16px; display: flex; align-items: center; gap: 8px; font-size: 13px; color: #1a2340; box-shadow: 0 4px 16px rgba(0,0,0,0.1); transform: translateY(-8px); opacity: 0; transition: all 0.2s; pointer-events: none; }
 .toast.show { transform: translateY(0); opacity: 1; }
 .toast-dot { width: 8px; height: 8px; border-radius: 50%; flex-shrink: 0; }
 .td-green { background: #2e7d32; }
 .td-red   { background: #c62828; }
+.atp-cell { display: flex; flex-direction: column; gap: 2px; }
+.atp-reserved-line { font-size: 11px; color: #8a93a8; }
+.atp-reserved-line strong { color: #e65c00; }
 .atp-line { font-size: 12px; font-weight: 700; display: flex; align-items: center; gap: 4px; justify-content: flex-end; }
 .atp-ok   { color: #2e7d32; }
 .atp-warn { color: #c62828; }
@@ -229,11 +263,11 @@ input[type=checkbox] { width: 14px; height: 14px; accent-color: #e65c00; cursor:
 ::-webkit-scrollbar { width: 6px; }
 ::-webkit-scrollbar-track { background: #f4f5f7; }
 ::-webkit-scrollbar-thumb { background: #d0d5df; border-radius: 3px; }
-.empty-row td { padding: 24px; text-align: center; font-size: 12px; color: #b0b7c3; font-style: italic; }
 </style>
 </head>
 <body>
 
+<!-- HEADER -->
 <div class="top-header">
   <div style="display:flex;align-items:center;gap:10px">
     <div class="logo-go"><div class="go-circle"><span>GO</span></div><span class="go-text">GreyOrange</span></div>
@@ -243,7 +277,7 @@ input[type=checkbox] { width: 14px; height: 14px; accent-color: #e65c00; cursor:
     <span class="client-name">Essilor Luxottica</span>
   </div>
   <div class="hdr-right">
-    <a href="/" style="display:flex;align-items:center;gap:5px;background:rgba(255,255,255,0.08);border:1px solid rgba(255,255,255,0.18);border-radius:5px;color:rgba(255,255,255,0.8);font-size:12px;font-weight:600;padding:5px 12px;text-decoration:none;">
+    <a href="/" style="display:flex;align-items:center;gap:5px;background:rgba(255,255,255,0.08);border:1px solid rgba(255,255,255,0.18);border-radius:5px;color:rgba(255,255,255,0.8);font-size:12px;font-weight:600;padding:5px 12px;cursor:pointer;font-family:inherit;text-decoration:none;">
       ← All Prototypes
     </a>
     <button class="notif-btn">
@@ -255,6 +289,7 @@ input[type=checkbox] { width: 14px; height: 14px; accent-color: #e65c00; cursor:
   </div>
 </div>
 
+<!-- NAV -->
 <div class="primary-nav">
   <div class="nav-item">Analytics</div><div class="nav-item">Outbound</div><div class="nav-item">Inbound</div>
   <div class="nav-item">Audit</div><div class="nav-item">Process Exceptions</div>
@@ -268,6 +303,8 @@ input[type=checkbox] { width: 14px; height: 14px; accent-color: #e65c00; cursor:
 </div>
 
 <div class="page-body">
+
+  <!-- STATS BAR: Total (plain) | Needs Attention (filter tile) -->
   <div class="stats-bar">
     <div class="stats-primary">
       <span class="stats-title">Inventory Reservation</span>
@@ -292,29 +329,37 @@ input[type=checkbox] { width: 14px; height: 14px; accent-color: #e65c00; cursor:
     </div>
   </div>
 
+  <!-- FILTER BAR -->
   <div class="filter-bar">
     <svg viewBox="0 0 24 24" fill="none" stroke="#9ca3af" stroke-width="2" style="width:13px;height:13px;flex-shrink:0"><polygon points="22 3 2 3 10 12.46 10 19 14 21 14 12.46 22 3"/></svg>
+
     <span class="flabel">Status</span>
     <select class="fselect" id="fStatus" onchange="this.classList.toggle('factive',!!this.value);renderTable()" style="min-width:160px">
       <option value="">All Statuses</option>
       <option value="reserved-for-picking">Reserved for Picking</option>
       <option value="picking">Picking</option>
       <option value="blocked-by-audit">Blocked by Audit</option>
+      <option value="order-short-picked">Order Short-picked</option>
       <option value="reservation-released">Reservation Released</option>
+      <option value="reservation-expired">Reservation Expired</option>
       <option value="order-completed">Order Completed</option>
     </select>
+
     <div class="fdiv"></div>
     <span class="flabel">Reservation ID</span>
     <div class="fsearch"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg><input id="fResId" placeholder="RES-1001" oninput="renderTable()"></div>
+
     <div class="fdiv"></div>
     <span class="flabel">Order ID</span>
     <div style="display:flex;align-items:center;gap:6px">
       <div class="fsearch"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg><input id="fOrder" placeholder="ORD-10041" oninput="renderTable()"></div>
       <label class="fnull-label"><input type="checkbox" id="fNoOrder" onchange="renderTable()"> No Order yet</label>
     </div>
+
     <div class="fdiv"></div>
     <span class="flabel">SKU</span>
     <div class="fsearch"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg><input id="fSku" placeholder="54554" oninput="renderTable()"></div>
+
     <div class="fdiv"></div>
     <span class="flabel">Res. Age</span>
     <select class="fselect" id="fAge" onchange="this.classList.toggle('factive',!!this.value);renderTable()">
@@ -324,6 +369,7 @@ input[type=checkbox] { width: 14px; height: 14px; accent-color: #e65c00; cursor:
       <option value="4to8">4 – 8 hrs</option>
       <option value="gt8">Over 8 hrs</option>
     </select>
+
     <div class="fdiv"></div>
     <span class="flabel">ATP</span>
     <select class="fselect" id="fAtp" onchange="this.classList.toggle('factive',!!this.value);renderTable()">
@@ -332,6 +378,7 @@ input[type=checkbox] { width: 14px; height: 14px; accent-color: #e65c00; cursor:
       <option value="mid">20 – 50</option>
       <option value="high">Over 50</option>
     </select>
+
     <div class="fdiv"></div>
     <span class="flabel">Reserved Qty</span>
     <div style="display:flex;align-items:center;gap:5px">
@@ -339,9 +386,11 @@ input[type=checkbox] { width: 14px; height: 14px; accent-color: #e65c00; cursor:
       <span style="font-size:11px;color:#b0b7c3">–</span>
       <input class="qty-range-input" id="fResQtyMax" type="number" min="0" placeholder="Max" oninput="renderTable()">
     </div>
+
     <button class="clear-btn" onclick="clearFilters()">Clear all</button>
   </div>
 
+  <!-- TABLE -->
   <div class="table-card">
     <div class="table-hdr">
       <div class="table-hdr-title">Reservation History</div>
@@ -351,10 +400,18 @@ input[type=checkbox] { width: 14px; height: 14px; accent-color: #e65c00; cursor:
       <table>
         <thead>
           <tr>
-            <th style="width:32px"></th>
-            <th>Reservation ID</th><th>SKU</th><th>Inventory Tags</th><th>Area</th><th>UoM</th>
-            <th class="right">Reserved Qty</th><th class="right">ATP</th>
-            <th>Res. Age</th><th>Inventory Status</th><th>Last Updated</th><th>Actions</th>
+            <th style="width:32px"></th><!-- expand -->
+            <th>Reservation ID</th>
+            <th>SKU</th>
+            <th>Inventory Tags</th>
+            <th>Area</th>
+            <th>UoM</th>
+            <th class="right">Reserved Qty</th>
+            <th class="right">ATP</th>
+            <th>Res. Age</th>
+            <th>Inventory Status</th>
+            <th>Last Updated</th>
+            <th>Actions</th>
           </tr>
         </thead>
         <tbody id="tableBody"></tbody>
@@ -369,63 +426,110 @@ input[type=checkbox] { width: 14px; height: 14px; accent-color: #e65c00; cursor:
       </div>
     </div>
   </div>
-</div>
 
+</div><!-- /page-body -->
+
+<!-- RELEASE MODAL -->
 <div class="modal-overlay" id="releaseModal">
   <div class="modal">
-    <div class="modal-hdr"><div class="modal-title">Release Reservation</div><button class="modal-close" onclick="closeModal('releaseModal')">×</button></div>
+    <div class="modal-hdr">
+      <div class="modal-title">Release Reservation</div>
+      <button class="modal-close" onclick="closeModal('releaseModal')">×</button>
+    </div>
     <div class="modal-body">
       <div class="modal-info-box" id="releaseInfo"></div>
-      <div><div class="modal-lbl">Reason <span class="req">*</span></div>
+      <div>
+        <div class="modal-lbl">Reason <span class="req">*</span></div>
         <select class="modal-select" id="releaseReason">
           <option value="">Select a reason…</option>
-          <option>Pick window expired</option><option>Reallocate to priority order</option>
-          <option>Created in error</option><option>Inventory discrepancy</option>
-          <option>Audit required</option><option>Operational override</option>
+          <option>Pick window expired</option>
+          <option>Reallocate to priority order</option>
+          <option>Created in error</option>
+          <option>Inventory discrepancy</option>
+          <option>Audit required</option>
+          <option>Operational override</option>
         </select>
       </div>
-      <div><div class="modal-lbl">Note <span style="font-weight:400;color:#9ca3af">(optional)</span></div>
+      <div>
+        <div class="modal-lbl">Note <span style="font-weight:400;color:#9ca3af">(optional)</span></div>
         <textarea class="modal-textarea" id="releaseNote" placeholder="Additional context for audit trail…"></textarea>
       </div>
-      <div class="modal-warn"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M10.29 3.86L1.82 18a2 2 0 001.71 3h16.94a2 2 0 001.71-3L13.71 3.86a2 2 0 00-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>Releasing immediately restores ATP.</div>
+      <div class="modal-warn">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M10.29 3.86L1.82 18a2 2 0 001.71 3h16.94a2 2 0 001.71-3L13.71 3.86a2 2 0 00-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>
+        Releasing immediately restores ATP. Cannot release if any child order is currently being picked.
+      </div>
     </div>
-    <div class="modal-footer"><button class="btn btn-secondary" onclick="closeModal('releaseModal')">Cancel</button><button class="btn btn-danger" onclick="confirmRelease()">Confirm Release</button></div>
+    <div class="modal-footer">
+      <button class="btn btn-secondary" onclick="closeModal('releaseModal')">Cancel</button>
+      <button class="btn btn-danger" onclick="confirmRelease()">Confirm Release</button>
+    </div>
   </div>
 </div>
 
+<!-- CANCEL ORDER MODAL -->
 <div class="modal-overlay" id="cancelModal">
   <div class="modal">
-    <div class="modal-hdr"><div class="modal-title">Cancel Order</div><button class="modal-close" onclick="closeModal('cancelModal')">×</button></div>
+    <div class="modal-hdr">
+      <div class="modal-title">Cancel Order</div>
+      <button class="modal-close" onclick="closeModal('cancelModal')">×</button>
+    </div>
     <div class="modal-body">
       <div class="modal-info-box" id="cancelInfo"></div>
-      <div><div class="modal-lbl">Reason <span class="req">*</span></div>
+      <div>
+        <div class="modal-lbl">Reason <span class="req">*</span></div>
         <select class="modal-select" id="cancelReason">
           <option value="">Select a reason…</option>
-          <option>Order cancelled by WMS</option><option>Duplicate order</option>
-          <option>Customer cancellation</option><option>Inventory unavailable</option><option>Operational override</option>
+          <option>Order cancelled by WMS</option>
+          <option>Duplicate order</option>
+          <option>Customer cancellation</option>
+          <option>Inventory unavailable</option>
+          <option>Operational override</option>
         </select>
       </div>
-      <div class="modal-warn"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M10.29 3.86L1.82 18a2 2 0 001.71 3h16.94a2 2 0 001.71-3L13.71 3.86a2 2 0 00-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>Cancelling releases reserved qty back to the reservation pool.</div>
+      <div class="modal-warn">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M10.29 3.86L1.82 18a2 2 0 001.71 3h16.94a2 2 0 001.71-3L13.71 3.86a2 2 0 00-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>
+        Cancelling this order releases its reserved qty back to the parent reservation pool.
+      </div>
     </div>
-    <div class="modal-footer"><button class="btn btn-secondary" onclick="closeModal('cancelModal')">Back</button><button class="btn btn-danger" onclick="confirmCancel()">Cancel Order</button></div>
+    <div class="modal-footer">
+      <button class="btn btn-secondary" onclick="closeModal('cancelModal')">Back</button>
+      <button class="btn btn-danger" onclick="confirmCancel()">Cancel Order</button>
+    </div>
   </div>
 </div>
 
+<!-- CHANGE PBT MODAL -->
 <div class="modal-overlay" id="pbtModal">
   <div class="modal">
-    <div class="modal-hdr"><div class="modal-title">Change Pick Before Time</div><button class="modal-close" onclick="closeModal('pbtModal')">×</button></div>
+    <div class="modal-hdr">
+      <div class="modal-title">Change Pick Before Time</div>
+      <button class="modal-close" onclick="closeModal('pbtModal')">×</button>
+    </div>
     <div class="modal-body">
       <div class="modal-info-box" id="pbtInfo"></div>
-      <div><div class="modal-lbl">New Pick Before Time <span class="req">*</span></div><input type="datetime-local" class="modal-input" id="pbtNewVal"></div>
-      <div><div class="modal-lbl">Reason <span class="req">*</span></div><textarea class="modal-textarea" id="pbtReason" placeholder="e.g. Shipment delayed…" style="min-height:55px"></textarea></div>
+      <div>
+        <div class="modal-lbl">New Pick Before Time <span class="req">*</span></div>
+        <input type="datetime-local" class="modal-input" id="pbtNewVal">
+      </div>
+      <div>
+        <div class="modal-lbl">Reason <span class="req">*</span></div>
+        <textarea class="modal-textarea" id="pbtReason" placeholder="e.g. Shipment delayed…" style="min-height:55px"></textarea>
+      </div>
     </div>
-    <div class="modal-footer"><button class="btn btn-secondary" onclick="closeModal('pbtModal')">Cancel</button><button class="btn btn-primary" onclick="confirmPbt()">Update PBT</button></div>
+    <div class="modal-footer">
+      <button class="btn btn-secondary" onclick="closeModal('pbtModal')">Cancel</button>
+      <button class="btn btn-primary" onclick="confirmPbt()">Update PBT</button>
+    </div>
   </div>
 </div>
 
+<!-- HISTORY DRAWER -->
 <div class="drawer-overlay" id="drawerOverlay" onclick="closeDrawer()">
   <div class="drawer" onclick="event.stopPropagation()">
-    <div class="drawer-hdr"><div class="drawer-title">Reservation History</div><button class="drawer-close" onclick="closeDrawer()">×</button></div>
+    <div class="drawer-hdr">
+      <div class="drawer-title">Reservation History</div>
+      <button class="drawer-close" onclick="closeDrawer()">×</button>
+    </div>
     <div class="drawer-meta" id="drawerMeta"></div>
     <div class="events" id="drawerEvents"></div>
   </div>
@@ -435,58 +539,217 @@ input[type=checkbox] { width: 14px; height: 14px; accent-color: #e65c00; cursor:
 
 <script>
 const nowMs = Date.now();
+
 function pbtInfo(mins) {
   const t = new Date(nowMs + mins * 60000);
   const abs = t.toLocaleString('en-GB',{day:'2-digit',month:'short',hour:'2-digit',minute:'2-digit'});
-  const rel = mins < 0 ? `${Math.abs(Math.round(mins))}m overdue` : mins < 60 ? `in ${Math.round(mins)}m` : `in ${(mins/60).toFixed(1)}h`;
+  const rel = mins < 0 ? `${Math.abs(Math.round(mins))}m overdue`
+              : mins < 60 ? `in ${Math.round(mins)}m`
+              : `in ${(mins/60).toFixed(1)}h`;
   const cls = mins < 0 ? 'pbt-urgent' : mins < 60 ? 'pbt-urgent' : mins < 180 ? 'pbt-soon' : 'pbt-ok';
   return { abs, rel, cls };
 }
 function ageFmt(mins) {
   const h = mins / 60;
   const text = mins < 60 ? `${mins}m` : `${h.toFixed(1)}h`;
-  const cls = mins < 60 ? 'age-ok' : mins < 240 ? 'age-warn' : 'age-old';
+  const cls  = mins < 60 ? 'age-ok' : mins < 240 ? 'age-warn' : 'age-old';
   return { text, cls };
 }
+
+// ── DATA MODEL
+// Each reservation has a reservationId, inventoryStatus, and one or more orders (child rows)
+// inventoryStatus reflects the aggregate state of the reservation (not order-level status)
+// onhand/reserved/picking/audit quantities drive the ATP formula in the stats bar
+const INVENTORY = { onhand: 2840, reserved: 0, picking: 0, audit: 0 }; // recalculated from DATA
+
 const DATA = [
-  { resId:'RES-10021', sku:'54554', tags:[{v:'ecom',k:'channel'},{v:'LOT-2026-05',k:'lot'}], area:'forward', uom:'Each', reservedQty:1, ageMinutes:37, status:'reserved-for-picking', updatedAt:'08 Jun, 09:41', releaseReason:null, orders:[{ordId:'ORD-10749350',pri:'Normal',pbt:1693,orderStatus:'open'}], history:[{dot:'dot-c',title:'Reservation created',detail:'TPID resolved — 1 unit locked',time:'08 Jun, 09:41'}] },
-  { resId:'RES-10022', sku:'1066567', tags:[{v:'ecom',k:'channel'},{v:'LOT-2026-05',k:'lot'}], area:'forward', uom:'Each', reservedQty:1, ageMinutes:195, status:'order-completed', updatedAt:'08 Jun, 09:14', releaseReason:null, orders:[{ordId:'ORD-10715393',pri:'Normal',pbt:58,orderStatus:'completed'}], history:[{dot:'dot-c',title:'Reservation created',detail:'TPID resolved',time:'08 Jun, 06:22'},{dot:'dot-p',title:'Picking started',detail:'Pick task assigned — station PPS-03',time:'08 Jun, 09:08'},{dot:'dot-done',title:'Order completed',detail:'Pick confirmed — reservation closed',time:'08 Jun, 09:14'}] },
-  { resId:'RES-10023', sku:'84150', tags:[{v:'ecom',k:'channel'},{v:'LOT-2026-05',k:'lot'}], area:'reserve', uom:'Case', reservedQty:2, ageMinutes:88, status:'picking', updatedAt:'08 Jun, 09:30', releaseReason:null, orders:[{ordId:'ORD-10749350',pri:'Normal',pbt:1693,orderStatus:'picking'},{ordId:'ORD-10724596',pri:'Normal',pbt:253,orderStatus:'open'}], history:[{dot:'dot-c',title:'Reservation created',detail:'2 units locked across 2 orders',time:'08 Jun, 08:25'},{dot:'dot-p',title:'Picking started',detail:'ORD-10749350 pick task assigned — PPS-01',time:'08 Jun, 09:30'}] },
-  { resId:'RES-10024', sku:'1065631', tags:[{v:'ecom',k:'channel'},{v:'LOT-2026-05',k:'lot'}], area:'reserve', uom:'Each', reservedQty:1, ageMinutes:312, status:'reserved-for-picking', updatedAt:'08 Jun, 04:39', releaseReason:null, orders:[], history:[{dot:'dot-c',title:'Reservation created',detail:'Enquiry resolved — no order placed yet',time:'08 Jun, 04:39'}] },
-  { resId:'RES-10025', sku:'1065631', tags:[{v:'ecom',k:'channel'},{v:'LOT-2026-05',k:'lot'}], area:'reserve', uom:'Each', reservedQty:1, ageMinutes:540, status:'blocked-by-audit', updatedAt:'08 Jun, 09:02', releaseReason:null, orders:[], history:[{dot:'dot-c',title:'Reservation created',detail:'Enquiry resolved',time:'08 Jun, 02:11'},{dot:'dot-a',title:'Blocked by Audit',detail:'Cycle count triggered — Forward Zone 3',time:'08 Jun, 09:02'}] },
-  { resId:'RES-10026', sku:'99213', tags:[{v:'ecom',k:'channel'},{v:'LOT-2026-05',k:'lot'}], area:'forward', uom:'Each', reservedQty:2, ageMinutes:22, status:'reserved-for-picking', updatedAt:'08 Jun, 10:10', releaseReason:null, orders:[{ordId:'ORD-10749373',pri:'Critical',pbt:2728,orderStatus:'open'},{ordId:'ORD-10730779',pri:'Normal',pbt:343,orderStatus:'open'}], history:[{dot:'dot-c',title:'Reservation created',detail:'2 units locked — critical + normal order',time:'08 Jun, 10:10'}] },
-  { resId:'RES-10027', sku:'37434', tags:[{v:'ecom',k:'channel'},{v:'LOT-2026-05',k:'lot'}], area:'forward', uom:'Inner', reservedQty:1, ageMinutes:490, status:'reservation-released', updatedAt:'08 Jun, 07:44', releaseReason:'Inventory not found at pick — damage reported by operator', orders:[{ordId:'ORD-10746744',pri:'Normal',pbt:343,orderStatus:'cancelled'}], history:[{dot:'dot-c',title:'Reservation created',detail:'1 unit locked',time:'08 Jun, 01:41'},{dot:'dot-p',title:'Picking started',detail:'Pick task assigned — PPS-02',time:'08 Jun, 07:38'},{dot:'dot-x',title:'Short-pick — Reservation released',detail:'Inventory not found at pick — damage reported by operator',time:'08 Jun, 07:44'}] },
-  { resId:'RES-10028', sku:'11390', tags:[{v:'ecom',k:'channel'},{v:'LOT-2026-05',k:'lot'}], area:'forward', uom:'Each', reservedQty:2, ageMinutes:63, status:'reserved-for-picking', updatedAt:'08 Jun, 09:28', releaseReason:null, orders:[{ordId:'ORD-10741893',pri:'Normal',pbt:268,orderStatus:'open'},{ordId:'ORD-10733427',pri:'Normal',pbt:268,orderStatus:'open'}], history:[{dot:'dot-c',title:'Reservation created',detail:'2 units locked across 2 orders',time:'08 Jun, 09:28'}] },
-  { resId:'RES-10029', sku:'16226', tags:[{v:'ecom',k:'channel'},{v:'LOT-2026-05',k:'lot'}], area:'forward', uom:'Each', reservedQty:1, ageMinutes:490, status:'reserved-for-picking', updatedAt:'08 Jun, 02:01', releaseReason:null, orders:[], history:[{dot:'dot-c',title:'Reservation created',detail:'No order placed yet',time:'08 Jun, 02:01'}] },
-  { resId:'RES-10030', sku:'99213', tags:[{v:'ecom',k:'channel'},{v:'LOT-2026-05',k:'lot'}], area:'forward', uom:'Each', reservedQty:1, ageMinutes:147, status:'order-completed', updatedAt:'08 Jun, 08:52', releaseReason:null, orders:[{ordId:'ORD-10734094',pri:'Normal',pbt:1498,orderStatus:'completed'}], history:[{dot:'dot-c',title:'Reservation created',detail:'1 unit locked',time:'08 Jun, 07:44'},{dot:'dot-p',title:'Picking started',detail:'Pick task assigned',time:'08 Jun, 08:48'},{dot:'dot-done',title:'Order completed',detail:'Pick confirmed — reservation closed',time:'08 Jun, 08:52'}] },
+  {
+    resId: 'RES-10021', sku: '54554', tags: [{v:'ecom',k:'channel'},{v:'LOT-2026-05',k:'lot'}],
+    area: 'forward', uom: 'Each', reservedQty: 1, ageMinutes: 37,
+    status: 'reserved-for-picking', updatedAt: '08 Jun, 09:41', releaseReason: null,
+    orders: [
+      { ordId:'ORD-10749350', pri:'Normal', pbt:1693, orderStatus:'open' }
+    ],
+    history:[
+      {dot:'dot-c',title:'Reservation created',detail:'TPID resolved — 1 unit locked',time:'08 Jun, 09:41'},
+    ]
+  },
+  {
+    resId: 'RES-10022', sku: '1066567', tags: [{v:'ecom',k:'channel'},{v:'LOT-2026-05',k:'lot'}],
+    area: 'forward', uom: 'Each', reservedQty: 1, ageMinutes: 195,
+    status: 'order-completed', updatedAt: '08 Jun, 09:14', releaseReason: null,
+    orders: [
+      { ordId:'ORD-10715393', pri:'Normal', pbt:58, orderStatus:'completed' }
+    ],
+    history:[
+      {dot:'dot-c',title:'Reservation created',detail:'TPID resolved',time:'08 Jun, 06:22'},
+      {dot:'dot-p',title:'Picking started',detail:'Pick task assigned — station PPS-03',time:'08 Jun, 09:08'},
+      {dot:'dot-done',title:'Order completed',detail:'Pick confirmed — reservation closed',time:'08 Jun, 09:14'},
+    ]
+  },
+  {
+    resId: 'RES-10023', sku: '84150', tags: [{v:'ecom',k:'channel'},{v:'LOT-2026-05',k:'lot'}],
+    area: 'reserve', uom: 'Case', reservedQty: 2, ageMinutes: 88,
+    status: 'picking', updatedAt: '08 Jun, 09:30', releaseReason: null,
+    orders: [
+      { ordId:'ORD-10749350', pri:'Normal', pbt:1693, orderStatus:'picking' },
+      { ordId:'ORD-10724596', pri:'Normal', pbt:253,  orderStatus:'open'    }
+    ],
+    history:[
+      {dot:'dot-c',title:'Reservation created',detail:'2 units locked across 2 orders',time:'08 Jun, 08:25'},
+      {dot:'dot-p',title:'Picking started',detail:'ORD-10749350 pick task assigned — PPS-01',time:'08 Jun, 09:30'},
+    ]
+  },
+  {
+    resId: 'RES-10024', sku: '1065631', tags: [{v:'ecom',k:'channel'},{v:'LOT-2026-05',k:'lot'}],
+    area: 'reserve', uom: 'Each', reservedQty: 1, ageMinutes: 312,
+    status: 'reservation-expired', updatedAt: '08 Jun, 09:39', releaseReason: 'No order created within TTL window — inventory returned to ATP',
+    orders: [],
+    history:[
+      {dot:'dot-c',title:'Reservation created',detail:'Enquiry resolved — no order placed yet',time:'08 Jun, 04:39'},
+      {dot:'dot-r',title:'Reservation expired',detail:'No order created within TTL window — inventory returned to ATP',time:'08 Jun, 09:39'},
+    ]
+  },
+  {
+    resId: 'RES-10025', sku: '1065631', tags: [{v:'ecom',k:'channel'},{v:'LOT-2026-05',k:'lot'}],
+    area: 'reserve', uom: 'Each', reservedQty: 1, ageMinutes: 540,
+    status: 'blocked-by-audit', updatedAt: '08 Jun, 09:02', releaseReason: null,
+    orders: [],
+    history:[
+      {dot:'dot-c',title:'Reservation created',detail:'Enquiry resolved',time:'08 Jun, 02:11'},
+      {dot:'dot-a',title:'Blocked by Audit',detail:'Cycle count triggered — Forward Zone 3',time:'08 Jun, 09:02'},
+    ]
+  },
+  {
+    resId: 'RES-10026', sku: '99213', tags: [{v:'ecom',k:'channel'},{v:'LOT-2026-05',k:'lot'}],
+    area: 'forward', uom: 'Each', reservedQty: 2, ageMinutes: 22,
+    status: 'reserved-for-picking', updatedAt: '08 Jun, 10:10', releaseReason: null,
+    orders: [
+      { ordId:'ORD-10749373', pri:'Critical', pbt:2728, orderStatus:'open' },
+      { ordId:'ORD-10730779', pri:'Normal',   pbt:343,  orderStatus:'open' }
+    ],
+    history:[
+      {dot:'dot-c',title:'Reservation created',detail:'2 units locked — critical + normal order',time:'08 Jun, 10:10'},
+    ]
+  },
+  {
+    resId: 'RES-10027', sku: '37434', tags: [{v:'ecom',k:'channel'},{v:'LOT-2026-05',k:'lot'}],
+    area: 'forward', uom: 'Inner', reservedQty: 1, ageMinutes: 490,
+    status: 'order-short-picked', updatedAt: '08 Jun, 07:44', releaseReason: 'Inventory not found at pick — damage reported by operator',
+    orders: [
+      { ordId:'ORD-10746744', pri:'Normal', pbt:343, orderStatus:'cancelled' }
+    ],
+    history:[
+      {dot:'dot-c',title:'Reservation created',detail:'1 unit locked',time:'08 Jun, 01:41'},
+      {dot:'dot-p',title:'Picking started',detail:'Pick task assigned — PPS-02',time:'08 Jun, 07:38'},
+      {dot:'dot-x',title:'Order short-picked',detail:'Inventory not found at pick — damage reported by operator',time:'08 Jun, 07:44'},
+    ]
+  },
+  {
+    resId: 'RES-10028', sku: '11390', tags: [{v:'ecom',k:'channel'},{v:'LOT-2026-05',k:'lot'}],
+    area: 'forward', uom: 'Each', reservedQty: 2, ageMinutes: 63,
+    status: 'reserved-for-picking', updatedAt: '08 Jun, 09:28', releaseReason: null,
+    orders: [
+      { ordId:'ORD-10741893', pri:'Normal', pbt:268, orderStatus:'open' },
+      { ordId:'ORD-10733427', pri:'Normal', pbt:268, orderStatus:'open' }
+    ],
+    history:[
+      {dot:'dot-c',title:'Reservation created',detail:'2 units locked across 2 orders',time:'08 Jun, 09:28'},
+    ]
+  },
+  {
+    resId: 'RES-10029', sku: '16226', tags: [{v:'ecom',k:'channel'},{v:'LOT-2026-05',k:'lot'}],
+    area: 'forward', uom: 'Each', reservedQty: 1, ageMinutes: 490,
+    status: 'reservation-expired', updatedAt: '08 Jun, 10:01', releaseReason: 'No order created within TTL window — inventory returned to ATP',
+    orders: [],
+    history:[
+      {dot:'dot-c',title:'Reservation created',detail:'Enquiry resolved — no order placed yet',time:'08 Jun, 02:01'},
+      {dot:'dot-r',title:'Reservation expired',detail:'No order created within TTL window — inventory returned to ATP',time:'08 Jun, 10:01'},
+    ]
+  },
+  {
+    resId: 'RES-10030', sku: '99213', tags: [{v:'ecom',k:'channel'},{v:'LOT-2026-05',k:'lot'}],
+    area: 'forward', uom: 'Each', reservedQty: 1, ageMinutes: 147,
+    status: 'order-completed', updatedAt: '08 Jun, 08:52', releaseReason: null,
+    orders: [
+      { ordId:'ORD-10734094', pri:'Normal', pbt:1498, orderStatus:'completed' }
+    ],
+    history:[
+      {dot:'dot-c',title:'Reservation created',detail:'1 unit locked',time:'08 Jun, 07:44'},
+      {dot:'dot-p',title:'Picking started',detail:'Pick task assigned',time:'08 Jun, 08:48'},
+      {dot:'dot-done',title:'Order completed',detail:'Pick confirmed — reservation closed',time:'08 Jun, 08:52'},
+    ]
+  },
+  {
+    resId: 'RES-10031', sku: '54554', tags: [{v:'ecom',k:'channel'},{v:'LOT-2026-05',k:'lot'}],
+    area: 'forward', uom: 'Each', reservedQty: 1, ageMinutes: 210,
+    status: 'reservation-released', updatedAt: '08 Jun, 07:01', releaseReason: 'Reallocate to priority order — released by WM',
+    orders: [],
+    history:[
+      {dot:'dot-c',title:'Reservation created',detail:'TPID resolved — 1 unit locked',time:'08 Jun, 03:31'},
+      {dot:'dot-r',title:'Reservation released',detail:'Reallocate to priority order — released by WM',time:'08 Jun, 07:01'},
+    ]
+  },
 ];
-const SKU_ONHAND = {'54554':22,'1066567':29,'84150':15,'1065631':18,'99213':15,'37434':86,'11390':22,'16226':54};
+
+// ── SKU INVENTORY MASTER (on-hand per SKU)
+// ATP per SKU = onhand − sum of reservedQty where status is reserved-for-picking | picking | blocked-by-audit
+const SKU_ONHAND = {
+  '54554':   22,
+  '1066567': 29,
+  '84150':   15,
+  '1065631': 18,
+  '99213':   15,
+  '37434':   86,
+  '11390':   22,
+  '16226':   54,
+};
+
 function skuAtp(sku) {
   const onhand = SKU_ONHAND[sku] || 0;
-  const locked = DATA.filter(r => r.sku === sku && ['reserved-for-picking','picking','blocked-by-audit'].includes(r.status)).reduce((s,r) => s + r.reservedQty, 0);
-  return { atp: onhand - locked };
+  const locked = DATA
+    .filter(r => r.sku === sku && ['reserved-for-picking','picking','blocked-by-audit'].includes(r.status))
+    .reduce((s, r) => s + r.reservedQty, 0);
+  return { onhand, locked, atp: onhand - locked };
 }
 function invBadge(s) {
-  const map = {'reserved-for-picking':['inv-rfp','Reserved for Picking'],'picking':['inv-picking','Picking'],'blocked-by-audit':['inv-audit','Blocked by Audit'],'reservation-released':['inv-released','Reservation Released'],'order-completed':['inv-completed','Order Completed']};
-  const [cls,lbl] = map[s] || ['inv-rfp',s];
+  const map = {
+    'reserved-for-picking': ['inv-rfp',       'Reserved for Picking'],
+    'picking':              ['inv-picking',    'Picking'],
+    'blocked-by-audit':     ['inv-audit',      'Blocked by Audit'],
+    'order-short-picked':   ['inv-shortpick',  'Order Short-picked'],
+    'reservation-released': ['inv-released',   'Reservation Released'],
+    'reservation-expired':  ['inv-expired',    'Reservation Expired'],
+    'order-completed':      ['inv-completed',  'Order Completed'],
+  };
+  const [cls, lbl] = map[s] || ['inv-rfp', s];
   return `<span class="inv-badge ${cls}">${lbl}</span>`;
 }
 function ordStatusBadge(s) {
-  const map = {'open':'ord-open Open','picking':'ord-picking Picking','completed':'ord-completed Completed','cancelled':'ord-cancelled Cancelled'};
+  const map = { 'open':'ord-open Open', 'picking':'ord-picking Picking', 'completed':'ord-completed Completed', 'cancelled':'ord-cancelled Cancelled' };
   const parts = (map[s]||'ord-open Open').split(' ');
   return `<span class="ord-status ${parts[0]}">${parts[1]}</span>`;
 }
 function priCls(p) { return p==='Critical'?'pri-critical':'pri-normal'; }
 function tagCls(k) { return k==='channel'?'tag-channel':k==='lot'?'tag-lot':k==='expiry'?'tag-expiry':'tag-attr'; }
+
+// ── Expanded state
 const expanded = new Set();
+
+// ── Modal context
 let modalCtx = {};
-let activeTileFilter = '';
+
+// ── Tile filter state
+let activeTileFilter = ''; // '' | 'total' | 'attention'
+
 function setTileFilter(tile) {
   activeTileFilter = activeTileFilter === tile ? '' : tile;
   document.getElementById('tileTotal').classList.toggle('selected-active', activeTileFilter === 'total');
   document.getElementById('tileAttention').classList.toggle('selected-attention', activeTileFilter === 'attention');
   renderTable();
 }
+
+// ── Render
 function renderTable() {
   const fStatus = document.getElementById('fStatus').value;
   const fResId  = document.getElementById('fResId').value.toLowerCase().trim();
@@ -497,49 +760,90 @@ function renderTable() {
   const fAtp    = document.getElementById('fAtp').value;
   const fResQtyMin = document.getElementById('fResQtyMin').value;
   const fResQtyMax = document.getElementById('fResQtyMax').value;
+
   const filtered = DATA.filter(r => {
     if (fStatus && r.status !== fStatus) return false;
     if (fResId  && !r.resId.toLowerCase().includes(fResId)) return false;
     if (fSku    && !r.sku.toLowerCase().includes(fSku)) return false;
     if (fNoOrd) { if (r.orders.length > 0) return false; }
     else if (fOrder && !r.orders.some(o => o.ordId.toLowerCase().includes(fOrder))) return false;
-    if (fAge) { const m = r.ageMinutes; if (fAge==='lt1'&&m>=60) return false; if (fAge==='1to4'&&(m<60||m>=240)) return false; if (fAge==='4to8'&&(m<240||m>=480)) return false; if (fAge==='gt8'&&m<480) return false; }
-    if (fAtp) { const atp=skuAtp(r.sku).atp; if (fAtp==='low'&&atp>=20) return false; if (fAtp==='mid'&&(atp<20||atp>50)) return false; if (fAtp==='high'&&atp<=50) return false; }
+    if (fAge) {
+      const m = r.ageMinutes;
+      if (fAge==='lt1'  && m >= 60)  return false;
+      if (fAge==='1to4' && (m<60||m>=240)) return false;
+      if (fAge==='4to8' && (m<240||m>=480)) return false;
+      if (fAge==='gt8'  && m < 480)  return false;
+    }
+    if (fAtp) {
+      const atp = skuAtp(r.sku).atp;
+      if (fAtp==='low'  && atp >= 20) return false;
+      if (fAtp==='mid'  && (atp < 20 || atp > 50)) return false;
+      if (fAtp==='high' && atp <= 50) return false;
+    }
     if (fResQtyMin !== '' && r.reservedQty < Number(fResQtyMin)) return false;
     if (fResQtyMax !== '' && r.reservedQty > Number(fResQtyMax)) return false;
+    // Tile filter: Needs Attention = stale RFP | low ATP | blocked-by-audit | reservation-released
     if (activeTileFilter === 'attention') {
-      const isStale = r.status==='reserved-for-picking' && r.ageMinutes>=480;
-      const isLowAtp = skuAtp(r.sku).atp < 20;
-      const isBad = ['blocked-by-audit','reservation-released'].includes(r.status);
-      if (!isStale && !isLowAtp && !isBad) return false;
+      const isStale     = r.status === 'reserved-for-picking' && r.ageMinutes >= 480;
+      const isLowAtp    = skuAtp(r.sku).atp < 20;
+      const isBadStatus = ['blocked-by-audit','order-short-picked','reservation-released','reservation-expired'].includes(r.status);
+      if (!isStale && !isLowAtp && !isBadStatus) return false;
     }
     return true;
   });
+
+  // Needs Attention: count distinct reservation IDs where any signal fires.
+  // Signals: stale (RFP > 8hrs) | low ATP (< 20) | bad terminal status (blocked-by-audit | reservation-released)
+  // Each reservation ID counted once regardless of how many signals it triggers.
   const attentionIds = new Set(DATA.filter(r => {
-    const isStale = r.status==='reserved-for-picking' && r.ageMinutes>=480;
-    const isLowAtp = skuAtp(r.sku).atp < 20;
-    const isBad = ['blocked-by-audit','reservation-released'].includes(r.status);
-    return isStale || isLowAtp || isBad;
+    const isStale     = r.status === 'reserved-for-picking' && r.ageMinutes >= 480;
+    const isLowAtp    = skuAtp(r.sku).atp < 20;
+    const isBadStatus = ['blocked-by-audit','order-short-picked','reservation-released','reservation-expired'].includes(r.status);
+    return isStale || isLowAtp || isBadStatus;
   }).map(r => r.resId));
-  document.getElementById('sTotal').textContent = DATA.length;
-  document.getElementById('sAttention').textContent = attentionIds.size;
-  document.getElementById('tCount').textContent = `${filtered.length} reservation${filtered.length!==1?'s':''}`;
-  document.getElementById('pagInfo').textContent = `${filtered.length} result${filtered.length!==1?'s':''}`;
+  const attention = attentionIds.size;
+
+  // Total = rows currently shown (matches the table)
+  document.getElementById('sTotal').textContent     = DATA.length;
+  document.getElementById('sAttention').textContent = attention;
+  document.getElementById('tCount').textContent     = `${filtered.length} reservation${filtered.length!==1?'s':''}`;
+  document.getElementById('pagInfo').textContent    = `${filtered.length} result${filtered.length!==1?'s':''}`;
+
   const tbody = document.getElementById('tableBody');
-  if (!filtered.length) { tbody.innerHTML = `<tr class="empty-row"><td colspan="12">No reservations match the current filters.</td></tr>`; return; }
+  if (!filtered.length) {
+    tbody.innerHTML = `<tr class="empty-row"><td colspan="12">No reservations match the current filters.</td></tr>`;
+    return;
+  }
+
   let html = '';
-  filtered.forEach(r => {
+  filtered.forEach((r, fi) => {
     const isExp = expanded.has(r.resId);
     const a = ageFmt(r.ageMinutes);
-    const isReleasable = r.status==='reserved-for-picking' || r.status==='blocked-by-audit';
+    const isReleasable = r.status === 'reserved-for-picking' || r.status === 'blocked-by-audit';
     const { atp } = skuAtp(r.sku);
     const atpLow = atp < 20;
-    const atpCell = `<div class="atp-line ${atpLow?'atp-warn':'atp-ok'}">${atpLow?`<span class="atp-warn-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M10.29 3.86L1.82 18a2 2 0 001.71 3h16.94a2 2 0 001.71-3L13.71 3.86a2 2 0 00-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg></span>`:''}${atp}</div>`;
-    const updCell = `<div class="updated-main">${r.updatedAt}</div>${r.releaseReason?`<div class="updated-reason">${r.releaseReason}</div>`:''}`;
-    const releaseBtn = `<button class="btn-release" ${!isReleasable?'disabled':''} onclick="event.stopPropagation();openRelease('${r.resId}')"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="15" y1="9" x2="9" y2="15"/><line x1="9" y1="9" x2="15" y2="15"/></svg>Release</button>`;
-    const histBtn = `<button class="btn-view" onclick="event.stopPropagation();openHistory('${r.resId}')"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>View History</button>`;
+    const atpCell = `<div class="atp-line ${atpLow ? 'atp-warn' : 'atp-ok'}">
+        ${atpLow ? `<span class="atp-warn-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M10.29 3.86L1.82 18a2 2 0 001.71 3h16.94a2 2 0 001.71-3L13.71 3.86a2 2 0 00-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg></span>` : ''}${atp}
+      </div>`;
+
+    // Updated cell: show reason below if released
+    const updCell = `<div class="updated-main">${r.updatedAt}</div>${r.releaseReason ? `<div class="updated-reason">${r.releaseReason}</div>` : ''}`;
+
+    // Primary actions
+    const releaseDisabled = !isReleasable;
+    const releaseBtn = `<button class="btn-release" ${releaseDisabled?'disabled':''} onclick="event.stopPropagation();openRelease('${r.resId}')">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="15" y1="9" x2="9" y2="15"/><line x1="9" y1="9" x2="15" y2="15"/></svg>Release
+    </button>`;
+    const histBtn = `<button class="btn-view" onclick="event.stopPropagation();openHistory('${r.resId}')">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>View History
+    </button>`;
+
     html += `<tr class="res-row${isExp?' expanded':''}" onclick="toggleExpand('${r.resId}')">
-      <td style="padding-left:12px"><button class="expand-btn${isExp?' open':''}" onclick="event.stopPropagation();toggleExpand('${r.resId}')"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="9 18 15 12 9 6"/></svg></button></td>
+      <td style="padding-left:12px">
+        <button class="expand-btn${isExp?' open':''}" onclick="event.stopPropagation();toggleExpand('${r.resId}')">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="9 18 15 12 9 6"/></svg>
+        </button>
+      </td>
       <td><span class="res-id">${r.resId}</span></td>
       <td><span style="font-weight:600">${r.sku}</span></td>
       <td><div class="tag-wrap">${r.tags.map(t=>`<span class="tag ${tagCls(t.k)}">${t.v}</span>`).join('')}</div></td>
@@ -552,85 +856,187 @@ function renderTable() {
       <td>${updCell}</td>
       <td><div class="act-group">${releaseBtn}${histBtn}</div></td>
     </tr>`;
+
+    // Child order rows (shown when expanded)
     if (isExp) {
       if (r.orders.length === 0) {
-        html += `<tr class="order-row"><td></td><td colspan="11" style="padding-left:36px;font-size:12px;color:#9ca3af;font-style:italic">No order placed yet against this reservation</td></tr>`;
+        html += `<tr class="order-row">
+          <td></td>
+          <td colspan="11" style="padding-left:36px;font-size:12px;color:#9ca3af;font-style:italic">No order placed yet against this reservation</td>
+        </tr>`;
       } else {
-        html += `<tr class="order-row order-hdr-row"><td></td><td style="padding-left:36px;font-size:10px;font-weight:700;color:#b0b7c3;text-transform:uppercase;letter-spacing:.06em">Order ID</td><td colspan="4"></td><td style="text-align:right;font-size:10px;font-weight:700;color:#b0b7c3;text-transform:uppercase;letter-spacing:.06em">Qty</td><td></td><td style="font-size:10px;font-weight:700;color:#b0b7c3;text-transform:uppercase;letter-spacing:.06em">PBT</td><td style="font-size:10px;font-weight:700;color:#b0b7c3;text-transform:uppercase;letter-spacing:.06em">Order Status</td><td style="font-size:10px;font-weight:700;color:#b0b7c3;text-transform:uppercase;letter-spacing:.06em">Priority</td><td style="font-size:10px;font-weight:700;color:#b0b7c3;text-transform:uppercase;letter-spacing:.06em">Actions</td></tr>`;
+        // Sub-header row for child columns
+        html += `<tr class="order-row order-hdr-row">
+          <td></td>
+          <td style="padding-left:36px;font-size:10px;font-weight:700;color:#b0b7c3;text-transform:uppercase;letter-spacing:.06em">Order ID</td>
+          <td colspan="4"></td>
+          <td style="text-align:right;font-size:10px;font-weight:700;color:#b0b7c3;text-transform:uppercase;letter-spacing:.06em">Qty</td>
+          <td></td>
+          <td style="font-size:10px;font-weight:700;color:#b0b7c3;text-transform:uppercase;letter-spacing:.06em">PBT</td>
+          <td style="font-size:10px;font-weight:700;color:#b0b7c3;text-transform:uppercase;letter-spacing:.06em">Order Status</td>
+          <td style="font-size:10px;font-weight:700;color:#b0b7c3;text-transform:uppercase;letter-spacing:.06em">Priority</td>
+          <td style="font-size:10px;font-weight:700;color:#b0b7c3;text-transform:uppercase;letter-spacing:.06em">Actions</td>
+        </tr>`;
         r.orders.forEach(o => {
           const p = pbtInfo(o.pbt);
           const canCancel = o.orderStatus === 'open';
-          const cancelBtn = `<button class="btn-cancel-ord" ${canCancel?'':'disabled style="opacity:0.35;cursor:not-allowed"'} onclick="event.stopPropagation();openCancel('${o.ordId}','${r.resId}')"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="15" y1="9" x2="9" y2="15"/><line x1="9" y1="9" x2="15" y2="15"/></svg>Cancel Order</button>`;
-          const pbtBtn = `<button class="btn-pbt" onclick="event.stopPropagation();openPbt('${o.ordId}','${p.abs}')"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>Change PBT</button>`;
-          html += `<tr class="order-row"><td></td><td style="padding-left:36px"><span style="font-size:10px;font-weight:700;color:#b0b7c3;text-transform:uppercase;letter-spacing:.06em;margin-right:6px">ORDER</span><span class="ord-id">${o.ordId}</span></td><td colspan="4"></td><td style="text-align:right"><span style="font-size:12px;color:#5a6270">${o.qty??1}</span></td><td></td><td><div class="pbt-val ${p.cls}">${p.abs}</div><div class="pbt-sub ${p.cls}">${p.rel}</div></td><td>${ordStatusBadge(o.orderStatus)}</td><td><span class="pri-badge ${priCls(o.pri)}">${o.pri}</span></td><td><div class="act-group">${cancelBtn}${pbtBtn}</div></td></tr>`;
+          const cancelBtn = `<button class="btn-cancel-ord" ${canCancel?'':'disabled style="opacity:0.35;cursor:not-allowed"'} onclick="event.stopPropagation();openCancel('${o.ordId}','${r.resId}')">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="15" y1="9" x2="9" y2="15"/><line x1="9" y1="9" x2="15" y2="15"/></svg>Cancel Order
+          </button>`;
+          const pbtBtn = `<button class="btn-pbt" onclick="event.stopPropagation();openPbt('${o.ordId}','${p.abs}')">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>Change PBT
+          </button>`;
+          // 12 cols: expand | Res.ID | SKU | Tags | Area | UoM | Res.Qty | ATP | Res.Age | Inv.Status | Last Updated | Actions
+          html += `<tr class="order-row">
+            <td></td>
+            <td style="padding-left:36px">
+              <span style="font-size:10px;font-weight:700;color:#b0b7c3;text-transform:uppercase;letter-spacing:.06em;margin-right:6px">ORDER</span>
+              <span class="ord-id">${o.ordId}</span>
+            </td>
+            <td colspan="4"></td>
+            <td style="text-align:right"><span style="font-size:12px;color:#5a6270">${o.qty ?? 1}</span></td>
+            <td></td>
+            <td>
+              <div class="pbt-val ${p.cls}">${p.abs}</div>
+              <div class="pbt-sub ${p.cls}">${p.rel}</div>
+            </td>
+            <td>${ordStatusBadge(o.orderStatus)}</td>
+            <td><span class="pri-badge ${priCls(o.pri)}">${o.pri}</span></td>
+            <td><div class="act-group">${cancelBtn}${pbtBtn}</div></td>
+          </tr>`;
         });
       }
     }
   });
+
   tbody.innerHTML = html;
 }
-function toggleExpand(resId) { if (expanded.has(resId)) expanded.delete(resId); else expanded.add(resId); renderTable(); }
+
+function toggleExpand(resId) {
+  if (expanded.has(resId)) expanded.delete(resId); else expanded.add(resId);
+  renderTable();
+}
+
+// ── Release
 function openRelease(resId) {
-  const r = DATA.find(x => x.resId===resId); modalCtx = {type:'release',resId};
-  document.getElementById('releaseInfo').innerHTML = `<div class="modal-info-row"><span class="mik">Reservation ID</span><span class="miv">${r.resId}</span></div><div class="modal-info-row"><span class="mik">SKU</span><span class="miv">${r.sku}</span></div><div class="modal-info-row"><span class="mik">Reserved Qty</span><span class="miv">${r.reservedQty} ${r.uom}</span></div><div class="modal-info-row"><span class="mik">Orders</span><span class="miv">${r.orders.length?r.orders.map(o=>o.ordId).join(', '):'— none'}</span></div>`;
-  document.getElementById('releaseReason').value=''; document.getElementById('releaseNote').value=''; openModal('releaseModal');
+  const r = DATA.find(x => x.resId === resId);
+  modalCtx = { type: 'release', resId };
+  document.getElementById('releaseInfo').innerHTML = `
+    <div class="modal-info-row"><span class="mik">Reservation ID</span><span class="miv">${r.resId}</span></div>
+    <div class="modal-info-row"><span class="mik">SKU</span><span class="miv">${r.sku}</span></div>
+    <div class="modal-info-row"><span class="mik">Reserved Qty</span><span class="miv">${r.reservedQty} ${r.uom}</span></div>
+    <div class="modal-info-row"><span class="mik">Orders against this</span><span class="miv">${r.orders.length > 0 ? r.orders.map(o=>o.ordId).join(', ') : '— none'}</span></div>`;
+  document.getElementById('releaseReason').value = '';
+  document.getElementById('releaseNote').value = '';
+  openModal('releaseModal');
 }
 function confirmRelease() {
-  if (!document.getElementById('releaseReason').value) { document.getElementById('releaseReason').style.borderColor='#c62828'; setTimeout(()=>document.getElementById('releaseReason').style.borderColor='',2000); return; }
-  closeModal('releaseModal'); showToast(`${modalCtx.resId} released — ATP restored`,'green');
+  if (!document.getElementById('releaseReason').value) {
+    document.getElementById('releaseReason').style.borderColor='#c62828';
+    setTimeout(()=>document.getElementById('releaseReason').style.borderColor='',2000);
+    return;
+  }
+  closeModal('releaseModal');
+  showToast(`${modalCtx.resId} released — ATP restored`, 'green');
 }
-function openCancel(ordId,resId) {
-  modalCtx={type:'cancel',ordId,resId};
-  document.getElementById('cancelInfo').innerHTML=`<div class="modal-info-row"><span class="mik">Order ID</span><span class="miv">${ordId}</span></div><div class="modal-info-row"><span class="mik">Reservation</span><span class="miv">${resId}</span></div>`;
-  document.getElementById('cancelReason').value=''; openModal('cancelModal');
+
+// ── Cancel order
+function openCancel(ordId, resId) {
+  modalCtx = { type: 'cancel', ordId, resId };
+  document.getElementById('cancelInfo').innerHTML = `
+    <div class="modal-info-row"><span class="mik">Order ID</span><span class="miv">${ordId}</span></div>
+    <div class="modal-info-row"><span class="mik">Reservation</span><span class="miv">${resId}</span></div>`;
+  document.getElementById('cancelReason').value = '';
+  openModal('cancelModal');
 }
 function confirmCancel() {
-  if (!document.getElementById('cancelReason').value) { document.getElementById('cancelReason').style.borderColor='#c62828'; setTimeout(()=>document.getElementById('cancelReason').style.borderColor='',2000); return; }
-  closeModal('cancelModal'); showToast(`${modalCtx.ordId} cancelled`,'green');
+  if (!document.getElementById('cancelReason').value) {
+    document.getElementById('cancelReason').style.borderColor='#c62828';
+    setTimeout(()=>document.getElementById('cancelReason').style.borderColor='',2000);
+    return;
+  }
+  closeModal('cancelModal');
+  showToast(`${modalCtx.ordId} cancelled`, 'green');
 }
-function openPbt(ordId,currentPbt) {
-  modalCtx={type:'pbt',ordId};
-  document.getElementById('pbtInfo').innerHTML=`<div class="modal-info-row"><span class="mik">Order ID</span><span class="miv">${ordId}</span></div><div class="modal-info-row"><span class="mik">Current PBT</span><span class="miv">${currentPbt}</span></div>`;
-  document.getElementById('pbtNewVal').value=new Date(Date.now()+3600000).toISOString().slice(0,16);
-  document.getElementById('pbtReason').value=''; openModal('pbtModal');
+
+// ── PBT
+function openPbt(ordId, currentPbt) {
+  modalCtx = { type: 'pbt', ordId };
+  document.getElementById('pbtInfo').innerHTML = `
+    <div class="modal-info-row"><span class="mik">Order ID</span><span class="miv">${ordId}</span></div>
+    <div class="modal-info-row"><span class="mik">Current PBT</span><span class="miv">${currentPbt}</span></div>`;
+  document.getElementById('pbtNewVal').value = new Date(Date.now()+3600000).toISOString().slice(0,16);
+  document.getElementById('pbtReason').value = '';
+  openModal('pbtModal');
 }
 function confirmPbt() {
-  const v=document.getElementById('pbtNewVal').value, r=document.getElementById('pbtReason').value.trim();
-  if (!v||!r) { if(!v) document.getElementById('pbtNewVal').style.borderColor='#c62828'; if(!r) document.getElementById('pbtReason').style.borderColor='#c62828'; setTimeout(()=>{document.getElementById('pbtNewVal').style.borderColor='';document.getElementById('pbtReason').style.borderColor='';},2000); return; }
-  closeModal('pbtModal'); showToast(`PBT updated for ${modalCtx.ordId}`,'green');
+  const v = document.getElementById('pbtNewVal').value;
+  const r = document.getElementById('pbtReason').value.trim();
+  if (!v || !r) {
+    if (!v) document.getElementById('pbtNewVal').style.borderColor='#c62828';
+    if (!r) document.getElementById('pbtReason').style.borderColor='#c62828';
+    setTimeout(()=>{document.getElementById('pbtNewVal').style.borderColor='';document.getElementById('pbtReason').style.borderColor='';},2000);
+    return;
+  }
+  closeModal('pbtModal');
+  showToast(`PBT updated for ${modalCtx.ordId}`, 'green');
 }
+
+// ── History drawer
 function openHistory(resId) {
-  const r=DATA.find(x=>x.resId===resId);
-  document.getElementById('drawerMeta').innerHTML=`<div class="dm-row"><span class="dm-k">Reservation ID</span><span class="dm-v">${r.resId}</span></div><div class="dm-row"><span class="dm-k">SKU</span><span class="dm-v">${r.sku}</span></div><div class="dm-row"><span class="dm-k">Orders</span><span class="dm-v" style="font-size:11px">${r.orders.length?r.orders.map(o=>o.ordId).join(', '):'— none'}</span></div><div class="dm-row"><span class="dm-k">Status</span><span class="dm-k">${invBadge(r.status)}</span></div>`;
-  const dotMap={'dot-c':'dot-c C','dot-p':'dot-p P','dot-r':'dot-r R','dot-a':'dot-a A','dot-x':'dot-x !','dot-done':'dot-done \u2713'};
-  document.getElementById('drawerEvents').innerHTML=r.history.map(ev=>{const[dc,dl]=dotMap[ev.dot].split(' ');return`<div class="event"><div class="ev-dot ${dc}">${dl}</div><div class="ev-body"><div class="ev-title">${ev.title}</div><div class="ev-detail">${ev.detail}</div><div class="ev-time">${ev.time}</div></div></div>`;}).join('');
+  const r = DATA.find(x => x.resId === resId);
+  document.getElementById('drawerMeta').innerHTML = `
+    <div class="dm-row"><span class="dm-k">Reservation ID</span><span class="dm-v">${r.resId}</span></div>
+    <div class="dm-row"><span class="dm-k">SKU</span><span class="dm-v">${r.sku}</span></div>
+    <div class="dm-row"><span class="dm-k">Orders</span><span class="dm-v" style="font-size:11px">${r.orders.length ? r.orders.map(o=>o.ordId).join(', ') : '— none'}</span></div>
+    <div class="dm-row"><span class="dm-k">Current Status</span><span class="dm-k">${invBadge(r.status)}</span></div>`;
+  const dotMap = {'dot-c':'dot-c C','dot-p':'dot-p P','dot-r':'dot-r R','dot-a':'dot-a A','dot-x':'dot-x !','dot-done':'dot-done ✓'};
+  document.getElementById('drawerEvents').innerHTML = r.history.map(ev => {
+    const [dc, dl] = dotMap[ev.dot].split(' ');
+    return `<div class="event">
+      <div class="ev-dot ${dc}">${dl}</div>
+      <div class="ev-body">
+        <div class="ev-title">${ev.title}</div>
+        <div class="ev-detail">${ev.detail}</div>
+        <div class="ev-time">${ev.time}</div>
+      </div>
+    </div>`;
+  }).join('');
   document.getElementById('drawerOverlay').classList.add('open');
 }
 function closeDrawer() { document.getElementById('drawerOverlay').classList.remove('open'); }
+
+// ── Filters
 function clearFilters() {
   ['fResId','fOrder','fSku','fResQtyMin','fResQtyMax'].forEach(id=>document.getElementById(id).value='');
   ['fStatus','fAge','fAtp'].forEach(id=>{const el=document.getElementById(id);el.value='';el.classList.remove('factive');});
   document.getElementById('fNoOrder').checked=false;
-  activeTileFilter='';
+  activeTileFilter = '';
   document.getElementById('tileTotal').classList.remove('selected-active');
   document.getElementById('tileAttention').classList.remove('selected-attention');
   renderTable();
 }
+
+// ── CSV export
 function exportCSV() {
-  const hdr=['Reservation ID','SKU','Area','UoM','Reserved Qty','Res. Age (min)','Status','Last Updated','Release Reason','Orders'];
+  const hdr=['Reservation ID','SKU','Area','UoM','Reserved Qty','Res. Age (min)','Inventory Status','Last Updated','Release Reason','Orders'];
   const rows=DATA.map(r=>[r.resId,r.sku,r.area,r.uom,r.reservedQty,r.ageMinutes,r.status,r.updatedAt,r.releaseReason||'',r.orders.map(o=>o.ordId).join('|')]);
   const csv=[hdr,...rows].map(r=>r.join(',')).join('\n');
   const a=document.createElement('a');a.href='data:text/csv,'+encodeURIComponent(csv);a.download=`reservation_${new Date().toISOString().slice(0,10)}.csv`;a.click();
   showToast('CSV exported','green');
 }
-function openModal(id) { document.getElementById(id).classList.add('open'); }
+
+// ── Utilities
+function openModal(id)  { document.getElementById(id).classList.add('open'); }
 function closeModal(id) { document.getElementById(id).classList.remove('open'); }
-function showToast(msg,color) {
+function showToast(msg, color) {
   const t=document.getElementById('toast');
   document.getElementById('toastMsg').textContent=msg;
   document.getElementById('toastDot').className='toast-dot '+(color==='red'?'td-red':'td-green');
-  t.classList.add('show'); setTimeout(()=>t.classList.remove('show'),3200);
+  t.classList.add('show');
+  setTimeout(()=>t.classList.remove('show'),3200);
 }
+
 renderTable();
 </script>
 </body>
