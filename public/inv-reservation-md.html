@@ -336,13 +336,9 @@ input[type=checkbox] { width: 14px; height: 14px; accent-color: #e65c00; cursor:
     <span class="flabel">Status</span>
     <select class="fselect" id="fStatus" onchange="this.classList.toggle('factive',!!this.value);renderTable()" style="min-width:160px">
       <option value="">All Statuses</option>
-      <option value="reserved-for-picking">Reserved for Picking</option>
-      <option value="picking">Picking</option>
-      <option value="blocked-by-audit">Blocked by Audit</option>
-      <option value="order-short-picked">Order Short-picked</option>
-      <option value="reservation-released">Reservation Released</option>
-      <option value="reservation-expired">Reservation Expired</option>
-      <option value="order-completed">Order Completed</option>
+      <option value="active">Active (Reserved · Picking)</option>
+      <option value="attention">Needs Attention (Audit · Short-picked)</option>
+      <option value="closed">Closed (Released · Expired · Completed)</option>
     </select>
 
     <div class="fdiv"></div>
@@ -774,7 +770,14 @@ function renderTable() {
   const fResQtyMax = document.getElementById('fResQtyMax').value;
 
   const filtered = DATA.filter(r => {
-    if (fStatus && r.status !== fStatus) return false;
+    if (fStatus) {
+      const activeS    = ['reserved-for-picking','picking'];
+      const attentionS = ['blocked-by-audit','order-short-picked'];
+      const closedS    = ['reservation-released','reservation-expired','order-completed'];
+      if (fStatus === 'active'    && !activeS.includes(r.status))    return false;
+      if (fStatus === 'attention' && !attentionS.includes(r.status)) return false;
+      if (fStatus === 'closed'    && !closedS.includes(r.status))    return false;
+    }
     if (fResId  && !r.resId.toLowerCase().includes(fResId)) return false;
     if (fSku    && !r.sku.toLowerCase().includes(fSku)) return false;
     if (fNoOrd) { if (r.orders.length > 0) return false; }
