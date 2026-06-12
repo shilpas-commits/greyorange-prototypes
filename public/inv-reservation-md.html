@@ -431,13 +431,13 @@ input[type=checkbox] { width: 14px; height: 14px; accent-color: #e65c00; cursor:
 
 <!-- RELEASE MODAL -->
 <div class="modal-overlay" id="releaseModal">
-  <div class="modal">
+  <div class="modal" style="width:500px">
     <div class="modal-hdr">
-      <div class="modal-title">Release Reservation</div>
+      <div class="modal-title" id="releaseModalTitle">Release Reservation</div>
       <button class="modal-close" onclick="closeModal('releaseModal')">×</button>
     </div>
     <div class="modal-body">
-      <div class="modal-info-box" id="releaseInfo"></div>
+      <div id="releaseResItems"></div>
       <div>
         <div class="modal-lbl">Reason <span class="req">*</span></div>
         <select class="modal-select" id="releaseReason">
@@ -456,12 +456,12 @@ input[type=checkbox] { width: 14px; height: 14px; accent-color: #e65c00; cursor:
       </div>
       <div class="modal-warn">
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M10.29 3.86L1.82 18a2 2 0 001.71 3h16.94a2 2 0 001.71-3L13.71 3.86a2 2 0 00-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>
-        Releasing immediately restores ATP. Cannot release if any child order is currently being picked.
+        Releasing immediately restores ATP. Cannot release if any order is currently being picked.
       </div>
     </div>
     <div class="modal-footer">
       <button class="btn btn-secondary" onclick="closeModal('releaseModal')">Cancel</button>
-      <button class="btn btn-danger" onclick="confirmRelease()">Confirm Release</button>
+      <button class="btn btn-danger" id="confirmReleaseBtn" onclick="confirmRelease()">Confirm Release</button>
     </div>
   </div>
 </div>
@@ -930,24 +930,67 @@ function toggleSku(sku) {
 // ── Release
 function openRelease(resId) {
   const r = DATA.find(x => x.resId === resId);
-  modalCtx = { type: 'release', resId };
-  document.getElementById('releaseInfo').innerHTML = `
-    <div class="modal-info-row"><span class="mik">Reservation ID</span><span class="miv">${r.resId}</span></div>
-    <div class="modal-info-row"><span class="mik">SKU</span><span class="miv">${r.sku}</span></div>
-    <div class="modal-info-row"><span class="mik">Reserved Qty</span><span class="miv">${r.reservedQty} ${r.uom}</span></div>
-    <div class="modal-info-row"><span class="mik">Orders against this</span><span class="miv">${r.orders.length > 0 ? r.orders.map(o=>o.ordId).join(', ') : '— none'}</span></div>`;
+  // All releasable reservations for the same SKU
+  const releasable = DATA.filter(x =>
+    x.sku === r.sku && ['reserved-for-picking','blocked-by-audit'].includes(x.status)
+  );
+  const isMulti = releasable.length > 1;
+  modalCtx = { type: 'release', sku: r.sku, triggeredResId: resId };
+
+  document.getElementById('releaseModalTitle').textContent =
+    isMulti ? `Release Reservation — SKU ${r.sku}` : 'Release Reservation';
+
+  // Build checklist: triggered res pre-checked, others available to check
+  let itemsHtml = `<div style="display:flex;flex-direction:column;gap:6px;margin-bottom:2px">`;
+  releasable.forEach(res => {
+    const isTarget = res.resId === resId;
+    const ordLabel = res.orders.length > 0
+      ? res.orders.map(o => o.ordId).join(', ')
+      : '— no order';
+    itemsHtml += `
+      <label style="display:flex;align-items:flex-start;gap:10px;background:${isTarget?'#fff5f0':'#f8f9fb'};border:1px solid ${isTarget?'#e65c00':'#e0e3ea'};border-radius:5px;padding:9px 12px;cursor:pointer">
+        <input type="checkbox" id="chk_${res.resId}" ${isTarget?'checked':''} style="margin-top:2px;accent-color:#e65c00;width:14px;height:14px;flex-shrink:0">
+        <div style="display:flex;flex-direction:column;gap:3px;flex:1">
+          <div style="display:flex;justify-content:space-between;align-items:center">
+            <span style="font-family:'Courier New',monospace;font-size:12px;font-weight:700;color:#1a2340">${res.resId}</span>
+            ${invBadge(res.status)}
+          </div>
+          <div style="font-size:11px;color:#8a93a8">Order ID: <span style="font-family:'Courier New',monospace;color:#1565c0">${ordLabel}</span> &nbsp;·&nbsp; Qty: <strong>${res.reservedQty} ${res.uom}</strong></div>
+        </div>
+      </label>`;
+  });
+  itemsHtml += `</div>`;
+  if (isMulti) {
+    itemsHtml = `<div style="font-size:12px;color:#5a6270;margin-bottom:8px">Select reservation(s) to release for <strong>SKU ${r.sku}</strong>:</div>` + itemsHtml;
+  }
+
+  document.getElementById('releaseResItems').innerHTML = itemsHtml;
+  document.getElementById('confirmReleaseBtn').textContent = isMulti ? 'Confirm Release' : 'Confirm Release';
   document.getElementById('releaseReason').value = '';
   document.getElementById('releaseNote').value = '';
   openModal('releaseModal');
 }
+
 function confirmRelease() {
   if (!document.getElementById('releaseReason').value) {
     document.getElementById('releaseReason').style.borderColor='#c62828';
     setTimeout(()=>document.getElementById('releaseReason').style.borderColor='',2000);
     return;
   }
+  // Collect all checked reservation IDs
+  const releasable = DATA.filter(x =>
+    x.sku === modalCtx.sku && ['reserved-for-picking','blocked-by-audit'].includes(x.status)
+  );
+  const selected = releasable.filter(r => {
+    const chk = document.getElementById(`chk_${r.resId}`);
+    return chk && chk.checked;
+  });
   closeModal('releaseModal');
-  showToast(`${modalCtx.resId} released — ATP restored`, 'green');
+  if (selected.length === 1) {
+    showToast(`${selected[0].resId} released — ATP restored`, 'green');
+  } else {
+    showToast(`${selected.length} reservations released for SKU ${modalCtx.sku}`, 'green');
+  }
 }
 
 // ── Cancel order
