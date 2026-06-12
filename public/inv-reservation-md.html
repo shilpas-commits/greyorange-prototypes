@@ -401,7 +401,7 @@ input[type=checkbox] { width: 14px; height: 14px; accent-color: #e65c00; cursor:
         <thead>
           <tr>
             <th style="width:32px"></th><!-- expand -->
-            <th>Reservation ID</th>
+            <th>Reservation ID / Order ID</th>
             <th>SKU</th>
             <th>Inventory Tags</th>
             <th>Area</th>
@@ -857,7 +857,7 @@ function renderTable() {
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="9 18 15 12 9 6"/></svg>
         </button>
       </td>
-      <td><span class="res-id">${r.resId}</span></td>
+      <td><span class="res-id" style="color:#b0b7c3;font-weight:400">${r.resId}</span></td>
       <td><span style="font-weight:600">${r.sku}</span></td>
       <td><div class="tag-wrap">${r.tags.map(t=>`<span class="tag ${tagCls(t.k)}">${t.v}</span>`).join('')}</div></td>
       <td><span class="area-badge area-${r.area}">${r.area}</span></td>
@@ -881,7 +881,7 @@ function renderTable() {
         // Sub-header row for child columns
         html += `<tr class="order-row order-hdr-row">
           <td></td>
-          <td style="padding-left:36px;font-size:10px;font-weight:700;color:#b0b7c3;text-transform:uppercase;letter-spacing:.06em">Order ID</td>
+          <td style="padding-left:36px;font-size:10px;font-weight:700;color:#b0b7c3;text-transform:uppercase;letter-spacing:.06em">Reservation ID / Order ID</td>
           <td colspan="4"></td>
           <td style="text-align:right;font-size:10px;font-weight:700;color:#b0b7c3;text-transform:uppercase;letter-spacing:.06em">Qty</td>
           <td></td>
@@ -903,7 +903,7 @@ function renderTable() {
           html += `<tr class="order-row">
             <td></td>
             <td style="padding-left:36px">
-              <span style="font-size:10px;font-weight:700;color:#b0b7c3;text-transform:uppercase;letter-spacing:.06em;margin-right:6px">ORDER</span>
+              <div style="font-family:'Courier New',monospace;font-size:11px;color:#b0b7c3;font-weight:600;margin-bottom:2px">${r.resId}</div>
               <span class="ord-id">${o.ordId}</span>
             </td>
             <td colspan="4"></td>
