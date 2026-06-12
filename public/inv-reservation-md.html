@@ -401,8 +401,8 @@ input[type=checkbox] { width: 14px; height: 14px; accent-color: #e65c00; cursor:
         <thead>
           <tr>
             <th style="width:32px"></th><!-- expand -->
-            <th>Reservation ID / Order ID</th>
-            <th>SKU</th>
+            <th>SKU / Reservation ID</th>
+            <th>Order ID</th>
             <th>Inventory Tags</th>
             <th>Area</th>
             <th>UoM</th>
@@ -746,14 +746,14 @@ function ordStatusBadge(s) {
 function priCls(p) { return p==='Critical'?'pri-critical':'pri-normal'; }
 function tagCls(k) { return k==='channel'?'tag-channel':k==='lot'?'tag-lot':k==='expiry'?'tag-expiry':'tag-attr'; }
 
-// ── Expanded state
-const expanded = new Set();
+// ── Expanded state (SKU level)
+const expandedSkus = new Set();
 
 // ── Modal context
 let modalCtx = {};
 
 // ── Tile filter state
-let activeTileFilter = ''; // '' | 'total' | 'attention'
+let activeTileFilter = '';
 
 function setTileFilter(tile) {
   activeTileFilter = activeTileFilter === tile ? '' : tile;
@@ -764,13 +764,13 @@ function setTileFilter(tile) {
 
 // ── Render
 function renderTable() {
-  const fStatus = document.getElementById('fStatus').value;
-  const fResId  = document.getElementById('fResId').value.toLowerCase().trim();
-  const fOrder  = document.getElementById('fOrder').value.toLowerCase().trim();
-  const fNoOrd  = document.getElementById('fNoOrder').checked;
-  const fSku    = document.getElementById('fSku').value.toLowerCase().trim();
-  const fAge    = document.getElementById('fAge').value;
-  const fAtp    = document.getElementById('fAtp').value;
+  const fStatus    = document.getElementById('fStatus').value;
+  const fResId     = document.getElementById('fResId').value.toLowerCase().trim();
+  const fOrder     = document.getElementById('fOrder').value.toLowerCase().trim();
+  const fNoOrd     = document.getElementById('fNoOrder').checked;
+  const fSku       = document.getElementById('fSku').value.toLowerCase().trim();
+  const fAge       = document.getElementById('fAge').value;
+  const fAtp       = document.getElementById('fAtp').value;
   const fResQtyMin = document.getElementById('fResQtyMin').value;
   const fResQtyMax = document.getElementById('fResQtyMax').value;
 
@@ -795,7 +795,6 @@ function renderTable() {
     }
     if (fResQtyMin !== '' && r.reservedQty < Number(fResQtyMin)) return false;
     if (fResQtyMax !== '' && r.reservedQty > Number(fResQtyMax)) return false;
-    // Tile filter: Needs Attention = stale RFP | low ATP | blocked-by-audit | reservation-released
     if (activeTileFilter === 'attention') {
       const isStale     = r.status === 'reserved-for-picking' && r.ageMinutes >= 480;
       const isLowAtp    = skuAtp(r.sku).atp < 20;
@@ -805,128 +804,126 @@ function renderTable() {
     return true;
   });
 
-  // Needs Attention: count distinct reservation IDs where any signal fires.
-  // Signals: stale (RFP > 8hrs) | low ATP (< 20) | bad terminal status (blocked-by-audit | reservation-released)
-  // Each reservation ID counted once regardless of how many signals it triggers.
+  // Needs Attention count
   const attentionIds = new Set(DATA.filter(r => {
     const isStale     = r.status === 'reserved-for-picking' && r.ageMinutes >= 480;
     const isLowAtp    = skuAtp(r.sku).atp < 20;
     const isBadStatus = ['blocked-by-audit','order-short-picked','reservation-released','reservation-expired'].includes(r.status);
     return isStale || isLowAtp || isBadStatus;
   }).map(r => r.resId));
-  const attention = attentionIds.size;
 
-  // Total = rows currently shown (matches the table)
+  // Group filtered reservations by SKU
+  const skuMap = {};
+  filtered.forEach(r => { if (!skuMap[r.sku]) skuMap[r.sku] = []; skuMap[r.sku].push(r); });
+  const skuKeys = Object.keys(skuMap);
+
   document.getElementById('sTotal').textContent     = DATA.length;
-  document.getElementById('sAttention').textContent = attention;
-  document.getElementById('tCount').textContent     = `${filtered.length} reservation${filtered.length!==1?'s':''}`;
+  document.getElementById('sAttention').textContent = attentionIds.size;
+  document.getElementById('tCount').textContent     = `${skuKeys.length} SKU${skuKeys.length!==1?'s':''}, ${filtered.length} reservation${filtered.length!==1?'s':''}`;
   document.getElementById('pagInfo').textContent    = `${filtered.length} result${filtered.length!==1?'s':''}`;
 
   const tbody = document.getElementById('tableBody');
-  if (!filtered.length) {
+  if (!skuKeys.length) {
     tbody.innerHTML = `<tr class="empty-row"><td colspan="12">No reservations match the current filters.</td></tr>`;
     return;
   }
 
   let html = '';
-  filtered.forEach((r, fi) => {
-    const isExp = expanded.has(r.resId);
-    const a = ageFmt(r.ageMinutes);
-    const isReleasable = r.status === 'reserved-for-picking' || r.status === 'blocked-by-audit';
-    const { atp } = skuAtp(r.sku);
+  skuKeys.forEach(sku => {
+    const reservations = skuMap[sku];
+    const isExp = expandedSkus.has(sku);
+    const { atp } = skuAtp(sku);
     const atpLow = atp < 20;
-    const atpCell = `<div class="atp-line ${atpLow ? 'atp-warn' : 'atp-ok'}">
-        ${atpLow ? `<span class="atp-warn-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M10.29 3.86L1.82 18a2 2 0 001.71 3h16.94a2 2 0 001.71-3L13.71 3.86a2 2 0 00-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg></span>` : ''}${atp}
-      </div>`;
+    const totalQty = reservations.reduce((s, r) => s + r.reservedQty, 0);
 
-    // Updated cell: show reason below if released
-    const updCell = `<div class="updated-main">${r.updatedAt}</div>${r.releaseReason ? `<div class="updated-reason">${r.releaseReason}</div>` : ''}`;
+    // Deduplicated tags across all reservations for this SKU
+    const tagSeen = new Set();
+    const allTags = [];
+    reservations.forEach(r => r.tags.forEach(t => {
+      const k = `${t.k}:${t.v}`;
+      if (!tagSeen.has(k)) { tagSeen.add(k); allTags.push(t); }
+    }));
 
-    // Primary actions
-    const releaseDisabled = !isReleasable;
-    const releaseBtn = `<button class="btn-release" ${releaseDisabled?'disabled':''} onclick="event.stopPropagation();openRelease('${r.resId}')">
-      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="15" y1="9" x2="9" y2="15"/><line x1="9" y1="9" x2="15" y2="15"/></svg>Release
-    </button>`;
-    const histBtn = `<button class="btn-view" onclick="event.stopPropagation();openHistory('${r.resId}')">
-      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>View History
-    </button>`;
+    const atpCell = `<div class="atp-line ${atpLow?'atp-warn':'atp-ok'}">${atpLow?`<span class="atp-warn-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M10.29 3.86L1.82 18a2 2 0 001.71 3h16.94a2 2 0 001.71-3L13.71 3.86a2 2 0 00-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg></span>`:''  }${atp}</div>`;
 
-    html += `<tr class="res-row${isExp?' expanded':''}" onclick="toggleExpand('${r.resId}')">
+    // SKU parent row
+    html += `<tr class="res-row${isExp?' expanded':''}" onclick="toggleSku('${sku}')">
       <td style="padding-left:12px">
-        <button class="expand-btn${isExp?' open':''}" onclick="event.stopPropagation();toggleExpand('${r.resId}')">
+        <button class="expand-btn${isExp?' open':''}" onclick="event.stopPropagation();toggleSku('${sku}')">
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="9 18 15 12 9 6"/></svg>
         </button>
       </td>
-      <td><span class="res-id" style="color:#b0b7c3;font-weight:400">${r.resId}</span></td>
-      <td><span style="font-weight:600">${r.sku}</span></td>
-      <td><div class="tag-wrap">${r.tags.map(t=>`<span class="tag ${tagCls(t.k)}">${t.v}</span>`).join('')}</div></td>
-      <td><span class="area-badge area-${r.area}">${r.area}</span></td>
-      <td><span class="tag tag-attr">${r.uom}</span></td>
-      <td style="text-align:right"><span style="font-size:13px;font-weight:600;color:#1a2340">${r.reservedQty}</span></td>
+      <td>
+        <span style="font-family:'Courier New',monospace;font-size:13px;font-weight:700;color:#1a2340">${sku}</span>
+        <span style="font-size:11px;color:#8a93a8;margin-left:8px">${reservations.length} reservation${reservations.length!==1?'s':''}</span>
+      </td>
+      <td>—</td>
+      <td><div class="tag-wrap">${allTags.map(t=>`<span class="tag ${tagCls(t.k)}">${t.v}</span>`).join('')}</div></td>
+      <td>${[...new Set(reservations.map(r=>r.area))].map(a=>`<span class="area-badge area-${a}">${a}</span>`).join(' ')}</td>
+      <td>${[...new Set(reservations.map(r=>r.uom))].map(u=>`<span class="tag tag-attr">${u}</span>`).join(' ')}</td>
+      <td style="text-align:right"><span style="font-size:13px;font-weight:700;color:#1a2340">${totalQty}</span></td>
       <td style="text-align:right">${atpCell}</td>
-      <td><span class="age-cell ${a.cls}">${a.text}</span></td>
-      <td>${invBadge(r.status)}</td>
-      <td>${updCell}</td>
-      <td><div class="act-group">${releaseBtn}${histBtn}</div></td>
+      <td>—</td>
+      <td>—</td>
+      <td>—</td>
+      <td></td>
     </tr>`;
 
-    // Child order rows (shown when expanded)
-    if (isExp) {
-      if (r.orders.length === 0) {
-        html += `<tr class="order-row">
-          <td></td>
-          <td colspan="11" style="padding-left:36px;font-size:12px;color:#9ca3af;font-style:italic">No order placed yet against this reservation</td>
-        </tr>`;
-      } else {
-        // Sub-header row for child columns
-        html += `<tr class="order-row order-hdr-row">
-          <td></td>
-          <td style="padding-left:36px;font-size:10px;font-weight:700;color:#b0b7c3;text-transform:uppercase;letter-spacing:.06em">Reservation ID / Order ID</td>
-          <td colspan="4"></td>
-          <td style="text-align:right;font-size:10px;font-weight:700;color:#b0b7c3;text-transform:uppercase;letter-spacing:.06em">Qty</td>
-          <td></td>
-          <td style="font-size:10px;font-weight:700;color:#b0b7c3;text-transform:uppercase;letter-spacing:.06em">PBT</td>
-          <td style="font-size:10px;font-weight:700;color:#b0b7c3;text-transform:uppercase;letter-spacing:.06em">Order Status</td>
-          <td style="font-size:10px;font-weight:700;color:#b0b7c3;text-transform:uppercase;letter-spacing:.06em">Priority</td>
-          <td style="font-size:10px;font-weight:700;color:#b0b7c3;text-transform:uppercase;letter-spacing:.06em">Actions</td>
-        </tr>`;
-        r.orders.forEach(o => {
-          const p = pbtInfo(o.pbt);
-          const canCancel = o.orderStatus === 'open';
-          const cancelBtn = `<button class="btn-cancel-ord" ${canCancel?'':'disabled style="opacity:0.35;cursor:not-allowed"'} onclick="event.stopPropagation();openCancel('${o.ordId}','${r.resId}')">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="15" y1="9" x2="9" y2="15"/><line x1="9" y1="9" x2="15" y2="15"/></svg>Cancel Order
-          </button>`;
-          const pbtBtn = `<button class="btn-pbt" onclick="event.stopPropagation();openPbt('${o.ordId}','${p.abs}')">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>Change PBT
-          </button>`;
-          // 12 cols: expand | Res.ID | SKU | Tags | Area | UoM | Res.Qty | ATP | Res.Age | Inv.Status | Last Updated | Actions
-          html += `<tr class="order-row">
-            <td></td>
-            <td style="padding-left:36px">
-              <div style="font-family:'Courier New',monospace;font-size:11px;color:#b0b7c3;font-weight:600;margin-bottom:2px">${r.resId}</div>
-              <span class="ord-id">${o.ordId}</span>
-            </td>
-            <td colspan="4"></td>
-            <td style="text-align:right"><span style="font-size:12px;color:#5a6270">${o.qty ?? 1}</span></td>
-            <td></td>
-            <td>
-              <div class="pbt-val ${p.cls}">${p.abs}</div>
-              <div class="pbt-sub ${p.cls}">${p.rel}</div>
-            </td>
-            <td>${ordStatusBadge(o.orderStatus)}</td>
-            <td><span class="pri-badge ${priCls(o.pri)}">${o.pri}</span></td>
-            <td><div class="act-group">${cancelBtn}${pbtBtn}</div></td>
-          </tr>`;
-        });
-      }
-    }
+    if (!isExp) return;
+
+    // Child sub-header
+    html += `<tr class="order-row order-hdr-row">
+      <td></td>
+      <td style="padding-left:36px;font-size:10px;font-weight:700;color:#b0b7c3;text-transform:uppercase;letter-spacing:.06em">Reservation ID</td>
+      <td style="font-size:10px;font-weight:700;color:#b0b7c3;text-transform:uppercase;letter-spacing:.06em">Order ID</td>
+      <td></td>
+      <td style="font-size:10px;font-weight:700;color:#b0b7c3;text-transform:uppercase;letter-spacing:.06em">Area</td>
+      <td style="font-size:10px;font-weight:700;color:#b0b7c3;text-transform:uppercase;letter-spacing:.06em">UoM</td>
+      <td style="text-align:right;font-size:10px;font-weight:700;color:#b0b7c3;text-transform:uppercase;letter-spacing:.06em">Qty</td>
+      <td></td>
+      <td style="font-size:10px;font-weight:700;color:#b0b7c3;text-transform:uppercase;letter-spacing:.06em">Res. Age</td>
+      <td style="font-size:10px;font-weight:700;color:#b0b7c3;text-transform:uppercase;letter-spacing:.06em">Status</td>
+      <td style="font-size:10px;font-weight:700;color:#b0b7c3;text-transform:uppercase;letter-spacing:.06em">Last Updated</td>
+      <td style="font-size:10px;font-weight:700;color:#b0b7c3;text-transform:uppercase;letter-spacing:.06em">Actions</td>
+    </tr>`;
+
+    // Flat child rows — one per reservation, Order ID alongside Res ID (1:1)
+    reservations.forEach(r => {
+      const a = ageFmt(r.ageMinutes);
+      const isReleasable = r.status === 'reserved-for-picking' || r.status === 'blocked-by-audit';
+      const updCell = `<div class="updated-main">${r.updatedAt}</div>${r.releaseReason?`<div class="updated-reason">${r.releaseReason}</div>`:''}`;
+      const ordCell = r.orders.length > 0
+        ? r.orders.map(o => `<span class="ord-id" style="display:block">${o.ordId}</span>`).join('')
+        : `<span style="font-size:12px;color:#b0b7c3;font-style:italic">— no order</span>`;
+      const releaseBtn = `<button class="btn-release" ${isReleasable?'':'disabled'} onclick="event.stopPropagation();openRelease('${r.resId}')">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="15" y1="9" x2="9" y2="15"/><line x1="9" y1="9" x2="15" y2="15"/></svg>Release
+      </button>`;
+      const histBtn = `<button class="btn-view" onclick="event.stopPropagation();openHistory('${r.resId}')">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>View History
+      </button>`;
+
+      html += `<tr class="order-row">
+        <td></td>
+        <td style="padding-left:36px"><span class="res-id">${r.resId}</span></td>
+        <td>${ordCell}</td>
+        <td></td>
+        <td><span class="area-badge area-${r.area}">${r.area}</span></td>
+        <td><span class="tag tag-attr">${r.uom}</span></td>
+        <td style="text-align:right"><span style="font-size:12px;font-weight:600;color:#1a2340">${r.reservedQty}</span></td>
+        <td></td>
+        <td><span class="age-cell ${a.cls}">${a.text}</span></td>
+        <td>${invBadge(r.status)}</td>
+        <td>${updCell}</td>
+        <td><div class="act-group">${releaseBtn}${histBtn}</div></td>
+      </tr>`;
+    });
   });
 
   tbody.innerHTML = html;
 }
 
-function toggleExpand(resId) {
-  if (expanded.has(resId)) expanded.delete(resId); else expanded.add(resId);
+function toggleSku(sku) {
+  if (expandedSkus.has(sku)) expandedSkus.delete(sku); else expandedSkus.add(sku);
   renderTable();
 }
 
