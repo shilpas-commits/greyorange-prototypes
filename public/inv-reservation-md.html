@@ -690,6 +690,19 @@ const DATA = [
       {dot:'dot-r',title:'Reservation released',detail:'Reallocate to priority order — released by WM',time:'08 Jun, 07:01'},
     ]
   },
+  {
+    resId: 'RES-10032', sku: '84150', tags: [{v:'ecom',k:'channel'},{v:'LOT-2026-05',k:'lot'}],
+    area: 'reserve', uom: 'Case', reservedQty: 1, ageMinutes: 178,
+    status: 'reservation-released', updatedAt: '08 Jun, 08:15', releaseReason: 'Order cancelled by customer — reservation automatically released',
+    orders: [
+      { ordId:'ORD-10752110', pri:'Normal', pbt:320, orderStatus:'cancelled' }
+    ],
+    history:[
+      {dot:'dot-c',title:'Reservation created',detail:'1 unit locked — order confirmed',time:'08 Jun, 05:17'},
+      {dot:'dot-x',title:'Order cancelled',detail:'Cancellation received from OMS — ORD-10752110',time:'08 Jun, 08:14'},
+      {dot:'dot-r',title:'Reservation released',detail:'Order cancelled by customer — reservation automatically released',time:'08 Jun, 08:15'},
+    ]
+  },
 ];
 
 // ── SKU INVENTORY MASTER (on-hand per SKU)
