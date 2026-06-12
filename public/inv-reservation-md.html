@@ -845,12 +845,34 @@ function renderTable() {
 
     const atpCell = `<div class="atp-line ${atpLow?'atp-warn':'atp-ok'}">${atpLow?`<span class="atp-warn-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M10.29 3.86L1.82 18a2 2 0 001.71 3h16.94a2 2 0 001.71-3L13.71 3.86a2 2 0 00-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg></span>`:''}${atp}</div>`;
 
-    // SKU parent row — SKU-level data only: Tags, Area, UoM, Total Qty, ATP, Release
+    // ── SKU-level summaries
     const anyReleasable = reservations.some(r => ['reserved-for-picking','blocked-by-audit'].includes(r.status));
     const firstReleasable = reservations.find(r => ['reserved-for-picking','blocked-by-audit'].includes(r.status));
     const skuReleaseBtn = `<button class="btn-release" ${anyReleasable?'':'disabled'} onclick="event.stopPropagation();openRelease('${firstReleasable?.resId||reservations[0].resId}')">
       <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="15" y1="9" x2="9" y2="15"/><line x1="9" y1="9" x2="15" y2="15"/></svg>Release
     </button>`;
+
+    // Res. Age — oldest reservation age (most stale)
+    const oldestMins = Math.max(...reservations.map(r => r.ageMinutes));
+    const oldestAge  = ageFmt(oldestMins);
+
+    // Status summary — group into active vs attention vs terminal
+    const activeStatuses    = ['reserved-for-picking','picking'];
+    const attentionStatuses = ['blocked-by-audit','order-short-picked'];
+    const terminalStatuses  = ['reservation-released','reservation-expired','order-completed'];
+    const activeCount    = reservations.filter(r => activeStatuses.includes(r.status)).length;
+    const attentionCount = reservations.filter(r => attentionStatuses.includes(r.status)).length;
+    const terminalCount  = reservations.filter(r => terminalStatuses.includes(r.status)).length;
+    const summaryParts   = [];
+    if (activeCount)    summaryParts.push(`<span style="font-size:11px;font-weight:600;color:#1565c0;background:#e3f2fd;border:1px solid #bbdefb;border-radius:3px;padding:1px 7px">${activeCount} Active</span>`);
+    if (attentionCount) summaryParts.push(`<span style="font-size:11px;font-weight:600;color:#c62828;background:#ffebee;border:1px solid #ef9a9a;border-radius:3px;padding:1px 7px">${attentionCount} Needs Attention</span>`);
+    if (terminalCount)  summaryParts.push(`<span style="font-size:11px;font-weight:600;color:#5a6270;background:#f1f3f4;border:1px solid #e0e3ea;border-radius:3px;padding:1px 7px">${terminalCount} Closed</span>`);
+    const statusSummary = summaryParts.join(' ');
+
+    // Last Updated — most recent across all reservations
+    const latestUpdate = reservations
+      .map(r => r.updatedAt)
+      .sort((a,b) => b.localeCompare(a))[0];
 
     html += `<tr class="res-row${isExp?' expanded':''}" onclick="toggleSku('${sku}')">
       <td style="padding-left:12px">
@@ -867,9 +889,9 @@ function renderTable() {
       <td>${[...new Set(reservations.map(r=>r.uom))].map(u=>`<span class="tag tag-attr">${u}</span>`).join(' ')}</td>
       <td style="text-align:right"><span style="font-size:13px;font-weight:700;color:#1a2340">${totalQty}</span></td>
       <td style="text-align:right">${atpCell}</td>
-      <td></td>
-      <td></td>
-      <td></td>
+      <td><span class="age-cell ${oldestAge.cls}">${oldestAge.text}</span></td>
+      <td><div style="display:flex;gap:4px;flex-wrap:wrap">${statusSummary}</div></td>
+      <td><div class="updated-main">${latestUpdate}</div></td>
       <td><div class="act-group">${skuReleaseBtn}</div></td>
     </tr>`;
 
