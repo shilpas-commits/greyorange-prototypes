@@ -339,7 +339,7 @@ input[type=checkbox] { width: 14px; height: 14px; accent-color: #e65c00; cursor:
       <option value="reserved-for-picking">Reserved for Picking</option>
       <option value="picking">Picking</option>
       <option value="blocked-by-audit">Blocked by Audit</option>
-      <option value="order-short-picked">Short Pick</option>
+      <option value="order-short-picked">Unfulfillable</option>
       <option value="reservation-released">Reservation Released</option>
       <option value="reservation-expired">Reservation Expired</option>
       <option value="order-completed">Fulfilled</option>
@@ -729,7 +729,7 @@ function invBadge(s, suffix = '') {
     'reserved-for-picking': ['inv-rfp',       'Reserved for Picking'],
     'picking':              ['inv-picking',    'Picking'],
     'blocked-by-audit':     ['inv-audit',      'Blocked by Audit'],
-    'order-short-picked':   ['inv-shortpick',  'Short Pick'],
+    'order-short-picked':   ['inv-shortpick',  'Unfulfillable'],
     'reservation-released': ['inv-released',   'Reservation Released'],
     'reservation-expired':  ['inv-expired',    'Reservation Expired'],
     'order-completed':      ['inv-completed',  'Fulfilled'],
