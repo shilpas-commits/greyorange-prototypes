@@ -860,7 +860,7 @@ function renderTable() {
     const statusCounts = {};
     reservations.forEach(r => { statusCounts[r.status] = (statusCounts[r.status] || 0) + 1; });
     const statusSummary = Object.entries(statusCounts)
-      .map(([s, n]) => invBadge(s, n > 1 ? ` ×${n}` : ''))
+      .map(([s, n]) => invBadge(s, ` ×${n}`))
       .join(' ');
 
     // Last Updated — most recent across all reservations
