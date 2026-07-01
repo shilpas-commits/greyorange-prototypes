@@ -807,7 +807,7 @@ function renderTable() {
   const attentionIds = new Set(DATA.filter(r => {
     const isStale     = r.status === 'reserved-for-picking' && r.ageMinutes >= 480;
     const isLowAtp    = skuAtp(r.sku).atp < 20;
-    const isBadStatus = r.status === 'reservation-expired';
+    const isBadStatus = ['blocked-by-audit','order-short-picked','reservation-released','reservation-expired'].includes(r.status);
     return isStale || isLowAtp || isBadStatus;
   }).map(r => r.resId));
 
