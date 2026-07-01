@@ -795,21 +795,15 @@ function renderTable() {
     if (fResQtyMin !== '' && r.reservedQty < Number(fResQtyMin)) return false;
     if (fResQtyMax !== '' && r.reservedQty > Number(fResQtyMax)) return false;
     if (activeTileFilter === 'attention') {
-      const isStale     = r.status === 'reserved-for-picking' && r.ageMinutes >= 480;
-      const isLowAtp    = skuAtp(r.sku).atp < 20;
-      const isBadStatus = ['blocked-by-audit','order-short-picked','reservation-released','reservation-expired'].includes(r.status);
-      if (!isStale && !isLowAtp && !isBadStatus) return false;
+      if (!['blocked-by-audit','order-short-picked','reservation-expired'].includes(r.status)) return false;
     }
     return true;
   });
 
   // Needs Attention count
-  const attentionIds = new Set(DATA.filter(r => {
-    const isStale     = r.status === 'reserved-for-picking' && r.ageMinutes >= 480;
-    const isLowAtp    = skuAtp(r.sku).atp < 20;
-    const isBadStatus = ['blocked-by-audit','order-short-picked','reservation-released','reservation-expired'].includes(r.status);
-    return isStale || isLowAtp || isBadStatus;
-  }).map(r => r.resId));
+  const attentionIds = new Set(DATA
+    .filter(r => ['blocked-by-audit','order-short-picked','reservation-expired'].includes(r.status))
+    .map(r => r.resId));
 
   // Group filtered reservations by SKU
   const skuMap = {};
