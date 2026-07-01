@@ -797,7 +797,7 @@ function renderTable() {
     if (activeTileFilter === 'attention') {
       const isStale     = r.status === 'reserved-for-picking' && r.ageMinutes >= 480;
       const isLowAtp    = skuAtp(r.sku).atp < 20;
-      const isBadStatus = ['blocked-by-audit','order-short-picked','reservation-released','reservation-expired'].includes(r.status);
+      const isBadStatus = r.status === 'reservation-expired';
       if (!isStale && !isLowAtp && !isBadStatus) return false;
     }
     return true;
@@ -807,7 +807,7 @@ function renderTable() {
   const attentionIds = new Set(DATA.filter(r => {
     const isStale     = r.status === 'reserved-for-picking' && r.ageMinutes >= 480;
     const isLowAtp    = skuAtp(r.sku).atp < 20;
-    const isBadStatus = ['blocked-by-audit','order-short-picked','reservation-released','reservation-expired'].includes(r.status);
+    const isBadStatus = r.status === 'reservation-expired';
     return isStale || isLowAtp || isBadStatus;
   }).map(r => r.resId));
 
