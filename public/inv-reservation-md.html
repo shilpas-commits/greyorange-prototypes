@@ -336,9 +336,13 @@ input[type=checkbox] { width: 14px; height: 14px; accent-color: #e65c00; cursor:
     <span class="flabel">Status</span>
     <select class="fselect" id="fStatus" onchange="this.classList.toggle('factive',!!this.value);renderTable()" style="min-width:160px">
       <option value="">All Statuses</option>
-      <option value="active">Active (Reserved · Picking)</option>
-      <option value="attention">Needs Attention (Audit · Short-picked)</option>
-      <option value="closed">Closed (Released · Expired · Completed)</option>
+      <option value="reserved-for-picking">Reserved for Picking</option>
+      <option value="picking">Picking</option>
+      <option value="blocked-by-audit">Blocked by Audit</option>
+      <option value="order-short-picked">Order Short-picked</option>
+      <option value="reservation-released">Reservation Released</option>
+      <option value="reservation-expired">Reservation Expired</option>
+      <option value="order-completed">Order Completed</option>
     </select>
 
     <div class="fdiv"></div>
@@ -720,7 +724,7 @@ function skuAtp(sku) {
     .reduce((s, r) => s + r.reservedQty, 0);
   return { onhand, locked, atp: onhand - locked };
 }
-function invBadge(s) {
+function invBadge(s, suffix = '') {
   const map = {
     'reserved-for-picking': ['inv-rfp',       'Reserved for Picking'],
     'picking':              ['inv-picking',    'Picking'],
@@ -731,7 +735,7 @@ function invBadge(s) {
     'order-completed':      ['inv-completed',  'Order Completed'],
   };
   const [cls, lbl] = map[s] || ['inv-rfp', s];
-  return `<span class="inv-badge ${cls}">${lbl}</span>`;
+  return `<span class="inv-badge ${cls}">${lbl}${suffix}</span>`;
 }
 function ordStatusBadge(s) {
   const map = { 'open':'ord-open Open', 'picking':'ord-picking Picking', 'completed':'ord-completed Completed', 'cancelled':'ord-cancelled Cancelled' };
@@ -770,14 +774,7 @@ function renderTable() {
   const fResQtyMax = document.getElementById('fResQtyMax').value;
 
   const filtered = DATA.filter(r => {
-    if (fStatus) {
-      const activeS    = ['reserved-for-picking','picking'];
-      const attentionS = ['blocked-by-audit','order-short-picked'];
-      const closedS    = ['reservation-released','reservation-expired','order-completed'];
-      if (fStatus === 'active'    && !activeS.includes(r.status))    return false;
-      if (fStatus === 'attention' && !attentionS.includes(r.status)) return false;
-      if (fStatus === 'closed'    && !closedS.includes(r.status))    return false;
-    }
+    if (fStatus && r.status !== fStatus) return false;
     if (fResId  && !r.resId.toLowerCase().includes(fResId)) return false;
     if (fSku    && !r.sku.toLowerCase().includes(fSku)) return false;
     if (fNoOrd) { if (r.orders.length > 0) return false; }
@@ -859,18 +856,12 @@ function renderTable() {
     const oldestMins = Math.max(...reservations.map(r => r.ageMinutes));
     const oldestAge  = ageFmt(oldestMins);
 
-    // Status summary — group into active vs attention vs terminal
-    const activeStatuses    = ['reserved-for-picking','picking'];
-    const attentionStatuses = ['blocked-by-audit','order-short-picked'];
-    const terminalStatuses  = ['reservation-released','reservation-expired','order-completed'];
-    const activeCount    = reservations.filter(r => activeStatuses.includes(r.status)).length;
-    const attentionCount = reservations.filter(r => attentionStatuses.includes(r.status)).length;
-    const terminalCount  = reservations.filter(r => terminalStatuses.includes(r.status)).length;
-    const summaryParts   = [];
-    if (activeCount)    summaryParts.push(`<span style="font-size:11px;font-weight:600;color:#1565c0;background:#e3f2fd;border:1px solid #bbdefb;border-radius:3px;padding:1px 7px">${activeCount} Active</span>`);
-    if (attentionCount) summaryParts.push(`<span style="font-size:11px;font-weight:600;color:#c62828;background:#ffebee;border:1px solid #ef9a9a;border-radius:3px;padding:1px 7px">${attentionCount} Needs Attention</span>`);
-    if (terminalCount)  summaryParts.push(`<span style="font-size:11px;font-weight:600;color:#5a6270;background:#f1f3f4;border:1px solid #e0e3ea;border-radius:3px;padding:1px 7px">${terminalCount} Closed</span>`);
-    const statusSummary = summaryParts.join(' ');
+    // Status summary — count per individual status, same badges as child rows
+    const statusCounts = {};
+    reservations.forEach(r => { statusCounts[r.status] = (statusCounts[r.status] || 0) + 1; });
+    const statusSummary = Object.entries(statusCounts)
+      .map(([s, n]) => invBadge(s, n > 1 ? ` ×${n}` : ''))
+      .join(' ');
 
     // Last Updated — most recent across all reservations
     const latestUpdate = reservations
