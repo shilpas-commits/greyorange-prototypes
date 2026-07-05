@@ -1,0 +1,553 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1.0,user-scalable=no"/>
+<title>Reserve - Pick | GreyOrange</title>
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:system-ui,-apple-system,'Helvetica Neue',sans-serif;background:#EFEFEF;max-width:430px;margin:0 auto;min-height:100vh}
+
+/* ── PICK SCREENS ── */
+.nav{background:#fff;display:flex;align-items:center;gap:6px;padding:10px 14px;border-bottom:1px solid #E0E0E0;position:sticky;top:0;z-index:50}
+.go-logo{width:26px;height:26px;background:#E07B39;border-radius:50%;display:flex;align-items:center;justify-content:center;flex-shrink:0}
+.go-logo span{color:#fff;font-weight:900;font-size:15px;line-height:1}
+.nav-brand{font-weight:700;font-size:14px;color:#E07B39;letter-spacing:-.2px}
+.nav-sep{width:1px;height:16px;background:#DDD;margin:0 7px}
+.nav-title{font-size:14px;color:#424242;flex:1}
+.hbg{font-size:19px;color:#424242;cursor:pointer;padding:2px}
+.hero{padding:18px 16px;text-align:center}
+.hero.o{background:#E07B39}
+.hero.g{background:#7CB87D}
+.hero h1{color:#fff;font-size:19px;font-weight:700;line-height:1.35}
+.prog{display:flex;gap:3px;padding:0 14px 10px;background:#E07B39}
+.ps{height:4px;flex:1;border-radius:2px;background:rgba(255,255,255,0.3)}
+.ps.a{background:rgba(255,255,255,0.88)}
+.ps.d{background:#fff}
+.page{padding:10px 14px}
+.card{background:#fff;border-radius:4px;padding:14px;margin-bottom:10px}
+.badge-row{padding:8px 14px 4px}
+.badge{display:inline-block;font-size:13px;font-weight:600;padding:5px 14px;border-radius:20px}
+.badge.or{background:#E07B39;color:#fff}
+.badge.new{background:#E3F2FD;color:#1565C0;border:1px solid #BBDEFB;font-size:10px;font-weight:700;padding:3px 10px;margin-left:5px;vertical-align:middle}
+.lr{display:flex;align-items:stretch;gap:8px;margin-bottom:10px}
+.lb{flex:1;border:2.5px solid #424242;border-radius:4px;padding:8px 10px}
+.lb.act{border-color:#1E88E5}
+.lb-lbl{font-size:11px;color:#757575;margin-bottom:2px}
+.lb-sub{font-size:12px;color:#424242;margin-bottom:1px}
+.lb-main{font-size:20px;font-weight:700;color:#212121}
+.loc-arr{display:flex;align-items:center;font-size:26px;font-weight:700;color:#212121;flex-shrink:0}
+.ord{display:flex;justify-content:space-between;align-items:baseline;font-size:13px;margin-bottom:4px}
+.ord-link{color:#1565C0;font-weight:500;cursor:pointer;font-size:13px}
+.ord-sku{font-size:12px;color:#757575}
+.sf{border:2.5px solid #1E88E5;border-radius:4px;display:flex;align-items:stretch;cursor:pointer;overflow:hidden;min-height:50px;margin-top:12px}
+.sf:active{opacity:.85}
+.sf-ic{background:#F5F5F5;border-right:1px solid #E0E0E0;padding:11px 13px;display:flex;align-items:center;justify-content:center;flex-shrink:0}
+.sf-tx{padding:11px 14px;font-size:14px;color:#9E9E9E;display:flex;align-items:center;flex:1}
+.sf-tx.v{color:#212121;font-family:monospace;font-size:13px;letter-spacing:.5px}
+.sf-tx.sc{color:#E07B39;animation:bl .85s ease-in-out infinite}
+.illus{text-align:center;padding:14px 0 6px}
+.bot{background:#fff;border-top:1px solid #E0E0E0;padding:10px 14px 12px;position:sticky;bottom:0}
+.bot-row{display:flex;gap:8px;margin-bottom:0}
+.bot-row+.bot-row{margin-top:8px}
+.btn{flex:1;padding:12px 8px;border-radius:4px;font-size:13px;font-weight:700;cursor:pointer;border:none;text-align:center;line-height:1.2}
+.btn:active{opacity:.8}
+.btn.bk{background:#424242;color:#fff}
+.btn.pr{background:#E07B39;color:#fff}
+.btn.cn{background:#B5673E;color:#fff}
+.btn.ol{background:transparent;border:2px solid #E07B39;color:#E07B39}
+.btn:disabled{opacity:.35;pointer-events:none}
+.sh{padding:12px 14px 6px;font-size:11px;font-weight:700;letter-spacing:.8px;color:#757575}
+.qc{background:#fff;border-radius:4px;padding:13px 14px;margin-bottom:8px;cursor:pointer}
+.qc.cr{border-left:4px solid #C62828}
+.qc.nr{border-left:4px solid #BDBDBD}
+.qt{display:flex;justify-content:space-between;margin-bottom:4px}
+.bcr{font-size:11px;font-weight:700;color:#C62828}
+.bnr{font-size:11px;font-weight:700;color:#757575}
+.qi{font-size:14px;font-weight:700;color:#212121;margin-bottom:2px}
+.qm{font-size:12px;color:#757575;margin-bottom:1px}
+.ql{font-size:12px;color:#1565C0;font-weight:500;margin-top:4px}
+.full-box{background:#FFF8E1;border:1.5px solid #FFB74D;border-radius:4px;padding:11px 13px;margin-bottom:12px;display:flex;align-items:flex-start;gap:10px}
+.full-icon{font-size:20px;flex-shrink:0;margin-top:1px}
+.full-text{font-size:13px;color:#E65100;font-weight:600;line-height:1.4}
+.full-sub{font-size:12px;color:#757575;margin-top:3px;font-weight:400}
+.choice-div{font-size:10px;font-weight:700;letter-spacing:.7px;color:#9E9E9E;text-align:center;margin:8px 0}
+.ci{border:1.5px solid #E0E0E0;border-radius:6px;padding:12px 14px;margin-bottom:8px;cursor:pointer;display:flex;align-items:center;gap:12px;background:#fff}
+.ci:active{background:#F5F5F5}
+.ci.p{border-color:#E07B39;background:#FFF8F3}
+.cn-badge{width:28px;height:28px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:13px;font-weight:700;flex-shrink:0}
+.cn-badge.or{background:#E07B39;color:#fff}
+.cn-badge.gr{background:#616161;color:#fff}
+.cn-badge.gn{background:#43A047;color:#fff}
+.ci-body{flex:1}
+.ci-title{font-size:14px;font-weight:600;color:#212121;margin-bottom:2px}
+.ci-desc{font-size:11px;color:#757575;line-height:1.4}
+.ci-arr{font-size:18px;color:#BDBDBD;flex-shrink:0}
+.info-banner{background:#E3F2FD;border-left:4px solid #1565C0;border-radius:4px;padding:10px 12px;margin-bottom:10px;font-size:13px;color:#212121;line-height:1.4}
+.cbox{background:#fff;border-radius:4px;padding:28px 16px;display:flex;align-items:center;gap:16px;margin-bottom:10px}
+.cmsg{font-size:15px;font-weight:500;color:#212121;line-height:1.4}
+.c-arr{font-size:26px;font-weight:700;color:#212121;flex-shrink:0}
+.dh{text-align:center;margin-top:10px}
+.dl{font-size:11px;color:#BDBDBD;text-decoration:underline;cursor:pointer}
+.assoc-list{margin:10px 0 4px}
+.assoc-item{display:flex;align-items:center;gap:7px;background:#E8F5E9;border:1.5px solid #A5D6A7;border-radius:4px;padding:5px 10px;font-size:12px;color:#2E7D32;font-weight:500;margin-bottom:5px}
+.no-orders-banner{background:#E3F2FD;border-left:4px solid #1565C0;border-radius:4px;padding:10px 12px;margin-bottom:10px;font-size:13px;color:#1565C0;font-weight:500;line-height:1.4}
+@keyframes bl{0%,100%{opacity:1}50%{opacity:.3}}
+.err-banner{background:#FFEBEE;border-left:4px solid #C62828;border-radius:4px;padding:10px 13px;font-size:13px;color:#B71C1C;font-weight:500;line-height:1.4;margin-bottom:10px}
+
+/* ── LOGIN SCREEN ── */
+.login-wrap{min-height:100vh;background:#fff;display:flex;flex-direction:column}
+.login-sheet{padding:24px 20px 32px}
+.login-header{display:flex;align-items:center;justify-content:space-between;margin-bottom:16px}
+.login-title{font-size:18px;font-weight:700;color:#212121}
+.login-close{font-size:22px;color:#9E9E9E;cursor:pointer;padding:4px;line-height:1}
+.login-breadcrumb{display:flex;align-items:center;gap:6px;font-size:13px;color:#424242;margin-bottom:24px}
+.login-dot{width:8px;height:8px;border-radius:50%;background:#E07B39;flex-shrink:0}
+.login-crumb-sep{color:#9E9E9E;font-size:12px}
+.login-field{margin-bottom:20px}
+.login-input{width:100%;border:none;border-bottom:1.5px solid #BDBDBD;padding:10px 0;font-size:15px;color:#212121;outline:none;font-family:inherit;background:transparent}
+.login-input::placeholder{color:#BDBDBD}
+.login-input:focus{border-bottom-color:#E07B39}
+.login-btn{width:100%;padding:14px;border:none;border-radius:4px;background:#E07B39;color:#fff;font-size:15px;font-weight:700;cursor:pointer;letter-spacing:.5px;margin-bottom:20px}
+.login-btn:active{opacity:.85}
+.login-or{display:flex;align-items:center;gap:10px;margin-bottom:20px}
+.login-or-line{flex:1;height:1px;background:#E0E0E0}
+.login-or-txt{font-size:12px;color:#9E9E9E;font-weight:500}
+.login-new-flow{width:100%;padding:13px;border:1.5px solid #E07B39;border-radius:4px;background:transparent;color:#E07B39;font-size:14px;font-weight:700;cursor:pointer;letter-spacing:.3px}
+.login-new-flow:active{background:#FFF8F3}
+
+/* ── WIZARD SCREENS ── */
+.wiz-bg{background:#fff;min-height:100vh}
+.wiz-nav{background:#fff;display:flex;align-items:center;justify-content:space-between;padding:12px 16px;border-bottom:1px solid #EEEEEE;position:sticky;top:0;z-index:50}
+.wiz-brand{font-weight:700;font-size:16px;color:#1A2744}
+/* Stepper */
+.wiz-step{display:flex;align-items:stretch;padding:0 16px;background:#fff}
+.wiz-lft{width:34px;flex-shrink:0;display:flex;flex-direction:column;align-items:center;margin-right:14px}
+.wiz-num{width:34px;height:34px;border-radius:50%;background:#E07B39;color:#fff;font-weight:700;font-size:15px;display:flex;align-items:center;justify-content:center;flex-shrink:0}
+.wiz-line{width:2px;flex:1;background:#E07B39;min-height:6px}
+.wiz-rgt{flex:1;display:flex;align-items:center;padding:10px 0;border-bottom:1px solid #F0F0F0}
+.wiz-info{flex:1}
+.wiz-lbl{font-size:11px;color:#9E9E9E;margin-bottom:2px;letter-spacing:.3px}
+.wiz-val{font-size:15px;font-weight:600;color:#212121}
+.wiz-pen{font-size:15px;color:#BDBDBD;padding:4px 0 4px 8px;cursor:pointer}
+/* Active step */
+.wiz-act-wrap{display:flex;flex-direction:column}
+.wiz-act-pre{display:flex;padding:0 16px;background:#fff}
+.wiz-act-pre-lft{width:34px;flex-shrink:0;display:flex;justify-content:center;margin-right:14px}
+.wiz-act-seg{width:2px;height:14px;background:#E07B39}
+.wiz-act-banner{display:flex;align-items:center;gap:14px;background:#E07B39;padding:14px 16px}
+.wiz-act-num{width:34px;height:34px;border-radius:50%;background:#fff;color:#E07B39;font-weight:700;font-size:15px;display:flex;align-items:center;justify-content:center;flex-shrink:0}
+.wiz-act-title{font-size:18px;font-weight:700;color:#fff}
+/* List items */
+.wiz-item{display:flex;align-items:center;padding:15px 16px;border-bottom:1px solid #EEEEEE;cursor:pointer;background:#fff}
+.wiz-item:active{background:#F9F9F9}
+.wiz-item-body{flex:1}
+.wiz-item-name{font-size:16px;font-weight:600;color:#212121}
+.wiz-item-sub{font-size:13px;color:#757575;margin-top:2px}
+.wiz-item-arr{font-size:22px;color:#9E9E9E}
+.wiz-item-used{font-size:13px;font-weight:500;color:#C62828}
+.wiz-item-dis{opacity:.4;pointer-events:none}
+.wiz-item-inuse{pointer-events:none}
+/* Proceed button */
+.wiz-proceed{padding:14px 16px;background:#fff;border-top:1px solid #E0E0E0;position:sticky;bottom:0}
+.wiz-proceed-btn{width:100%;padding:15px;border:none;border-radius:4px;background:#E07B39;color:#fff;font-size:15px;font-weight:700;cursor:pointer}
+.wiz-proceed-btn:active{opacity:.85}
+/* Scanner area in wizard */
+.wiz-scan-area{padding:16px}
+</style>
+</head>
+<body>
+<div id="app"></div>
+<script>
+var PROFILES=[
+  {name:'Replen Normal',orders:4},
+  {name:'Replen Critical',orders:2},
+  {name:'Reslot',orders:0}
+];
+var STATIONS=[
+  {name:'Station 1',inUse:true},
+  {name:'Station 2',inUse:false},
+  {name:'Station 3',inUse:true},
+  {name:'Station 4',inUse:false},
+  {name:'Station 5',inUse:false}
+];
+var D={rc:'AYYA18283',bin1:'Bin 4',bin2:'Bin 5',tote1:'BT20381-04',tote2:'BT20381-05',loc:'Aisle A4, Rack 12,',slot:'Slot 45',sku:'LX-RB20-BLK-M',skuName:'RayBan 20 Black M',qty1:'12',qty2:'8',cid:'...83704',loc2:'Aisle A4, Rack 14,',slot2:'Slot 18'};
+
+var S={sc:'select_profile',scanning:false,
+  selectedProfile:'',selectedStation:'',printerScanned:false,
+  rcScanned:false,binScanned:false,toteScanned:false,
+  entityScanned:false,putScanned:false,binFull:false,
+  extraBinScanned:false,extraToteScanned:false,
+  newBinScanned:false,newToteScanned:false,
+  entity2Scanned:false,put2Scanned:false,
+  pathB:false,noMoreOrders:false,
+  orderIndex:1,orderTotal:4,exceptionMode:false,nextSlotScanned:false};
+
+var BC='<svg width="22" height="18" viewBox="0 0 26 20" xmlns="http://www.w3.org/2000/svg"><line x1="1" y1="2" x2="1" y2="18" stroke="#9E9E9E" stroke-width="1.5"/><line x1="3.5" y1="2" x2="3.5" y2="18" stroke="#9E9E9E" stroke-width="3"/><line x1="6" y1="2" x2="6" y2="18" stroke="#9E9E9E" stroke-width="1.5"/><line x1="8.5" y1="2" x2="8.5" y2="18" stroke="#9E9E9E" stroke-width="2"/><line x1="12" y1="2" x2="12" y2="18" stroke="#9E9E9E" stroke-width="3"/><line x1="15" y1="2" x2="15" y2="18" stroke="#9E9E9E" stroke-width="1.5"/><line x1="18" y1="2" x2="18" y2="18" stroke="#9E9E9E" stroke-width="2.5"/><line x1="21" y1="2" x2="21" y2="18" stroke="#9E9E9E" stroke-width="1.5"/><line x1="24" y1="2" x2="24" y2="18" stroke="#9E9E9E" stroke-width="2"/></svg>';
+/* full rollcage — wheeled cart with 3 shelves */
+function rcSVG(ck){return'<svg width="120" height="160" viewBox="0 0 120 160" xmlns="http://www.w3.org/2000/svg"><rect x="8" y="6" width="104" height="116" rx="2" fill="#F8F8F8" stroke="#3D4047" stroke-width="5"/><line x1="8" y1="44" x2="112" y2="44" stroke="#3D4047" stroke-width="3"/><line x1="8" y1="82" x2="112" y2="82" stroke="#3D4047" stroke-width="3"/><line x1="20" y1="122" x2="20" y2="140" stroke="#3D4047" stroke-width="4"/><line x1="100" y1="122" x2="100" y2="140" stroke="#3D4047" stroke-width="4"/><circle cx="20" cy="150" r="10" fill="none" stroke="#3D4047" stroke-width="4"/><circle cx="100" cy="150" r="10" fill="none" stroke="#3D4047" stroke-width="4"/>'+(ck?'<circle cx="60" cy="63" r="22" fill="#7CB87D"/><polyline points="49,63 58,74 74,51" fill="none" stroke="#fff" stroke-width="4.5" stroke-linecap="round" stroke-linejoin="round"/>':"")+'</svg>';}
+/* single bin compartment — one highlighted shelf section */
+function binSVG(){return'<svg width="120" height="100" viewBox="0 0 120 100" xmlns="http://www.w3.org/2000/svg"><rect x="8" y="8" width="104" height="56" rx="2" fill="#FFF3E0" stroke="#E07B39" stroke-width="4"/><line x1="8" y1="36" x2="112" y2="36" stroke="#E07B39" stroke-width="2.5" stroke-dasharray="6,4"/><line x1="60" y1="8" x2="60" y2="64" stroke="#BDBDBD" stroke-width="1.5" stroke-dasharray="4,4"/><rect x="14" y="13" width="40" height="18" rx="2" fill="#E07B39" opacity="0.15"/><text x="34" y="26" text-anchor="middle" font-size="11" font-weight="700" fill="#E07B39" font-family="system-ui">BIN</text><line x1="20" y1="64" x2="20" y2="76" stroke="#3D4047" stroke-width="3"/><line x1="100" y1="64" x2="100" y2="76" stroke="#3D4047" stroke-width="3"/><circle cx="20" cy="84" r="8" fill="none" stroke="#3D4047" stroke-width="3"/><circle cx="100" cy="84" r="8" fill="none" stroke="#3D4047" stroke-width="3"/></svg>';}
+var TOTE='<svg width="120" height="100" viewBox="0 0 120 100" xmlns="http://www.w3.org/2000/svg"><rect x="8" y="20" width="104" height="72" rx="2" fill="#F8F8F8" stroke="#3D4047" stroke-width="5"/><line x1="8" y1="20" x2="112" y2="20" stroke="#3D4047" stroke-width="2"/><line x1="8" y1="56" x2="112" y2="56" stroke="#3D4047" stroke-width="2.5"/><line x1="60" y1="20" x2="60" y2="92" stroke="#3D4047" stroke-width="2.5"/></svg>';
+
+/* ── PICK HELPERS ── */
+function nav(){
+  var ctx=(S.selectedProfile&&S.selectedStation)
+    ?S.selectedProfile+' \u203A '+S.selectedStation+' \u203A Order '+S.orderIndex+' of '+S.orderTotal
+    :'Reserve - Pick';
+  return'<div class="nav"><div class="go-logo"><span>g</span></div><span class="nav-brand" style="flex-shrink:0">GreyOrange</span><div class="nav-sep"></div><span class="nav-title" style="font-size:11px;line-height:1.2;overflow:hidden;white-space:nowrap;text-overflow:ellipsis">'+ctx+'</span><span class="hbg" style="flex-shrink:0">&#9776;</span></div>';
+}
+function hero(t,type,prog){var bg=type==='g'?'#7CB87D':'#E07B39';var pb='';if(prog!==undefined){pb='<div class="prog">'+[0,1,2].map(function(i){return'<div class="ps'+(i<prog?' d':i===prog?' a':'')+'"></div>';}).join('')+'</div>';}return'<div class="hero '+type+'"><h1>'+t+'</h1></div>'+pb;}
+function sf(ph,val,scanning){var tx=scanning?'<div class="sf-tx sc">Scanning&#8230;</div>':val?'<div class="sf-tx v">'+val+'</div>':'<div class="sf-tx">'+ph+'</div>';return'<div class="sf-ic">'+BC+'</div>'+tx;}
+function locRow(bin,active,tote,putMode){
+  /* active=null  → pick screen: Location HAS border, Rollcage plain text
+     putMode=true → put screen:  Location plain text, Rollcage HAS border
+     default      → both boxed */
+  var locBox;
+  if(putMode){
+    locBox='<div style="flex:1;display:flex;flex-direction:column;justify-content:center;padding:6px 2px">'+
+      '<div class="lb-lbl">Location</div>'+
+      '<div class="lb-sub">'+D.loc+'</div>'+
+      '<div style="font-size:18px;font-weight:700;color:#212121">'+D.slot+'</div>'+
+      '</div>';
+  } else {
+    locBox='<div class="lb"><div class="lb-lbl">Location</div><div class="lb-sub">'+D.loc+'</div><div class="lb-main">'+D.slot+'</div></div>';
+  }
+  var rightBox;
+  if(active===null){
+    rightBox='<div style="flex:1;display:flex;flex-direction:column;justify-content:center;padding:6px 2px">'+
+      '<div class="lb-lbl">Rollcage '+bin+'</div>'+
+      (tote?'<div style="font-size:15px;font-weight:600;color:#212121;margin-top:3px">'+tote+'</div>':'')+
+      '</div>';
+  } else if(putMode){
+    rightBox='<div class="lb"><div class="lb-lbl">Rollcage '+bin+'</div>'+
+      '<div class="lb-main" style="font-size:15px">'+(tote?tote:bin)+'</div></div>';
+  } else {
+    rightBox='<div class="lb'+(active?' act':'')+'"><div class="lb-lbl">Rollcage</div>'+
+      '<div class="lb-main">'+bin+'</div></div>';
+  }
+  return'<div class="lr">'+locBox+'<div class="loc-arr">&#8250;</div>'+rightBox+'</div>';
+}
+function assocChips(){var out='';if(S.toteScanned)out+='<div class="assoc-item"><span style="font-weight:700">&#10003;</span>'+D.bin1+' &#8594; '+D.tote1+' associated</div>';if(S.extraToteScanned)out+='<div class="assoc-item"><span style="font-weight:700">&#10003;</span>'+D.bin2+' &#8594; '+D.tote2+' associated</div>';return out?'<div class="assoc-list">'+out+'</div>':'';}
+
+/* ── WIZARD HELPERS ── */
+function wizNav(){return'<div class="wiz-nav"><div style="display:flex;align-items:center;gap:8px"><div class="go-logo"><span>g</span></div><span class="wiz-brand">GreyOrange</span></div><span style="font-size:16px;color:#9E9E9E">&#9660;</span></div>';}
+
+function wizDone(num,lbl,val,editFn){
+  var ed=editFn?'<span class="wiz-pen" onclick="'+editFn+'">&#9998;</span>':'<span style="width:22px;display:inline-block"></span>';
+  return'<div class="wiz-step">'+
+    '<div class="wiz-lft"><div class="wiz-num">'+num+'</div><div class="wiz-line"></div></div>'+
+    '<div class="wiz-rgt"><div class="wiz-info"><div class="wiz-lbl">'+lbl+'</div><div class="wiz-val">'+val+'</div></div>'+ed+'</div>'+
+    '</div>';
+}
+
+function wizActive(num,title){
+  return'<div class="wiz-act-wrap">'+
+    '<div class="wiz-act-pre"><div class="wiz-act-pre-lft"><div class="wiz-act-seg"></div></div></div>'+
+    '<div class="wiz-act-banner"><div class="wiz-act-num">'+num+'</div><span class="wiz-act-title">'+title+'</span></div>'+
+    '</div>';
+}
+
+function wizItem(name,sub,onclick,inUse,disabled){
+  var cls='wiz-item'+(disabled?' wiz-item-dis':inUse?' wiz-item-inuse':'');
+  var attr=onclick?' onclick="'+onclick+'"':'';
+  var right=inUse?'<span class="wiz-item-used">In use</span>':'<span class="wiz-item-arr">&#8250;</span>';
+  return'<div class="'+cls+'"'+attr+'>'+
+    '<div class="wiz-item-body"><div class="wiz-item-name">'+name+'</div>'+(sub?'<div class="wiz-item-sub">'+sub+'</div>':'')+'</div>'+
+    right+'</div>';
+}
+
+/* ── ACTIONS ── */
+function doScan(key,next){if(S[key]||S.scanning)return;S.scanning=true;render();setTimeout(function(){S.scanning=false;S[key]=true;if(next)S.sc=next;render();},700);}
+function doScanGo(next){if(S.scanning)return;S.scanning=true;render();setTimeout(function(){S.scanning=false;S.sc=next;render();},700);}
+function addAnotherBin(){S.extraBinScanned=false;S.extraToteScanned=false;go('scan_extra_bin');}
+function choosePath(p){if(p==='C'){S.sc='complete';render();return;}S.pathB=(p==='B');S.sc=p==='B'?'pick_round2':'scan_new_bin';render();}
+function demoNoOrders(){S.noMoreOrders=true;S.sc='complete';render();}
+function selectProfile(idx){S.selectedProfile=PROFILES[idx].name;go('select_station');}
+function selectStation(idx){S.selectedStation=STATIONS[idx].name;go('scan_printer');}
+function editProfile(){S.selectedStation='';S.printerScanned=false;go('select_profile');}
+function editStation(){S.printerScanned=false;go('select_station');}
+function editPrinter(){go('scan_printer');}
+
+function resetPickState(){S.rcScanned=false;S.binScanned=false;S.toteScanned=false;S.entityScanned=false;S.putScanned=false;S.binFull=false;S.extraBinScanned=false;S.extraToteScanned=false;S.newBinScanned=false;S.newToteScanned=false;S.entity2Scanned=false;S.put2Scanned=false;S.pathB=false;S.noMoreOrders=false;}
+function resetAndScan(){
+  var nIdx=Math.min((S.orderIndex||1)+1,S.orderTotal||4);
+  var prof=S.selectedProfile,stn=S.selectedStation,pr=S.printerScanned,tot=S.orderTotal||4;
+  S={sc:'scan_rc',scanning:false,
+     selectedProfile:prof,selectedStation:stn,printerScanned:pr,
+     orderIndex:nIdx,orderTotal:tot,
+     rcScanned:false,binScanned:false,toteScanned:false,entityScanned:false,putScanned:false,
+     binFull:false,extraBinScanned:false,extraToteScanned:false,newBinScanned:false,
+     newToteScanned:false,entity2Scanned:false,put2Scanned:false,pathB:false,noMoreOrders:false};
+  render();
+}
+function go(sc){
+  S.scanning=false;S.sc=sc;
+  if(sc==='select_profile'){
+    S={sc:'select_profile',scanning:false,selectedProfile:'',selectedStation:'',printerScanned:false,
+       rcScanned:false,binScanned:false,toteScanned:false,entityScanned:false,putScanned:false,
+       binFull:false,extraBinScanned:false,extraToteScanned:false,newBinScanned:false,
+       newToteScanned:false,entity2Scanned:false,put2Scanned:false,pathB:false,noMoreOrders:false,orderIndex:1,orderTotal:4,exceptionMode:false,nextSlotScanned:false};
+  }
+  render();
+}
+
+function cancelExtraPairing(){S.extraBinScanned=false;S.extraToteScanned=false;go('scan_tote');}
+function cancelNewPairing(){S.newBinScanned=false;S.newToteScanned=false;go('bin_full_choice');}
+
+function moveToNextSlot(){
+  S.exceptionMode=false;
+  S.entityScanned=false;
+  S.putScanned=false;
+  S.nextSlotScanned=false;
+  S.sc='pick_next_slot';
+  render();
+}
+
+/* ── SCREENS ── */
+
+var SCREENS={
+
+select_profile:function(){
+  return'<div class="wiz-bg">'+wizNav()+
+  '<div>'+wizActive(1,'Select Profile')+'</div>'+
+  '<div>'+
+  PROFILES.map(function(p,i){
+    var dis=p.orders===0;
+    return wizItem(p.name,'Order request: '+p.orders,(dis?null:'selectProfile('+i+')'),false,dis);
+  }).join('')+
+  '</div></div>';
+},
+
+select_station:function(){
+  return'<div class="wiz-bg">'+wizNav()+
+  '<div>'+wizDone(1,'Flow','Reserve - Pick',null)+wizDone(2,'Profile',S.selectedProfile,'editProfile()')+wizActive(3,'Select Station')+'</div>'+
+  '<div>'+
+  STATIONS.map(function(st,i){
+    return wizItem(st.name,null,(st.inUse?null:'selectStation('+i+')'),st.inUse,false);
+  }).join('')+
+  '</div></div>';
+},
+
+scan_printer:function(){
+  return'<div class="wiz-bg">'+wizNav()+
+  '<div>'+
+  wizDone(1,'Flow','Reserve - Pick',null)+
+  wizDone(2,'Profile',S.selectedProfile,'editProfile()')+
+  wizDone(3,'Station',S.selectedStation,'editStation()')+
+  wizActive(4,'Scan Printer')+
+  '</div>'+
+  '<div class="wiz-scan-area">'+
+  '<div class="sf" onclick="doScan(\'printerScanned\',\'session_summary\')">'+sf('Scan printer barcode',S.printerScanned?'BPR-002':'',S.scanning)+'</div>'+
+  '</div></div>';
+},
+
+session_summary:function(){
+  return'<div class="wiz-bg">'+wizNav()+
+  '<div>'+
+  wizDone(1,'Flow','Reserve - Pick',null)+
+  wizDone(2,'Profile',S.selectedProfile,'editProfile()')+
+  wizDone(3,'Station',S.selectedStation,'editStation()')+
+  wizDone(4,'Printer','BPR-002','editPrinter()')+
+  '</div>'+
+  '<div style="height:180px"></div>'+
+  '<div class="wiz-proceed">'+
+  '<button class="wiz-proceed-btn" onclick="go(\'login\')">Proceed to login</button>'+
+  '</div></div>';
+},
+
+login:function(){
+  var profile=S.selectedProfile||'Replen Normal';
+  var station=S.selectedStation||'Station 2';
+  var crumb='Reserve Pick > '+profile+' > '+station;
+  return'<div class="login-wrap">'+wizNav()+
+  '<div>'+wizDone(1,'Flow','Reserve - Pick',null)+wizDone(2,'Profile',profile,'editProfile()')+'</div>'+
+  '<div class="login-sheet">'+
+  '<div class="login-header"><span class="login-title">Login to</span><span class="login-close" onclick="go(\'select_profile\')">&#215;</span></div>'+
+  '<div class="login-breadcrumb"><div class="login-dot"></div><span>'+crumb+'</span></div>'+
+  '<div class="login-field"><input class="login-input" type="text" placeholder="Username"/></div>'+
+  '<div class="login-field"><input class="login-input" type="password" placeholder="Password"/></div>'+
+  '<button class="login-btn" onclick="go(\'scan_rc\')">LOGIN</button>'+
+  '<div class="login-or"><div class="login-or-line"></div><span class="login-or-txt">OR</span><div class="login-or-line"></div></div>'+
+  '<button class="login-new-flow" onclick="go(\'select_profile\')">Select New Flow</button>'+
+  '</div></div>';
+},
+
+queue:function(){return'<div>'+nav()+
+'<div class="hero o" style="padding:12px 16px"><h1 style="font-size:17px">Replenishment Pick Queue</h1></div>'+
+'<div class="page">'+
+'<div class="sh">PICK QUEUE</div>'+
+'<div class="qc cr" onclick="go(\'scan_rc\')"><div class="qt"><span class="bcr">&#9679; CRITICAL</span><span style="font-size:11px;color:#757575">DOH: 0 hrs</span></div><div class="qi">RPL-20240705-001</div><div class="qm">SKU: LX-RB20-BLK-M &middot; 12 Cases &middot; Essilor Luxottica</div><div class="qm">Source: Aisle A4, Rack 12</div><div class="ql">Tap to begin &rarr;</div></div>'+
+'<div class="qc nr"><div class="qt"><span class="bnr">&#9679; NORMAL</span><span style="font-size:11px;color:#757575">DOH: 2 hrs</span></div><div class="qi">RPL-20240705-002</div><div class="qm">SKU: LX-KB-SLV-L &middot; 8 Cases &middot; Essilor Luxottica</div></div>'+
+'<div class="qc nr"><div class="qt"><span class="bnr">&#9679; NORMAL</span><span style="font-size:11px;color:#757575">DOH: 4 hrs</span></div><div class="qi">RPL-20240705-003</div><div class="qm">SKU: LX-RB41-GLD-S &middot; 6 Cases &middot; Essilor Luxottica</div></div>'+
+'<div class="dh" style="margin-top:14px"><span class="dl" onclick="demoNoOrders()">Demo: System assigns no more orders &rarr;</span></div>'+
+'</div></div>';},
+
+scan_rc:function(){return nav()+hero('Scan Rollcage','o',0)+
+'<div class="badge-row"><span class="badge or">Replenishment</span></div>'+
+'<div class="page"><div class="card"><div class="sf" onclick="doScan(\'rcScanned\',\'scan_bin\')">'+sf('Scan/Enter rollcage',S.rcScanned?D.rc:'',S.scanning)+'</div><div class="illus">'+rcSVG(false)+'</div></div></div>'+
+'<div class="bot"><div class="bot-row">'+
+'<button class="btn bk" onclick="go(\'select_profile\')">Select New Flow</button>'+
+'</div></div>';},
+
+scan_bin:function(){return nav()+hero('Scan Rollcage Bin','o',0)+
+'<div class="badge-row"><span class="badge or">Replenishment</span></div>'+
+'<div class="page"><div class="card">'+
+(S.toteScanned||S.extraToteScanned?assocChips():'')+
+'<div class="sf" onclick="doScan(\'binScanned\',\'scan_tote\')">'+sf('Scan/Enter roll cage bin',S.binScanned?D.bin1:'',S.scanning)+'</div><div class="illus">'+binSVG()+'</div></div></div>'+
+'<div class="bot"><div class="bot-row"><button class="btn bk" onclick="go(\'scan_rc\')">Back</button></div></div>';},
+
+scan_tote:function(){
+  return nav()+hero('Scan a Tote','o',0)+
+  '<div class="badge-row"><span class="badge or">Replenishment</span></div>'+
+  '<div class="page"><div class="card">'+assocChips()+
+  '<div class="sf" onclick="doScan(\'toteScanned\',null)">'+sf('Scan/Enter tote',S.toteScanned?D.tote1:'',S.scanning)+'</div>'+
+  '<div class="illus">'+TOTE+'</div></div></div>'+
+  (S.toteScanned?
+    '<div class="bot">'+
+    '<div class="bot-row"><button class="btn ol" style="flex:2" onclick="addAnotherBin()">+ Add Another Bin &amp; Tote</button></div>'+
+    '<div class="bot-row"><button class="btn bk" onclick="go(\'scan_bin\')">Back</button><button class="btn pr" onclick="go(\'pick_from_slot\')">Start Picking &rarr;</button></div>'+
+    '</div>':
+    '<div class="bot"><div class="bot-row"><button class="btn bk" onclick="go(\'scan_bin\')">Back</button></div></div>');
+},
+
+scan_extra_bin:function(){return nav()+hero('Scan New Rollcage Bin','o',0)+
+'<div class="badge-row"><span class="badge or">Replenishment</span></div>'+
+'<div class="page"><div class="card">'+assocChips()+
+'<div class="sf" onclick="doScan(\'extraBinScanned\',null)">'+sf('Scan/Enter rollcage bin',S.extraBinScanned?D.bin2:'',S.scanning)+'</div><div class="illus">'+rcSVG(false)+'</div></div></div>'+
+'<div class="bot">'+
+'<div class="bot-row"><button class="btn bk" onclick="go(\'scan_tote\')">Back</button>'+(S.extraBinScanned?'<button class="btn pr" onclick="go(\'scan_extra_tote\')">Next &rarr;</button>':'')+'</div>'+
+(S.extraBinScanned?'<div class="bot-row"><button class="btn bk" style="flex:2;background:#9E9E9E" onclick="cancelExtraPairing()">Cancel Bin and Tote association</button></div>':'')+
+'</div>';},
+
+scan_extra_tote:function(){return nav()+hero('Scan a Tote for New Bin','o',0)+
+'<div class="badge-row"><span class="badge or">Replenishment</span></div>'+
+'<div class="page"><div class="card">'+assocChips()+
+'<div class="sf" onclick="doScan(\'extraToteScanned\',null)">'+sf('Scan/Enter tote',S.extraToteScanned?D.tote2:'',S.scanning)+'</div>'+
+'<div class="illus">'+TOTE+'</div>'+
+'</div></div>'+
+'<div class="bot">'+
+(S.extraToteScanned?
+  '<div class="bot-row"><button class="btn bk" onclick="go(\'scan_extra_bin\')">Back</button><button class="btn pr" onclick="go(\'pick_from_slot\')">Start Picking &rarr;</button></div>':
+  '<div class="bot-row"><button class="btn bk" onclick="go(\'scan_extra_bin\')">Back</button></div>')+
+'<div class="bot-row"><button class="btn bk" style="flex:2;background:#9E9E9E" onclick="cancelExtraPairing()">Cancel Bin and Tote association</button></div>'+
+'</div>';},
+
+pick_from_slot:function(){return nav()+hero('Move Rollcage to location and Scan 1 Entity from Slot','o',1)+
+'<div class="page"><div class="card">'+
+locRow(D.bin1,null,D.tote1,false)+
+'<div class="ord"><span><strong>Qty:</strong> '+D.qty1+' &nbsp;&nbsp; <strong>Container ID:</strong> '+D.cid+'</span>'+
+'<span class="ord-link" style="cursor:pointer;text-decoration:underline" onclick="S.exceptionMode=true;render()">Exception</span></div>'+
+'<div class="ord-sku"><strong>SKU:</strong> '+D.sku+' &nbsp;&nbsp; <strong>SKU name:</strong> '+D.skuName+'</div>'+
+'<div class="sf" onclick="doScan(\'entityScanned\',\'put_in_tote\')">'+sf('Scan',S.entityScanned?D.sku:'',S.scanning)+'</div>'+
+'</div></div>'+
+(S.exceptionMode?
+  '<div class="bot">'+
+  '<div class="bot-row"><button class="btn pr" style="flex:2" onclick="moveToNextSlot()">Move to Next Location</button></div>'+
+  '<div class="bot-row"><button class="btn ol" style="flex:2" onclick="choosePath(\'C\')">Mark Rollcage Complete</button></div>'+
+  '<div class="bot-row"><button class="btn bk" style="flex:2" onclick="S.exceptionMode=false;render()">Cancel</button></div>'+
+  '</div>':
+  '<div class="bot"><div class="bot-row"><button class="btn bk" onclick="go(\'scan_tote\')">Back</button></div></div>');},
+
+put_in_tote:function(){return nav()+hero('Put Entity In Tote '+D.tote1+' and scan Tote','o',2)+
+'<div class="page"><div class="card">'+
+locRow(D.bin1,false,D.tote1,true)+
+'<div class="ord"><span><strong>Qty:</strong> '+D.qty1+' &nbsp;&nbsp; <strong>Container ID:</strong> '+D.cid+'</span>'+
+'<span class="ord-link" style="cursor:pointer;text-decoration:underline" onclick="go(\'bin_full_choice\')">Bin Full</span></div>'+
+'<div class="ord-sku"><strong>SKU:</strong> '+D.sku+' &nbsp;&nbsp; <strong>SKU name:</strong> '+D.skuName+'</div>'+
+'<div class="sf" onclick="doScan(\'putScanned\',\'complete\')">'+sf('Scan',S.putScanned?D.tote1:'',S.scanning)+'</div>'+
+'</div></div>'+
+'<div class="bot">'+
+'<div class="bot-row"><button class="btn ol" style="flex:2" onclick="choosePath(\'C\')">Mark Rollcage Complete</button></div>'+
+'<div class="bot-row"><button class="btn bk" style="flex:2" onclick="go(\'pick_from_slot\')">Cancel scan</button></div>'+
+'</div>';},
+
+bin_full_choice:function(){return nav()+hero('Carrying Unit Full','o',2)+
+'<div class="page">'+
+'<div class="full-box"><div class="full-icon">&#9888;</div><div>'+
+'<div class="full-text">Tote '+D.tote1+' in '+D.bin1+' is full</div>'+
+'<div class="full-sub">8 items remaining in this order</div>'+
+'</div></div>'+
+'</div>'+
+'<div class="bot">'+
+'<div class="bot-row"><button class="btn pr" style="flex:2" onclick="go(\'put_round2\')">Move to Next Bin</button></div>'+
+'<div class="bot-row"><button class="btn ol" style="flex:2" onclick="choosePath(\'C\')">Mark Rollcage Complete</button></div>'+
+'<div class="bot-row"><button class="btn bk" style="flex:2" onclick="go(\'put_in_tote\')">Cancel</button></div>'+
+'</div>';},
+
+scan_new_bin:function(){return nav()+hero('Scan New Rollcage Bin','o',2)+
+'<div class="badge-row"><span class="badge or">Replenishment</span></div>'+
+'<div class="page"><div class="card"><div class="sf" onclick="doScan(\'newBinScanned\',null)">'+sf('Scan/Enter new rollcage bin',S.newBinScanned?D.bin2:'',S.scanning)+'</div><div class="illus">'+rcSVG(false)+'</div></div></div>'+
+'<div class="bot"><div class="bot-row"><button class="btn bk" onclick="go(\'bin_full_choice\')">Back</button>'+(S.newBinScanned?'<button class="btn pr" onclick="go(\'scan_new_tote\')">Next &rarr;</button>':'')+'</div></div>';},
+
+scan_new_tote:function(){return nav()+hero('Scan a Tote for New Bin','o',2)+
+'<div class="badge-row"><span class="badge or">Replenishment</span></div>'+
+'<div class="page"><div class="card">'+
+'<div class="sf" onclick="doScan(\'newToteScanned\',null)">'+sf('Scan/Enter tote',S.newToteScanned?D.tote2:'',S.scanning)+'</div>'+
+'<div class="illus">'+TOTE+'</div>'+
+'</div></div>'+
+'<div class="bot">'+
+(S.newToteScanned?
+  '<div class="bot-row"><button class="btn bk" onclick="go(\'scan_new_bin\')">Back</button><button class="btn pr" onclick="go(\'pick_round2\')">Next &rarr;</button></div>':
+  '<div class="bot-row"><button class="btn bk" onclick="go(\'scan_new_bin\')">Back</button></div>')+
+'<div class="bot-row"><button class="btn bk" style="flex:2;background:#9E9E9E" onclick="cancelNewPairing()">Cancel Bin and Tote association</button></div>'+
+'</div>';},
+
+pick_next_slot:function(){return nav()+hero('Move Rollcage to location and Scan 1 Entity from Slot','o',1)+
+'<div class="page"><div class="card">'+
+'<div class="lr">'+
+'<div class="lb"><div class="lb-lbl">Location</div><div class="lb-sub">'+D.loc2+'</div><div class="lb-main">'+D.slot2+'</div></div>'+
+'<div class="loc-arr">&#8250;</div>'+
+'<div style="flex:1;display:flex;flex-direction:column;justify-content:center;padding:6px 2px">'+
+'<div class="lb-lbl">Rollcage '+D.bin1+'</div>'+
+'<div style="font-size:15px;font-weight:600;color:#212121;margin-top:3px">'+D.tote1+'</div>'+
+'</div></div>'+
+'<div class="ord"><span><strong>Qty:</strong> '+D.qty1+' &nbsp;&nbsp; <strong>Container ID:</strong> '+D.cid+'</span>'+
+'<span class="ord-link" style="cursor:pointer;text-decoration:underline" onclick="S.exceptionMode=true;render()">Exception</span></div>'+
+'<div class="ord-sku"><strong>SKU:</strong> '+D.sku+' &nbsp;&nbsp; <strong>SKU name:</strong> '+D.skuName+'</div>'+
+'<div class="sf" onclick="doScan(\'nextSlotScanned\',\'put_in_tote\')">'+sf('Scan',S.nextSlotScanned?D.sku:'',S.scanning)+'</div>'+
+'</div></div>'+
+(S.exceptionMode?
+  '<div class="bot">'+
+  '<div class="bot-row"><button class="btn pr" style="flex:2" onclick="resetAndScan()">Proceed to Next Task</button></div>'+
+  '<div class="bot-row"><button class="btn ol" style="flex:2" onclick="choosePath(\'C\')">Mark Rollcage Complete</button></div>'+
+  '<div class="bot-row"><button class="btn bk" style="flex:2" onclick="S.exceptionMode=false;render()">Cancel</button></div>'+
+  '</div>':
+  '<div class="bot"><div class="bot-row"><button class="btn bk" onclick="go(\'pick_from_slot\')">Back</button></div></div>');},
+
+pick_round2:function(){return nav()+hero('Move Rollcage to location and Scan 1 Entity from Slot','o',1)+
+'<div class="page">'+
+(S.pathB?'<div class="info-banner"><strong>'+D.bin2+' assigned</strong> &mdash; Tote '+D.tote2+' associated automatically</div>':'')+
+'<div class="card">'+locRow(D.bin2,null,D.tote2,false)+
+'<div class="ord"><span><strong>Qty:</strong> '+D.qty2+' &nbsp;&nbsp; <strong>Container ID:</strong> '+D.cid+'</span><span class="ord-link">Bin Full</span></div>'+
+'<div class="ord-sku"><strong>SKU:</strong> '+D.sku+' &nbsp;&nbsp; <strong>SKU name:</strong> '+D.skuName+'</div>'+
+'<div class="sf" onclick="doScan(\'entity2Scanned\',\'put_round2\')">'+sf('Scan',S.entity2Scanned?D.sku:'',S.scanning)+'</div>'+
+'</div></div>'+
+'<div class="bot"><div class="bot-row"><button class="btn bk" onclick="go(\'bin_full_choice\')">Back</button></div></div>';},
+
+put_round2:function(){return nav()+hero('Put Entity In Tote '+D.tote2+' and scan Tote','o',2)+
+'<div class="page"><div class="card">'+locRow(D.bin2,false,D.tote2,true)+
+'<div class="ord"><span><strong>Qty:</strong> '+D.qty2+' &nbsp;&nbsp; <strong>Container ID:</strong> '+D.cid+'</span><span class="ord-link">Bin Full</span></div>'+
+'<div class="ord-sku"><strong>SKU:</strong> '+D.sku+' &nbsp;&nbsp; <strong>SKU name:</strong> '+D.skuName+'</div>'+
+'<div class="sf" onclick="doScan(\'put2Scanned\',\'complete\')">'+sf('Scan',S.put2Scanned?D.tote2:'',S.scanning)+'</div>'+
+'</div></div>'+
+'<div class="bot"><div class="bot-row"><button class="btn cn" style="flex:2" onclick="go(\'pick_round2\')">Cancel scan</button></div></div>';},
+
+complete:function(){
+  var mainMsg=S.noMoreOrders?'All orders in queue have been processed':'All tasks on the Rollcage have been successfully completed';
+  var subMsg=S.noMoreOrders?'No more pick orders assigned by the system. Park rollcage and check with supervisor.':'Move completed Rollcage to the docking area';
+  return nav()+
+  '<div class="hero g"><h1>'+mainMsg+'</h1></div>'+
+  '<div class="page">'+
+  (S.noMoreOrders?'<div class="no-orders-banner">&#8505; System event &mdash; no further orders assigned to this rollcage</div>':'')+
+  '<div class="cbox">'+rcSVG(true)+'<div class="c-arr">&#8250;</div><div><div class="cmsg">'+subMsg+'</div></div></div>'+
+  '</div>'+
+  '<div class="bot"><div class="bot-row"><button class="btn bk" onclick="resetAndScan()">Back</button><button class="btn pr" onclick="resetAndScan()">Proceed to Next Task</button></div></div>';
+}
+};
+
+function render(){var fn=SCREENS[S.sc];document.getElementById('app').innerHTML=fn?fn():'';window.scrollTo(0,0);}
+render();
+</script>
+</body>
+</html>
