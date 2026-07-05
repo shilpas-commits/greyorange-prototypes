@@ -34,6 +34,19 @@ const PROTOTYPES = [
     ],
   },
   {
+    category: "Reserve-Pick Flow",
+    icon: "\ud83d\udd01",
+    items: [
+      {
+        title: "Replen Pick \u2014 HHD App",
+        description: "Handheld replenishment pick flow: prioritised pick queue (Replen Critical / Replen Normal), scan rollcage and tote, bin assignment on new rollcage/tote, printer scan, and carrying-unit-full handling.",
+        status: "Complete",
+        path: "/replen-pick-hhd.html",
+        external: true,
+      },
+    ],
+  },
+  {
     category: "Bulk Order Picking \u2014 System-Guided Rollcage Orchestration",
     icon: "\ud83d\uded2",
     items: [
@@ -115,16 +128,18 @@ export default function Home() {
                       <span style={{ fontSize:11, fontWeight:700, padding:"2px 8px", borderRadius:12, whiteSpace:"nowrap", background:sc.bg, color:sc.color, border:`1px solid ${sc.border}` }}>{p.status}</span>
                     </div>
                     <p style={{ margin:0, fontSize:13, color:C.muted, lineHeight:1.6 }}>{p.description}</p>
-                    <div style={{ display:"flex", flexWrap:"wrap", gap:6 }}>
-                      {p.screens.map(s => (<span key={s} style={{ fontSize:11, padding:"1px 8px", borderRadius:3, background:"#f4f5f7", color:C.muted, border:`1px solid ${C.border}` }}>{s}</span>))}
-                    </div>
+                    {p.screens && p.screens.length > 0 && (
+                      <div style={{ display:"flex", flexWrap:"wrap", gap:6 }}>
+                        {p.screens.map(s => (<span key={s} style={{ fontSize:11, padding:"1px 8px", borderRadius:3, background:"#f4f5f7", color:C.muted, border:`1px solid ${C.border}` }}>{s}</span>))}
+                      </div>
+                    )}
                     <div style={{ display:"flex", gap:8, alignItems:"center", marginTop:4 }}>
-                      <a href={p.epicUrl} target="_blank" rel="noreferrer" style={{ fontSize:11, color:C.orange, textDecoration:"none", fontWeight:600 }}>{p.epic} \u2197</a>
-                      <a href={p.prdUrl} target="_blank" rel="noreferrer" style={{ fontSize:11, color:C.muted, textDecoration:"none" }}>System PRD \u2197</a>
-                      <span style={{ fontSize:11, padding:"1px 8px", borderRadius:3, background:"#e3f2fd", color:"#1565c0", border:"1px solid #bbdefb", marginLeft:"auto" }}>{p.customer}</span>
+                      {p.epicUrl && <a href={p.epicUrl} target="_blank" rel="noreferrer" style={{ fontSize:11, color:C.orange, textDecoration:"none", fontWeight:600 }}>{p.epic} \u2197</a>}
+                      {p.prdUrl && <a href={p.prdUrl} target="_blank" rel="noreferrer" style={{ fontSize:11, color:C.muted, textDecoration:"none" }}>System PRD \u2197</a>}
+                      {p.customer && <span style={{ fontSize:11, padding:"1px 8px", borderRadius:3, background:"#e3f2fd", color:"#1565c0", border:"1px solid #bbdefb", marginLeft:"auto" }}>{p.customer}</span>}
                       {p.external
-                        ? <a href={p.path} target="_blank" rel="noreferrer" style={{ padding:"6px 18px", borderRadius:5, border:"none", background:C.orange, color:"#fff", fontSize:12, fontWeight:700, cursor:"pointer", fontFamily:"inherit", textDecoration:"none" }}>Open \u2192</a>
-                        : <button onClick={() => navigate(p.path)} style={{ padding:"6px 18px", borderRadius:5, border:"none", background:C.orange, color:"#fff", fontSize:12, fontWeight:700, cursor:"pointer", fontFamily:"inherit" }}>Open \u2192</button>
+                        ? <a href={p.path} target="_blank" rel="noreferrer" style={{ marginLeft: p.customer ? undefined : "auto", padding:"6px 18px", borderRadius:5, border:"none", background:C.orange, color:"#fff", fontSize:12, fontWeight:700, cursor:"pointer", fontFamily:"inherit", textDecoration:"none" }}>Open \u2192</a>
+                        : <button onClick={() => navigate(p.path)} style={{ marginLeft: p.customer ? undefined : "auto", padding:"6px 18px", borderRadius:5, border:"none", background:C.orange, color:"#fff", fontSize:12, fontWeight:700, cursor:"pointer", fontFamily:"inherit" }}>Open \u2192</button>
                       }
                     </div>
                   </div>
