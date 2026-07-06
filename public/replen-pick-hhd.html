@@ -93,7 +93,51 @@ body{font-family:system-ui,-apple-system,'Helvetica Neue',sans-serif;background:
 .assoc-item{display:flex;align-items:center;gap:7px;background:#E8F5E9;border:1.5px solid #A5D6A7;border-radius:4px;padding:5px 10px;font-size:12px;color:#2E7D32;font-weight:500;margin-bottom:5px}
 .no-orders-banner{background:#E3F2FD;border-left:4px solid #1565C0;border-radius:4px;padding:10px 12px;margin-bottom:10px;font-size:13px;color:#1565C0;font-weight:500;line-height:1.4}
 @keyframes bl{0%,100%{opacity:1}50%{opacity:.3}}
+.lpn-chip{display:flex;align-items:center;justify-content:space-between;background:#EEEEEE;border-radius:20px;padding:5px 12px 5px 16px;margin:8px 14px 0;font-size:13px;color:#424242;font-weight:400}
+.lpn-ttp{background:#E07B39;color:#fff;font-size:11px;font-weight:700;padding:2px 10px;border-radius:10px;margin-left:8px;flex-shrink:0}
+.scan-id-wrap{display:flex;flex-direction:column;align-items:center;gap:8px;cursor:pointer;padding:4px 0}
+.scan-id-wrap:active{opacity:.75}
+.scan-id-lnk{color:#1565C0;font-size:14px;font-weight:500}
 .err-banner{background:#FFEBEE;border-left:4px solid #C62828;border-radius:4px;padding:10px 13px;font-size:13px;color:#B71C1C;font-weight:500;line-height:1.4;margin-bottom:10px}
+
+.lpn-details-link{color:#1565C0;font-size:13px;font-weight:500;cursor:pointer}
+.rc-grid-wrap{padding:8px 0 4px;text-align:center}
+.rc-grid{display:inline-grid;grid-template-columns:repeat(4,1fr);border:3px solid #424242;border-radius:3px;overflow:hidden;width:180px}
+.rc-bin{border:0.5px solid #BDBDBD;height:30px;display:flex;align-items:center;justify-content:center;font-size:10px;color:#BDBDBD;background:#fff}
+.rc-bin.filled{background:#E8F5E9;color:#2E7D32;font-weight:600;border:2px solid #2E7D32}
+.rc-bin.active{background:#E3F2FD;color:#1565C0;font-weight:700;border-color:#90CAF9}
+.modal-overlay{position:fixed;top:0;left:0;right:0;bottom:0;background:rgba(0,0,0,0.45);z-index:200;display:flex;align-items:flex-start;justify-content:center;padding-top:70px;box-sizing:border-box}
+.modal-box{background:#fff;border-radius:8px;padding:20px 16px;width:340px;max-width:92vw;max-height:72vh;overflow-y:auto}
+.modal-hdr{display:flex;align-items:center;justify-content:space-between;margin-bottom:14px}
+.modal-ttl{font-size:16px;font-weight:700;color:#212121}
+.modal-cls{font-size:22px;color:#9E9E9E;cursor:pointer;line-height:1;padding:2px 6px}
+.modal-meta{font-size:13px;color:#424242;margin-bottom:14px}
+.bin-tbl{width:100%;border-collapse:collapse;font-size:13px}
+.bin-tbl th{background:#F5F5F5;padding:8px 12px;text-align:left;font-weight:600;color:#424242;border-bottom:2px solid #E0E0E0}
+.bin-tbl td{padding:7px 12px;border-bottom:1px solid #F0F0F0;color:#212121}
+.bin-tbl .mt{color:#9E9E9E}
+.rc-bar{background:#fff;padding:8px 14px;display:flex;align-items:center;justify-content:space-between;font-size:13px;color:#212121;border-bottom:1px solid #EEEEEE}
+.success-chip{background:#7CB87D;color:#fff;border-radius:4px;padding:9px 13px;font-size:13px;font-weight:600;margin-bottom:10px;display:flex;align-items:center;gap:8px}
+/* Bin Full Modal */
+.bf-modal-overlay{position:fixed;top:0;left:0;right:0;bottom:0;background:rgba(0,0,0,0.45);z-index:300;display:flex;align-items:center;justify-content:center;padding:20px;box-sizing:border-box}
+.bf-modal{background:#fff;border-radius:8px;padding:24px 20px;width:100%;max-width:380px;box-shadow:0 8px 32px rgba(0,0,0,0.18)}
+.bf-modal-title{font-size:18px;font-weight:700;color:#212121;margin-bottom:10px}
+.bf-modal-body{font-size:14px;color:#424242;line-height:1.5;margin-bottom:22px}
+.bf-modal-btns{display:flex;gap:10px}
+.btn-cancel-ol{flex:1;padding:13px 8px;border-radius:4px;font-size:14px;font-weight:700;cursor:pointer;border:2px solid #E07B39;background:transparent;color:#E07B39;text-align:center}
+.btn-cancel-ol:active{background:#FFF8F3}
+/* Exception Screen */
+.exc-header{display:flex;align-items:center;gap:10px;padding:14px 16px;border-bottom:1px solid #EEEEEE;background:#fff}
+.exc-back{font-size:22px;color:#424242;cursor:pointer;line-height:1}
+.exc-title{font-size:18px;font-weight:600;color:#212121}
+.exc-qty-row{display:flex;align-items:center;padding:10px 16px;background:#F5F5F5;font-size:13px;color:#424242;border-bottom:1px solid #E0E0E0}
+.exc-qty-row strong{color:#212121}
+.exc-qty-sep{flex:1}
+.exc-item{padding:14px 16px;border-bottom:1px solid #EEEEEE;cursor:pointer;background:#fff}
+.exc-item:active{background:#F9F9F9}
+.exc-item-title{font-size:15px;font-weight:600;color:#212121;margin-bottom:3px}
+.exc-item-desc{font-size:13px;color:#757575}
+.bin-scanned-chip{background:#E8F5E9;border:1.5px solid #A5D6A7;border-radius:4px;padding:8px 12px;font-size:13px;color:#2E7D32;font-weight:500;margin-bottom:10px;display:flex;align-items:center;gap:6px}
 
 /* ── LOGIN SCREEN ── */
 .login-wrap{min-height:100vh;background:#fff;display:flex;flex-direction:column}
@@ -154,6 +198,14 @@ body{font-family:system-ui,-apple-system,'Helvetica Neue',sans-serif;background:
 .wiz-proceed-btn:active{opacity:.85}
 /* Scanner area in wizard */
 .wiz-scan-area{padding:16px}
+
+/* ── SCREEN NAVIGATOR ── */
+.dev-nav-btn{position:fixed;top:8px;right:8px;width:32px;height:32px;background:#1A2744;border-radius:6px;border:none;color:#fff;font-size:15px;cursor:pointer;z-index:9999;display:flex;align-items:center;justify-content:center;box-shadow:0 2px 8px rgba(0,0,0,0.35);line-height:1}
+.dev-nav-panel{position:fixed;top:44px;right:8px;background:#1A2744;border-radius:8px;padding:10px 0;z-index:9999;width:210px;max-height:80vh;overflow-y:auto;box-shadow:0 4px 20px rgba(0,0,0,0.45)}
+.dev-nav-section{font-size:9px;font-weight:700;letter-spacing:1px;color:#9E9E9E;padding:6px 14px 3px;text-transform:uppercase}
+.dev-nav-item{display:block;padding:7px 14px;font-size:12px;color:#E0E0E0;cursor:pointer;border:none;background:transparent;text-align:left;width:100%}
+.dev-nav-item:hover,.dev-nav-item:active{background:rgba(255,255,255,0.1);color:#fff}
+.dev-nav-item.active{color:#E07B39;font-weight:700}
 </style>
 </head>
 <body>
@@ -181,7 +233,7 @@ var S={sc:'select_profile',scanning:false,
   newBinScanned:false,newToteScanned:false,
   entity2Scanned:false,put2Scanned:false,
   pathB:false,noMoreOrders:false,
-  orderIndex:1,orderTotal:4,exceptionMode:false,nextSlotScanned:false};
+  orderIndex:1,orderTotal:4,exceptionMode:false,nextSlotScanned:false,showRollcageDetails:false,binForTote:'',lastAssoc:null,showBinFull:false,showException:false};
 
 var BC='<svg width="22" height="18" viewBox="0 0 26 20" xmlns="http://www.w3.org/2000/svg"><line x1="1" y1="2" x2="1" y2="18" stroke="#9E9E9E" stroke-width="1.5"/><line x1="3.5" y1="2" x2="3.5" y2="18" stroke="#9E9E9E" stroke-width="3"/><line x1="6" y1="2" x2="6" y2="18" stroke="#9E9E9E" stroke-width="1.5"/><line x1="8.5" y1="2" x2="8.5" y2="18" stroke="#9E9E9E" stroke-width="2"/><line x1="12" y1="2" x2="12" y2="18" stroke="#9E9E9E" stroke-width="3"/><line x1="15" y1="2" x2="15" y2="18" stroke="#9E9E9E" stroke-width="1.5"/><line x1="18" y1="2" x2="18" y2="18" stroke="#9E9E9E" stroke-width="2.5"/><line x1="21" y1="2" x2="21" y2="18" stroke="#9E9E9E" stroke-width="1.5"/><line x1="24" y1="2" x2="24" y2="18" stroke="#9E9E9E" stroke-width="2"/></svg>';
 /* full rollcage — wheeled cart with 3 shelves */
@@ -273,7 +325,7 @@ function resetPickState(){S.rcScanned=false;S.binScanned=false;S.toteScanned=fal
 function resetAndScan(){
   var nIdx=Math.min((S.orderIndex||1)+1,S.orderTotal||4);
   var prof=S.selectedProfile,stn=S.selectedStation,pr=S.printerScanned,tot=S.orderTotal||4;
-  S={sc:'scan_rc',scanning:false,
+  S={sc:'scan_tote',scanning:false,
      selectedProfile:prof,selectedStation:stn,printerScanned:pr,
      orderIndex:nIdx,orderTotal:tot,
      rcScanned:false,binScanned:false,toteScanned:false,entityScanned:false,putScanned:false,
@@ -287,7 +339,7 @@ function go(sc){
     S={sc:'select_profile',scanning:false,selectedProfile:'',selectedStation:'',printerScanned:false,
        rcScanned:false,binScanned:false,toteScanned:false,entityScanned:false,putScanned:false,
        binFull:false,extraBinScanned:false,extraToteScanned:false,newBinScanned:false,
-       newToteScanned:false,entity2Scanned:false,put2Scanned:false,pathB:false,noMoreOrders:false,orderIndex:1,orderTotal:4,exceptionMode:false,nextSlotScanned:false};
+       newToteScanned:false,entity2Scanned:false,put2Scanned:false,pathB:false,noMoreOrders:false,orderIndex:1,orderTotal:4,exceptionMode:false,nextSlotScanned:false,showRollcageDetails:false,binForTote:'',lastAssoc:null,showBinFull:false,showException:false};
   }
   render();
 }
@@ -302,6 +354,135 @@ function moveToNextSlot(){
   S.nextSlotScanned=false;
   S.sc='pick_next_slot';
   render();
+}
+
+function rollcageGrid(activeBin){
+  var n=activeBin?parseInt(activeBin.replace('Bin ','')):0;
+  var bins='';
+  for(var i=1;i<=12;i++){
+    var f=(i===4&&S.toteScanned)||(i===5&&(S.extraToteScanned||S.newToteScanned));
+    var a=(i===n);
+    bins+='<div class="rc-bin'+(f?' filled':'')+(a?' active':'')+'">'+i+'</div>';
+  }
+  return'<div class="rc-grid-wrap"><div class="rc-grid">'+bins+'</div></div>';
+}
+function rollcageDetailsModal(){
+  var rows='';
+  for(var i=1;i<=12;i++){
+    var t=(i===4&&S.toteScanned)?D.tote1:(i===5&&(S.extraToteScanned||S.newToteScanned))?D.tote2:null;
+    rows+='<tr><td>'+i+'</td><td class="'+(t?'':'mt')+'">'+(t||'- -')+'</td></tr>';
+  }
+  return'<div class="modal-overlay" onclick="S.showRollcageDetails=false;render()">'+
+    '<div class="modal-box" onclick="event.stopPropagation()">'+
+    '<div class="modal-hdr"><span class="modal-ttl">Rollcage Detail</span>'+
+    '<span class="modal-cls" onclick="S.showRollcageDetails=false;render()">&#215;</span></div>'+
+    '<div class="modal-meta">Rollcage ID: <strong>'+D.rc+'</strong></div>'+
+    '<table class="bin-tbl"><thead><tr><th>Bin ID</th><th>(Tote) ID</th></tr></thead>'+
+    '<tbody>'+rows+'</tbody></table>'+
+    '</div></div>';
+}
+
+function doScanBin(){
+  if(S.scanning)return;
+  if(S.toteScanned&&S.extraToteScanned)return;
+  var nextBin=S.toteScanned?D.bin2:D.bin1;
+  S.scanning=true;S.lastAssoc=null;render();
+  setTimeout(function(){S.scanning=false;S.binScanned=true;S.binForTote=nextBin;render();},700);
+}
+function doScanFirstBin(){
+  if(S.binScanned||S.scanning)return;
+  S.scanning=true;render();
+  setTimeout(function(){
+    S.scanning=false;
+    S.binScanned=true;
+    S.binForTote=D.bin1;
+    S.sc='scan_tote';
+    render();
+  },700);
+}
+function doScanTote(){
+  if(S.scanning)return;
+  S.scanning=true;render();
+  setTimeout(function(){
+    S.scanning=false;
+    var tId=(S.binForTote===D.bin1)?D.tote1:D.tote2;
+    var bId=S.binForTote;
+    if(S.binForTote===D.bin1){S.toteScanned=true;}else{S.extraToteScanned=true;}
+    S.lastAssoc={bin:bId,tote:tId};
+    S.binForTote='';
+    render();
+  },700);
+}
+function clearBinForTote(){S.binForTote='';render();}
+
+function binFullModal(){
+  return'<div class="bf-modal-overlay" onclick="closeBinFull()">'+
+    '<div class="bf-modal" onclick="event.stopPropagation()">'+
+    '<div class="bf-modal-title">Bin Full</div>'+
+    '<div class="bf-modal-body">Please put back the scanned entity back into the slot.</div>'+
+    '<div class="bf-modal-btns">'+
+    '<button class="btn-cancel-ol" onclick="closeBinFull()">CANCEL</button>'+
+    '<button class="btn pr" style="flex:1" onclick="confirmBinFull()">CONFIRM</button>'+
+    '</div></div></div>';
+}
+function exceptionScreen(){
+  return'<div style="position:fixed;top:0;left:0;right:0;bottom:0;background:#fff;z-index:300;overflow-y:auto">'+
+    nav()+
+    '<div class="exc-header"><span class="exc-back" onclick="closeException()">&#8592;</span><span class="exc-title">Exception</span></div>'+
+    '<div class="exc-qty-row"><span>Expected qty: <strong>5</strong></span><span class="exc-qty-sep"></span><span>Good qty: <strong>1</strong></span></div>'+
+    '<div class="exc-item" onclick="selectException(\'missing\')"><div class="exc-item-title">Missing entity</div><div class="exc-item-desc">Entity that is missing in received quantity</div></div>'+
+    '<div class="exc-item" onclick="selectException(\'damage\')"><div class="exc-item-title">Damage entity</div><div class="exc-item-desc">Entity that is physically damage</div></div>'+
+    '<div class="exc-item" onclick="selectException(\'unscanable\')"><div class="exc-item-title">Unscanable entity</div><div class="exc-item-desc">Entity that is unscanable</div></div>'+
+    '</div>';
+}
+
+function renderDevNav(){
+  if(!window._devNavOpen){
+    return'<button class="dev-nav-btn" onclick="window._devNavOpen=true;render()" title="Jump to screen">&#9776;</button>';
+  }
+  var html='';
+  html+='<div class="dev-nav-section">SETUP</div>';
+  html+='<button class="dev-nav-item"'+(S.sc==='select_profile'?' style="color:#E07B39;font-weight:700"':'')+' onclick="window._devNavOpen=false;go(\'select_profile\');">Select Profile</button>';
+  html+='<button class="dev-nav-item"'+(S.sc==='select_station'?' style="color:#E07B39;font-weight:700"':'')+' onclick="window._devNavOpen=false;go(\'select_station\');">Select Station</button>';
+  html+='<button class="dev-nav-item"'+(S.sc==='scan_printer'?' style="color:#E07B39;font-weight:700"':'')+' onclick="window._devNavOpen=false;go(\'scan_printer\');">Scan Printer</button>';
+  html+='<button class="dev-nav-item"'+(S.sc==='session_summary'?' style="color:#E07B39;font-weight:700"':'')+' onclick="window._devNavOpen=false;go(\'session_summary\');">Session Summary</button>';
+  html+='<button class="dev-nav-item"'+(S.sc==='login'?' style="color:#E07B39;font-weight:700"':'')+' onclick="window._devNavOpen=false;go(\'login\');">Login</button>';
+  html+='<div class="dev-nav-section">ROLLCAGE BUILD</div>';
+  html+='<button class="dev-nav-item"'+(S.sc==='scan_bin'?' style="color:#E07B39;font-weight:700"':'')+' onclick="window._devNavOpen=false;go(\'scan_bin\');">Scan Rollcage Bin</button>';
+  html+='<button class="dev-nav-item"'+(S.sc==='scan_tote'?' style="color:#E07B39;font-weight:700"':'')+' onclick="window._devNavOpen=false;go(\'scan_tote\');">Scan Bin & Tote</button>';
+  html+='<button class="dev-nav-item"'+(S.sc==='scan_extra_bin'?' style="color:#E07B39;font-weight:700"':'')+' onclick="window._devNavOpen=false;go(\'scan_extra_bin\');">Extra Bin</button>';
+  html+='<button class="dev-nav-item"'+(S.sc==='scan_extra_tote'?' style="color:#E07B39;font-weight:700"':'')+' onclick="window._devNavOpen=false;go(\'scan_extra_tote\');">Extra Tote</button>';
+  html+='<div class="dev-nav-section">PICKING</div>';
+  html+='<button class="dev-nav-item"'+(S.sc==='pick_from_slot'?' style="color:#E07B39;font-weight:700"':'')+' onclick="window._devNavOpen=false;go(\'pick_from_slot\');">Pick from Slot</button>';
+  html+='<button class="dev-nav-item"'+(S.sc==='put_in_tote'?' style="color:#E07B39;font-weight:700"':'')+' onclick="window._devNavOpen=false;go(\'put_in_tote\');">Put in Tote</button>';
+  html+='<button class="dev-nav-item"'+(S.sc==='pick_next_slot'?' style="color:#E07B39;font-weight:700"':'')+' onclick="window._devNavOpen=false;go(\'pick_next_slot\');">Pick – Next Slot</button>';
+  html+='<button class="dev-nav-item"'+(S.sc==='pick_round2'?' style="color:#E07B39;font-weight:700"':'')+' onclick="window._devNavOpen=false;go(\'pick_round2\');">Pick – Next Bin</button>';
+  html+='<button class="dev-nav-item"'+(S.sc==='put_round2'?' style="color:#E07B39;font-weight:700"':'')+' onclick="window._devNavOpen=false;go(\'put_round2\');">Put – Next Bin</button>';
+  html+='<div class="dev-nav-section">EXCEPTIONS</div>';
+  html+='<button class="dev-nav-item"'+(S.sc==='bin_full_choice'?' style="color:#E07B39;font-weight:700"':'')+' onclick="window._devNavOpen=false;go(\'bin_full_choice\');">Bin Full Choice</button>';
+  html+='<button class="dev-nav-item"'+(S.sc==='scan_new_bin'?' style="color:#E07B39;font-weight:700"':'')+' onclick="window._devNavOpen=false;go(\'scan_new_bin\');">Scan New Bin</button>';
+  html+='<button class="dev-nav-item"'+(S.sc==='scan_new_tote'?' style="color:#E07B39;font-weight:700"':'')+' onclick="window._devNavOpen=false;go(\'scan_new_tote\');">Scan New Tote</button>';
+  html+='<div class="dev-nav-section">COMPLETE</div>';
+  html+='<button class="dev-nav-item"'+(S.sc==='complete'?' style="color:#E07B39;font-weight:700"':'')+' onclick="window._devNavOpen=false;go(\'complete\');">Complete</button>';
+  return'<div class="dev-nav-panel">'+html+'</div>'+
+    '<button class="dev-nav-btn" onclick="window._devNavOpen=false;render()">&#215;</button>';
+}
+
+function rollcageBar(){
+  if(!S.binScanned)return'';
+  return'<div class="rc-bar"><span>Rollcage ID: <strong>'+D.rc+'</strong></span>'+
+    '<span class="lpn-details-link" onclick="S.showRollcageDetails=true;render()">Rollcage Details</span></div>';
+}
+
+function showBinFullModal(){S.showBinFull=true;render();}
+function closeBinFull(){S.showBinFull=false;render();}
+function confirmBinFull(){S.showBinFull=false;S.sc='bin_full_choice';render();}
+function showExceptionScreen(src){S.showException=true;S.exceptionSource=src||"";render();}
+function closeException(){S.showException=false;S.exceptionMode=false;render();}
+function selectException(type){
+  S.showException=false;S.exceptionMode=false;
+  if(S.exceptionSource==='pick_next_slot'){resetAndScan();}
+  else{moveToNextSlot();}
 }
 
 /* ── SCREENS ── */
@@ -367,9 +548,12 @@ login:function(){
   '<div class="login-breadcrumb"><div class="login-dot"></div><span>'+crumb+'</span></div>'+
   '<div class="login-field"><input class="login-input" type="text" placeholder="Username"/></div>'+
   '<div class="login-field"><input class="login-input" type="password" placeholder="Password"/></div>'+
-  '<button class="login-btn" onclick="go(\'scan_rc\')">LOGIN</button>'+
+  '<button class="login-btn" onclick="go(\'scan_tote\')">LOGIN</button>'+
   '<div class="login-or"><div class="login-or-line"></div><span class="login-or-txt">OR</span><div class="login-or-line"></div></div>'+
-  '<button class="login-new-flow" onclick="go(\'select_profile\')">Select New Flow</button>'+
+  '<div class="scan-id-wrap" onclick="go(\'scan_bin\')">'+
+  '<svg width="88" height="72" viewBox="0 0 88 72" xmlns="http://www.w3.org/2000/svg"><path d="M8,22 L8,8 L22,8" fill="none" stroke="#424242" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/><path d="M66,8 L80,8 L80,22" fill="none" stroke="#424242" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/><path d="M8,50 L8,64 L22,64" fill="none" stroke="#424242" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/><path d="M66,64 L80,64 L80,50" fill="none" stroke="#424242" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/><rect x="18" y="20" width="52" height="32" rx="3" fill="none" stroke="#BDBDBD" stroke-width="2"/><circle cx="32" cy="30" r="6" fill="#BDBDBD"/><path d="M22,50 Q27,40 32,40 Q37,40 42,50" fill="#BDBDBD"/><line x1="46" y1="27" x2="65" y2="27" stroke="#BDBDBD" stroke-width="2" stroke-linecap="round"/><line x1="46" y1="33" x2="65" y2="33" stroke="#BDBDBD" stroke-width="2" stroke-linecap="round"/><line x1="46" y1="39" x2="57" y2="39" stroke="#BDBDBD" stroke-width="2" stroke-linecap="round"/></svg>'+
+  '<span class="scan-id-lnk">Scan ID Card</span>'+
+  '</div>'+
   '</div></div>';
 },
 
@@ -383,36 +567,41 @@ queue:function(){return'<div>'+nav()+
 '<div class="dh" style="margin-top:14px"><span class="dl" onclick="demoNoOrders()">Demo: System assigns no more orders &rarr;</span></div>'+
 '</div></div>';},
 
-scan_rc:function(){return nav()+hero('Scan Rollcage','o',0)+
-'<div class="badge-row"><span class="badge or">Replenishment</span></div>'+
-'<div class="page"><div class="card"><div class="sf" onclick="doScan(\'rcScanned\',\'scan_bin\')">'+sf('Scan/Enter rollcage',S.rcScanned?D.rc:'',S.scanning)+'</div><div class="illus">'+rcSVG(false)+'</div></div></div>'+
-'<div class="bot"><div class="bot-row">'+
-'<button class="btn bk" onclick="go(\'select_profile\')">Select New Flow</button>'+
-'</div></div>';},
+
 
 scan_bin:function(){return nav()+hero('Scan Rollcage Bin','o',0)+
-'<div class="badge-row"><span class="badge or">Replenishment</span></div>'+
-'<div class="page"><div class="card">'+
+rollcageBar()+
+'<div class="page">'+
+'<div class="illus" style="padding:16px 0 8px">'+rcSVG(false)+'</div>'+
+'<div class="card">'+
 (S.toteScanned||S.extraToteScanned?assocChips():'')+
-'<div class="sf" onclick="doScan(\'binScanned\',\'scan_tote\')">'+sf('Scan/Enter roll cage bin',S.binScanned?D.bin1:'',S.scanning)+'</div><div class="illus">'+binSVG()+'</div></div></div>'+
-'<div class="bot"><div class="bot-row"><button class="btn bk" onclick="go(\'scan_rc\')">Back</button></div></div>';},
+'<div class="sf" onclick="doScanFirstBin()">'+sf('Scan/Enter roll cage bin','',S.scanning)+'</div></div></div>'+
+'<div class="bot"><div class="bot-row"><button class="btn bk" onclick="go(\'login\')">Back</button></div></div>';},
 
 scan_tote:function(){
-  return nav()+hero('Scan a Tote','o',0)+
-  '<div class="badge-row"><span class="badge or">Replenishment</span></div>'+
-  '<div class="page"><div class="card">'+assocChips()+
-  '<div class="sf" onclick="doScan(\'toteScanned\',null)">'+sf('Scan/Enter tote',S.toteScanned?D.tote1:'',S.scanning)+'</div>'+
-  '<div class="illus">'+TOTE+'</div></div></div>'+
-  (S.toteScanned?
+  var hasAssoc=S.toteScanned||S.extraToteScanned;
+  var scanTote=!!S.binForTote;
+  var ph=scanTote?'Scan/Enter tote':'Scan/Enter rollcage bin';
+  var sfClick=scanTote?'doScanTote':'doScanBin';
+  return nav()+hero('Scan Rollcage Bin and Put a Tote','o',0)+
+  rollcageBar()+
+  '<div class="page"><div class="card">'+
+  (S.lastAssoc?'<div class="success-chip">&#10003; '+S.lastAssoc.bin+' &#8594; '+S.lastAssoc.tote+' associated</div>':'')+
+  ((hasAssoc||scanTote)?rollcageGrid(S.binForTote||''):('<div class="illus">'+rcSVG(false)+'</div>'))+
+  (scanTote?'<div class="bin-scanned-chip">&#10003; '+S.binForTote+' scanned &mdash; scan tote to associate</div>':'')+
+  '<div class="sf" onclick="'+sfClick+'()">'+sf(ph,'',S.scanning)+'</div>'+
+  '</div></div>'+
+  (scanTote?
+    '<div class="bot"><div class="bot-row"><button class="btn bk" onclick="clearBinForTote()">Back</button></div></div>':
     '<div class="bot">'+
-    '<div class="bot-row"><button class="btn ol" style="flex:2" onclick="addAnotherBin()">+ Add Another Bin &amp; Tote</button></div>'+
-    '<div class="bot-row"><button class="btn bk" onclick="go(\'scan_bin\')">Back</button><button class="btn pr" onclick="go(\'pick_from_slot\')">Start Picking &rarr;</button></div>'+
-    '</div>':
-    '<div class="bot"><div class="bot-row"><button class="btn bk" onclick="go(\'scan_bin\')">Back</button></div></div>');
+    (hasAssoc?'<div class="bot-row"><button class="btn pr" style="flex:2" onclick="go(\'pick_from_slot\')">Start Picking &rarr;</button></div>':'')+
+    '<div class="bot-row"><button class="btn bk" onclick="go(\'login\')">Back</button>'+
+    '<button class="btn ol" onclick="go(\'select_profile\')">New Flow</button></div>'+
+    '</div>');
 },
 
 scan_extra_bin:function(){return nav()+hero('Scan New Rollcage Bin','o',0)+
-'<div class="badge-row"><span class="badge or">Replenishment</span></div>'+
+rollcageBar()+
 '<div class="page"><div class="card">'+assocChips()+
 '<div class="sf" onclick="doScan(\'extraBinScanned\',null)">'+sf('Scan/Enter rollcage bin',S.extraBinScanned?D.bin2:'',S.scanning)+'</div><div class="illus">'+rcSVG(false)+'</div></div></div>'+
 '<div class="bot">'+
@@ -421,7 +610,7 @@ scan_extra_bin:function(){return nav()+hero('Scan New Rollcage Bin','o',0)+
 '</div>';},
 
 scan_extra_tote:function(){return nav()+hero('Scan a Tote for New Bin','o',0)+
-'<div class="badge-row"><span class="badge or">Replenishment</span></div>'+
+rollcageBar()+
 '<div class="page"><div class="card">'+assocChips()+
 '<div class="sf" onclick="doScan(\'extraToteScanned\',null)">'+sf('Scan/Enter tote',S.extraToteScanned?D.tote2:'',S.scanning)+'</div>'+
 '<div class="illus">'+TOTE+'</div>'+
@@ -437,23 +626,21 @@ pick_from_slot:function(){return nav()+hero('Move Rollcage to location and Scan 
 '<div class="page"><div class="card">'+
 locRow(D.bin1,null,D.tote1,false)+
 '<div class="ord"><span><strong>Qty:</strong> '+D.qty1+' &nbsp;&nbsp; <strong>Container ID:</strong> '+D.cid+'</span>'+
-'<span class="ord-link" style="cursor:pointer;text-decoration:underline" onclick="S.exceptionMode=true;render()">Exception</span></div>'+
+'<span class="ord-link" style="cursor:pointer;text-decoration:underline" onclick="showExceptionScreen(\'pick_from_slot\')">Exception</span></div>'+
 '<div class="ord-sku"><strong>SKU:</strong> '+D.sku+' &nbsp;&nbsp; <strong>SKU name:</strong> '+D.skuName+'</div>'+
 '<div class="sf" onclick="doScan(\'entityScanned\',\'put_in_tote\')">'+sf('Scan',S.entityScanned?D.sku:'',S.scanning)+'</div>'+
 '</div></div>'+
-(S.exceptionMode?
-  '<div class="bot">'+
-  '<div class="bot-row"><button class="btn pr" style="flex:2" onclick="moveToNextSlot()">Move to Next Location</button></div>'+
-  '<div class="bot-row"><button class="btn ol" style="flex:2" onclick="choosePath(\'C\')">Mark Rollcage Complete</button></div>'+
-  '<div class="bot-row"><button class="btn bk" style="flex:2" onclick="S.exceptionMode=false;render()">Cancel</button></div>'+
-  '</div>':
-  '<div class="bot"><div class="bot-row"><button class="btn bk" onclick="go(\'scan_tote\')">Back</button></div></div>');},
+'<div class="bot">'+
+'<div class="bot-row"><button class="btn ol" style="flex:2" onclick="choosePath(\'C\')">Mark Rollcage Complete</button></div>'+
+'<div class="bot-row"><button class="btn bk" onclick="go(\'scan_tote\')">Back</button></div>'+
+'</div>';},
 
 put_in_tote:function(){return nav()+hero('Put Entity In Tote '+D.tote1+' and scan Tote','o',2)+
+rollcageBar()+
 '<div class="page"><div class="card">'+
 locRow(D.bin1,false,D.tote1,true)+
 '<div class="ord"><span><strong>Qty:</strong> '+D.qty1+' &nbsp;&nbsp; <strong>Container ID:</strong> '+D.cid+'</span>'+
-'<span class="ord-link" style="cursor:pointer;text-decoration:underline" onclick="go(\'bin_full_choice\')">Bin Full</span></div>'+
+'<span class="ord-link" style="cursor:pointer;text-decoration:underline" onclick="showBinFullModal()">Bin Full</span></div>'+
 '<div class="ord-sku"><strong>SKU:</strong> '+D.sku+' &nbsp;&nbsp; <strong>SKU name:</strong> '+D.skuName+'</div>'+
 '<div class="sf" onclick="doScan(\'putScanned\',\'complete\')">'+sf('Scan',S.putScanned?D.tote1:'',S.scanning)+'</div>'+
 '</div></div>'+
@@ -476,12 +663,12 @@ bin_full_choice:function(){return nav()+hero('Carrying Unit Full','o',2)+
 '</div>';},
 
 scan_new_bin:function(){return nav()+hero('Scan New Rollcage Bin','o',2)+
-'<div class="badge-row"><span class="badge or">Replenishment</span></div>'+
+rollcageBar()+
 '<div class="page"><div class="card"><div class="sf" onclick="doScan(\'newBinScanned\',null)">'+sf('Scan/Enter new rollcage bin',S.newBinScanned?D.bin2:'',S.scanning)+'</div><div class="illus">'+rcSVG(false)+'</div></div></div>'+
 '<div class="bot"><div class="bot-row"><button class="btn bk" onclick="go(\'bin_full_choice\')">Back</button>'+(S.newBinScanned?'<button class="btn pr" onclick="go(\'scan_new_tote\')">Next &rarr;</button>':'')+'</div></div>';},
 
 scan_new_tote:function(){return nav()+hero('Scan a Tote for New Bin','o',2)+
-'<div class="badge-row"><span class="badge or">Replenishment</span></div>'+
+rollcageBar()+
 '<div class="page"><div class="card">'+
 '<div class="sf" onclick="doScan(\'newToteScanned\',null)">'+sf('Scan/Enter tote',S.newToteScanned?D.tote2:'',S.scanning)+'</div>'+
 '<div class="illus">'+TOTE+'</div>'+
@@ -503,35 +690,42 @@ pick_next_slot:function(){return nav()+hero('Move Rollcage to location and Scan 
 '<div style="font-size:15px;font-weight:600;color:#212121;margin-top:3px">'+D.tote1+'</div>'+
 '</div></div>'+
 '<div class="ord"><span><strong>Qty:</strong> '+D.qty1+' &nbsp;&nbsp; <strong>Container ID:</strong> '+D.cid+'</span>'+
-'<span class="ord-link" style="cursor:pointer;text-decoration:underline" onclick="S.exceptionMode=true;render()">Exception</span></div>'+
+'<span class="ord-link" style="cursor:pointer;text-decoration:underline" onclick="showExceptionScreen(\'pick_next_slot\')">Exception</span></div>'+
 '<div class="ord-sku"><strong>SKU:</strong> '+D.sku+' &nbsp;&nbsp; <strong>SKU name:</strong> '+D.skuName+'</div>'+
 '<div class="sf" onclick="doScan(\'nextSlotScanned\',\'put_in_tote\')">'+sf('Scan',S.nextSlotScanned?D.sku:'',S.scanning)+'</div>'+
 '</div></div>'+
-(S.exceptionMode?
-  '<div class="bot">'+
-  '<div class="bot-row"><button class="btn pr" style="flex:2" onclick="resetAndScan()">Proceed to Next Task</button></div>'+
-  '<div class="bot-row"><button class="btn ol" style="flex:2" onclick="choosePath(\'C\')">Mark Rollcage Complete</button></div>'+
-  '<div class="bot-row"><button class="btn bk" style="flex:2" onclick="S.exceptionMode=false;render()">Cancel</button></div>'+
-  '</div>':
-  '<div class="bot"><div class="bot-row"><button class="btn bk" onclick="go(\'pick_from_slot\')">Back</button></div></div>');},
+'<div class="bot">'+
+'<div class="bot-row"><button class="btn ol" style="flex:2" onclick="choosePath(\'C\')">Mark Rollcage Complete</button></div>'+
+'<div class="bot-row"><button class="btn bk" onclick="go(\'pick_from_slot\')">Back</button></div>'+
+'</div>';},
 
 pick_round2:function(){return nav()+hero('Move Rollcage to location and Scan 1 Entity from Slot','o',1)+
 '<div class="page">'+
 (S.pathB?'<div class="info-banner"><strong>'+D.bin2+' assigned</strong> &mdash; Tote '+D.tote2+' associated automatically</div>':'')+
 '<div class="card">'+locRow(D.bin2,null,D.tote2,false)+
-'<div class="ord"><span><strong>Qty:</strong> '+D.qty2+' &nbsp;&nbsp; <strong>Container ID:</strong> '+D.cid+'</span><span class="ord-link">Bin Full</span></div>'+
+'<div class="ord"><span><strong>Qty:</strong> '+D.qty2+' &nbsp;&nbsp; <strong>Container ID:</strong> '+D.cid+'</span>'+
+'<span class="ord-link" style="cursor:pointer;text-decoration:underline" onclick="showBinFullModal()">Bin Full</span>'+
+'<span class="ord-link" style="cursor:pointer;text-decoration:underline;margin-left:12px" onclick="showExceptionScreen(\'pick_round2\')">Exception</span></div>'+
 '<div class="ord-sku"><strong>SKU:</strong> '+D.sku+' &nbsp;&nbsp; <strong>SKU name:</strong> '+D.skuName+'</div>'+
 '<div class="sf" onclick="doScan(\'entity2Scanned\',\'put_round2\')">'+sf('Scan',S.entity2Scanned?D.sku:'',S.scanning)+'</div>'+
 '</div></div>'+
-'<div class="bot"><div class="bot-row"><button class="btn bk" onclick="go(\'bin_full_choice\')">Back</button></div></div>';},
+'<div class="bot">'+
+'<div class="bot-row"><button class="btn ol" style="flex:2" onclick="choosePath(\'C\')">Mark Rollcage Complete</button></div>'+
+'<div class="bot-row"><button class="btn bk" onclick="go(\'bin_full_choice\')">Back</button></div>'+
+'</div>';},
 
 put_round2:function(){return nav()+hero('Put Entity In Tote '+D.tote2+' and scan Tote','o',2)+
-'<div class="page"><div class="card">'+locRow(D.bin2,false,D.tote2,true)+
-'<div class="ord"><span><strong>Qty:</strong> '+D.qty2+' &nbsp;&nbsp; <strong>Container ID:</strong> '+D.cid+'</span><span class="ord-link">Bin Full</span></div>'+
+'<div class="page">'+rollcageGrid(D.bin2)+'<div class="card">'+locRow(D.bin2,false,D.tote2,true)+
+'<div class="ord"><span><strong>Qty:</strong> '+D.qty2+' &nbsp;&nbsp; <strong>Container ID:</strong> '+D.cid+'</span>'+
+'<span class="ord-link" style="cursor:pointer;text-decoration:underline" onclick="showBinFullModal()">Bin Full</span>'+
+'<span class="ord-link" style="cursor:pointer;text-decoration:underline;margin-left:12px" onclick="showExceptionScreen(\'put_round2\')">Exception</span></div>'+
 '<div class="ord-sku"><strong>SKU:</strong> '+D.sku+' &nbsp;&nbsp; <strong>SKU name:</strong> '+D.skuName+'</div>'+
 '<div class="sf" onclick="doScan(\'put2Scanned\',\'complete\')">'+sf('Scan',S.put2Scanned?D.tote2:'',S.scanning)+'</div>'+
 '</div></div>'+
-'<div class="bot"><div class="bot-row"><button class="btn cn" style="flex:2" onclick="go(\'pick_round2\')">Cancel scan</button></div></div>';},
+'<div class="bot">'+
+'<div class="bot-row"><button class="btn ol" style="flex:2" onclick="choosePath(\'C\')">Mark Rollcage Complete</button></div>'+
+'<div class="bot-row"><button class="btn bk" onclick="go(\'pick_round2\')">Cancel scan</button></div>'+
+'</div>';},
 
 complete:function(){
   var mainMsg=S.noMoreOrders?'All orders in queue have been processed':'All tasks on the Rollcage have been successfully completed';
@@ -546,7 +740,7 @@ complete:function(){
 }
 };
 
-function render(){var fn=SCREENS[S.sc];document.getElementById('app').innerHTML=fn?fn():'';window.scrollTo(0,0);}
+function render(){var fn=SCREENS[S.sc];var html=fn?fn():'';if(S.showRollcageDetails)html+=rollcageDetailsModal();if(S.showBinFull)html+=binFullModal();if(S.showException)html+=exceptionScreen();html+=renderDevNav();document.getElementById('app').innerHTML=html;window.scrollTo(0,0);}
 render();
 </script>
 </body>
